@@ -25,9 +25,18 @@ class ImagePreparer(private val context: Context) {
     }
 
     suspend fun prepare(uri: Uri): ByteArray? = withContext(Dispatchers.IO) {
+        // Passe de mesure. `decodeStream` rend délibérément `null` lorsque `inJustDecodeBounds`
+        // est actif : il ne renseigne que outWidth/outHeight. Le succès se lit donc sur ces
+        // dimensions, jamais sur la valeur retournée.
         val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
-        context.contentResolver.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, bounds) }
-            ?: return@withContext null
+        val streamOuvert = context.contentResolver.openInputStream(uri)?.use { stream ->
+            BitmapFactory.decodeStream(stream, null, bounds)
+            true
+        } ?: false
+
+        if (!streamOuvert || bounds.outWidth <= 0 || bounds.outHeight <= 0) {
+            return@withContext null
+        }
 
         val options = BitmapFactory.Options().apply {
             inSampleSize = sampleSizeFor(bounds.outWidth, bounds.outHeight)
