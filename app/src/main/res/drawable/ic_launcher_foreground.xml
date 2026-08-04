@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Feuille et goutte d'eau : les deux idées de l'application. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Feuille -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,28 C68,28 78,38 78,52 C78,66 68,78 54,78 C48,78 43,76 39,72 L54,52 L36,66 C34,62 33,57 33,52 C33,38 42,28 54,28 Z" />
+
+    <!-- Goutte -->
+    <path
+        android:fillColor="#A8D5B5"
+        android:pathData="M54,58 C58,64 61,68 61,72 C61,76 58,79 54,79 C50,79 47,76 47,72 C47,68 50,64 54,58 Z" />
+</vector>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Le français est la langue par défaut de l'application. -->
+<resources>
+    <string name="app_name">PlantArrosage</string>
+
+    <!-- Navigation et actions communes -->
+    <string name="action_back">Retour</string>
+    <string name="action_settings">Réglages</string>
+    <string name="action_retry">Réessayer</string>
+    <string name="action_cancel">Annuler</string>
+    <string name="action_delete">Supprimer</string>
+    <string name="action_modify">Modifier</string>
+
+    <!-- Accueil / Mes plantes -->
+    <string name="home_title">Mes plantes</string>
+    <string name="home_section_today">À arroser aujourd\'hui</string>
+    <string name="home_section_soon">Bientôt</string>
+    <string name="home_section_all">Toutes mes plantes</string>
+    <string name="home_empty_title">Aucune plante pour l\'instant</string>
+    <string name="home_empty_body">Photographiez une plante pour l\'identifier, consulter sa fiche d\'entretien et suivre ses arrosages.</string>
+    <string name="home_empty_cta">Identifier une plante</string>
+    <string name="home_fab_identify">Identifier</string>
+    <string name="home_mark_watered">Arrosée</string>
+
+    <!-- Capture -->
+    <string name="capture_title">Identifier une plante</string>
+    <string name="capture_take_photo">Prendre une photo</string>
+    <string name="capture_pick_gallery">Choisir dans la galerie</string>
+    <string name="capture_organ_label">Quel organe avez-vous photographié ?</string>
+    <string name="capture_organ_help">Préciser l\'organe améliore nettement l\'identification.</string>
+    <string name="capture_identify">Identifier</string>
+    <string name="capture_photos_count">%1$d photo(s) sur %2$d</string>
+    <string name="capture_photo_hint">Une identification consomme une seule requête, quel que soit le nombre de photos. N\'hésitez pas à en ajouter plusieurs.</string>
+    <string name="capture_remove_photo">Retirer cette photo</string>
+    <string name="capture_no_camera">Aucune application photo trouvée sur cet appareil. Utilisez la galerie.</string>
+    <string name="capture_missing_keys_title">Clés API manquantes</string>
+    <string name="capture_missing_keys_body">L\'identification a besoin d\'une clé Pl@ntNet, et les fiches d\'entretien d\'une clé Perenual. Les deux sont gratuites.</string>
+    <string name="capture_missing_keys_cta">Ouvrir les Réglages</string>
+    <string name="capture_quota_remaining">Identifications restantes aujourd\'hui : %d</string>
+    <string name="capture_quota_low">Il ne reste que %d identifications aujourd\'hui.</string>
+
+    <!-- Résultats -->
+    <string name="results_title">Résultats</string>
+    <string name="results_subtitle">Choisissez l\'espèce qui correspond le mieux.</string>
+    <string name="results_family">Famille : %s</string>
+    <string name="results_empty_title">Aucune espèce reconnue</string>
+    <string name="results_empty_body">Réessayez avec une photo plus nette, en cadrant un seul organe sur un fond dégagé.</string>
+    <string name="results_disclaimer">L\'identification est une proposition, pas une certitude. Vérifiez avant de vous fier aux conseils d\'entretien.</string>
+
+    <!-- Fiche espèce -->
+    <string name="species_title">Fiche d\'entretien</string>
+    <string name="species_section_watering">Arrosage</string>
+    <string name="species_section_light">Lumière</string>
+    <string name="species_section_general">Caractéristiques</string>
+    <string name="species_section_toxicity">Toxicité</string>
+    <string name="species_section_propagation">Multiplication</string>
+    <string name="species_section_pruning">Taille</string>
+    <string name="species_section_description">Description</string>
+    <string name="species_description_language_note">Source : Perenual, texte en anglais</string>
+    <string name="species_watering_interval">Environ tous les %d jours</string>
+    <string name="species_cycle">Cycle</string>
+    <string name="species_care_level">Niveau d\'entretien</string>
+    <string name="species_growth_rate">Croissance</string>
+    <string name="species_maintenance">Entretien</string>
+    <string name="species_hardiness">Rusticité</string>
+    <string name="species_indoor">Convient à l\'intérieur</string>
+    <string name="species_drought_tolerant">Tolère la sécheresse</string>
+    <string name="species_add_to_collection">Ajouter à mes plantes</string>
+
+    <!-- Bandeaux de qualité d'appariement -->
+    <string name="banner_genus_approximation">Fiche basée sur une espèce voisine du genre %s. Les besoins réels peuvent différer.</string>
+    <string name="banner_approximate_match">Rapprochement établi à partir du nom commun seulement. À vérifier.</string>
+    <string name="banner_summary_only">Informations détaillées non disponibles pour cette espèce (limite de l\'offre gratuite Perenual).</string>
+    <string name="banner_no_care_data">Aucune fiche d\'entretien trouvée pour cette espèce. Vous pouvez tout de même l\'enregistrer et ajuster son rythme d\'arrosage vous-même.</string>
+    <string name="banner_cached_data">Données en cache — le service n\'était pas joignable.</string>
+
+    <!-- Ajout d'une plante -->
+    <string name="add_title">Ajouter à mes plantes</string>
+    <string name="add_nickname">Surnom</string>
+    <string name="add_nickname_hint">Monstera du salon</string>
+    <string name="add_location">Emplacement</string>
+    <string name="add_location_indoor">Intérieur</string>
+    <string name="add_location_outdoor">Extérieur</string>
+    <string name="add_interval">Rythme d\'arrosage</string>
+    <string name="add_already_watered">Je viens de l\'arroser</string>
+    <string name="add_reminders">Recevoir des rappels</string>
+    <string name="add_confirm">Ajouter</string>
+
+    <!-- Détail d'une plante -->
+    <string name="detail_title">Ma plante</string>
+    <string name="detail_water_now">J\'ai arrosé</string>
+    <string name="detail_next_due">Prochain arrosage</string>
+    <string name="detail_last_watered">Dernier arrosage : %s</string>
+    <string name="detail_never_watered">Jamais arrosée</string>
+    <string name="detail_history">Historique des arrosages</string>
+    <string name="detail_history_empty">Aucun arrosage enregistré pour l\'instant.</string>
+    <string name="detail_care_summary">Fiche d\'entretien</string>
+    <string name="detail_identified_as">Identifiée comme %s</string>
+    <string name="detail_reminders_on">Rappels activés</string>
+    <string name="detail_interval_edit_title">Rythme d\'arrosage</string>
+    <string name="detail_interval_edit_body">Nombre de jours entre deux arrosages. Laissez vide pour revenir au calcul automatique.</string>
+    <string name="detail_delete_title">Supprimer cette plante ?</string>
+    <string name="detail_delete_body">Son historique d\'arrosage et sa photo seront également supprimés.</string>
+
+    <!-- Réglages -->
+    <string name="settings_title">Réglages</string>
+    <string name="settings_section_keys">Clés API</string>
+    <string name="settings_plantnet_key">Clé Pl@ntNet</string>
+    <string name="settings_perenual_key">Clé Perenual</string>
+    <string name="settings_key_hint">Collez votre clé ici</string>
+    <string name="settings_key_show">Afficher la clé</string>
+    <string name="settings_key_hide">Masquer la clé</string>
+    <string name="settings_key_test">Tester la clé</string>
+    <string name="settings_key_valid">Clé valide</string>
+    <string name="settings_key_invalid">Clé refusée</string>
+    <string name="settings_key_from_build">Clé fournie par la configuration du projet</string>
+    <string name="settings_get_plantnet_key">Obtenir une clé Pl@ntNet (gratuit)</string>
+    <string name="settings_get_perenual_key">Obtenir une clé Perenual (gratuit)</string>
+
+    <string name="settings_section_identification">Identification</string>
+    <string name="settings_project">Corpus Pl@ntNet</string>
+    <string name="settings_default_organ">Organe par défaut</string>
+
+    <string name="settings_section_reminders">Rappels</string>
+    <string name="settings_reminder_hour">Heure des rappels</string>
+    <string name="settings_notifications_enabled">Notifications autorisées</string>
+    <string name="settings_notifications_disabled">Notifications refusées — la section « À arroser aujourd\'hui » de l\'accueil reste disponible.</string>
+    <string name="settings_open_system_settings">Ouvrir les paramètres système</string>
+    <string name="settings_battery_note">Certains fabricants (Xiaomi, Huawei, Samsung) retardent fortement les tâches en arrière-plan. Si les rappels arrivent en retard, excluez PlantArrosage de l\'optimisation de batterie.</string>
+
+    <string name="settings_section_quotas">Quotas</string>
+    <string name="settings_quota_plantnet">Pl@ntNet : %d identifications restantes</string>
+    <string name="settings_quota_plantnet_unknown">Pl@ntNet : quota inconnu pour l\'instant</string>
+    <string name="settings_quota_perenual">Perenual : %1$d requêtes utilisées sur %2$d aujourd\'hui</string>
+
+    <string name="settings_section_cache">Cache</string>
+    <string name="settings_clear_cache">Vider le cache d\'espèces</string>
+    <string name="settings_cache_cleared">Cache vidé</string>
+    <string name="settings_cache_note">Les fiches déjà consultées sont conservées 180 jours pour économiser le quota Perenual.</string>
+
+    <string name="settings_section_about">À propos</string>
+    <string name="settings_about_apis">Identification fournie par Pl@ntNet. Données d\'entretien fournies par Perenual.</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_name">Rappels d\'arrosage</string>
+    <string name="notification_channel_description">Notifications lorsqu\'une plante doit être arrosée</string>
+    <string name="notification_title">Il est temps d\'arroser %s</string>
+    <plurals name="notification_body_days">
+        <item quantity="one">Dernier arrosage il y a un jour</item>
+        <item quantity="other">Dernier arrosage il y a %d jours</item>
+    </plurals>
+    <string name="notification_body_never">Cette plante n\'a jamais été arrosée</string>
+    <string name="notification_body_today">Arrosée aujourd\'hui</string>
+    <string name="notification_action_watered">Marquer comme arrosé</string>
+    <string name="notification_action_snooze">Reporter à demain</string>
+    <plurals name="notification_summary">
+        <item quantity="one">Une plante a besoin d\'eau</item>
+        <item quantity="other">%d plantes ont besoin d\'eau</item>
+    </plurals>
+    <string name="notification_permission_rationale">PlantArrosage a besoin d\'envoyer des notifications pour vous rappeler d\'arroser vos plantes. Vous pouvez refuser : la liste des plantes à arroser reste consultable dans l\'application.</string>
+
+    <!-- Erreurs génériques -->
+</resources>

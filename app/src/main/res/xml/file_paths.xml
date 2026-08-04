@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- Photos capturées, en attente d'envoi à Pl@ntNet. -->
+    <cache-path name="captures" path="captures/" />
+    <!-- Photos conservées pour les plantes enregistrées. -->
+    <files-path name="photos" path="photos/" />
+</paths>

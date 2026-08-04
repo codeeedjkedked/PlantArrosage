@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <include domain="database" path="plantarrosage.db" />
+    <include domain="file" path="photos/" />
+    <!-- Les clés API ne sont jamais sauvegardées hors de l'appareil. -->
+    <exclude domain="sharedpref" path="reglages.preferences_pb" />
+</full-backup-content>
