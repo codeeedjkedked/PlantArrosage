@@ -49,8 +49,18 @@ jobs:
       - name: Tester le module :core
         run: ./gradlew -PskipAndroid=true :core:test
 
+      # La trace de pile Gradle noie les erreurs du compilateur Kotlin sous des centaines de
+      # lignes. On journalise tout, puis on réaffiche les seules lignes actionnables en fin de
+      # log, pour qu'un échec soit diagnosticable sans télécharger le journal complet.
       - name: Construire l'APK de debug
-        run: ./gradlew :app:assembleDebug --stacktrace
+        run: |
+          set -o pipefail
+          if ! ./gradlew :app:assembleDebug 2>&1 | tee build.log; then
+            echo "::group::Erreurs de compilation"
+            grep -E "^e: |error:|^FAILURE|> Task .* FAILED" build.log | head -80 || true
+            echo "::endgroup::"
+            exit 1
+          fi
 
       # Nom explicite : l'APK sorti de Gradle s'appelle app-debug.apk, ce qui ne dit rien une
       # fois téléchargé à côté d'autres fichiers.

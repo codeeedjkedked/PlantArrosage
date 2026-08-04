@@ -127,6 +127,7 @@ fun HomeScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AddPlantSheet(
     onDismiss: () -> Unit,

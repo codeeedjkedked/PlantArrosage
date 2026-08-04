@@ -30,6 +30,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -45,7 +46,7 @@ import fr.plantarrosage.app.ui.common.EmptyState
 import fr.plantarrosage.app.ui.common.ErrorState
 import fr.plantarrosage.core.matching.SpeciesListEntry
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun SpeciesSearchScreen(
     viewModel: SpeciesSearchViewModel,
