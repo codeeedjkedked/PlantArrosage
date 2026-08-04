@@ -21,6 +21,16 @@ data class PlantNetResultDto(
     @SerialName("score") val score: Double = 0.0,
     @SerialName("species") val species: PlantNetSpeciesDto? = null,
     @SerialName("images") val images: List<PlantNetImageDto> = emptyList(),
+    @SerialName("gbif") val gbif: PlantNetReferenceDto? = null,
+    @SerialName("powo") val powo: PlantNetReferenceDto? = null,
+)
+
+/** Renvoi vers une base externe. L'identifiant arrive tantôt en chaîne, tantôt en nombre. */
+@Serializable
+data class PlantNetReferenceDto(
+    @SerialName("id")
+    @Serializable(with = fr.plantarrosage.core.perenual.FlexibleStringSerializer::class)
+    val id: String? = null,
 )
 
 @Serializable

@@ -19,6 +19,8 @@ import fr.plantarrosage.app.ui.plantdetail.PlantDetailScreen
 import fr.plantarrosage.app.ui.plantdetail.PlantDetailViewModel
 import fr.plantarrosage.app.ui.results.ResultsScreen
 import fr.plantarrosage.app.ui.results.ResultsViewModel
+import fr.plantarrosage.app.ui.search.SpeciesSearchScreen
+import fr.plantarrosage.app.ui.search.SpeciesSearchViewModel
 import fr.plantarrosage.app.ui.settings.SettingsScreen
 import fr.plantarrosage.app.ui.settings.SettingsViewModel
 import fr.plantarrosage.app.ui.species.SpeciesSheetScreen
@@ -36,6 +38,8 @@ fun PlantArrosageNavHost(
             HomeScreen(
                 viewModel = viewModel,
                 onIdentify = { navController.navigate(Route.Capture) },
+                onSearchSpecies = { navController.navigate(Route.SpeciesSearch) },
+                onAddManually = { navController.navigate(Route.AddPlant()) },
                 onOpenPlant = { id -> navController.navigate(Route.PlantDetail(id)) },
                 onOpenSettings = { navController.navigate(Route.Settings) },
             )
@@ -56,33 +60,61 @@ fun PlantArrosageNavHost(
             ResultsScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
-                onSelectCandidate = { index -> navController.navigate(Route.Species(index)) },
+                onSelectCandidate = { index ->
+                    navController.navigate(Route.Species(candidateIndex = index))
+                },
+            )
+        }
+
+        composable<Route.SpeciesSearch> {
+            val viewModel: SpeciesSearchViewModel =
+                viewModel(factory = ViewModelFactories.speciesSearch(container))
+            SpeciesSearchScreen(
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() },
+                onOpenSpecies = { perenualId, scientificName, commonName ->
+                    navController.navigate(
+                        Route.Species(
+                            perenualId = perenualId,
+                            scientificName = scientificName,
+                            commonName = commonName,
+                        )
+                    )
+                },
+                onAddManually = { navController.navigate(Route.AddPlant()) },
             )
         }
 
         composable<Route.Species> { entry ->
             val route = entry.toRoute<Route.Species>()
-            val viewModel: SpeciesSheetViewModel = viewModel(
-                factory = ViewModelFactories.species(container, route.candidateIndex)
-            )
+            val viewModel: SpeciesSheetViewModel =
+                viewModel(factory = ViewModelFactories.species(container, route))
             SpeciesSheetScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
-                onAddToCollection = { navController.navigate(Route.AddPlant(route.candidateIndex)) },
+                onAddToCollection = {
+                    navController.navigate(
+                        Route.AddPlant(
+                            candidateIndex = route.candidateIndex,
+                            perenualId = route.perenualId,
+                            scientificName = route.scientificName,
+                            commonName = route.commonName,
+                        )
+                    )
+                },
             )
         }
 
         composable<Route.AddPlant> { entry ->
             val route = entry.toRoute<Route.AddPlant>()
-            val viewModel: AddPlantViewModel = viewModel(
-                factory = ViewModelFactories.addPlant(container, route.candidateIndex)
-            )
+            val viewModel: AddPlantViewModel =
+                viewModel(factory = ViewModelFactories.addPlant(container, route))
             AddPlantScreen(
                 viewModel = viewModel,
                 onBack = { navController.popBackStack() },
                 onSaved = { plantId ->
-                    // On revient à l'accueil puis on ouvre la plante : le parcours d'identification
-                    // ne doit pas rester dans la pile de retour.
+                    // Le parcours d'ajout ne doit pas rester dans la pile de retour : depuis la
+                    // fiche de la plante, Retour ramène à l'accueil.
                     navController.navigate(Route.PlantDetail(plantId)) {
                         popUpTo(Route.Home) { inclusive = false }
                     }

@@ -95,7 +95,11 @@ class CaptureViewModel(
                 is Outcome.Success -> {
                     // La première photo devient l'illustration de la plante si elle est enregistrée.
                     val photoBytes = imagePreparer.prepare(photos.first().uri)
-                    session.store(outcome.value, photoBytes)
+                    session.store(
+                        result = outcome.value,
+                        photoBytes = photoBytes,
+                        userPhotoUris = photos.map { it.uri.toString() },
+                    )
                     _state.update {
                         it.copy(
                             identifying = false,

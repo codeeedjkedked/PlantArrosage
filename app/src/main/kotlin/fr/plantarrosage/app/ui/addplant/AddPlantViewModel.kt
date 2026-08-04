@@ -7,6 +7,7 @@ import fr.plantarrosage.app.data.repo.MyPlantsRepository
 import fr.plantarrosage.core.care.WateringIntervalCalculator
 import fr.plantarrosage.core.model.CareSheet
 import fr.plantarrosage.core.model.PlantLocation
+import fr.plantarrosage.core.model.SpeciesSubject
 import fr.plantarrosage.core.model.WateringPlan
 import fr.plantarrosage.core.service.SpeciesCareService
 import java.time.Clock
@@ -27,30 +28,53 @@ data class AddPlantUiState(
     val plan: WateringPlan? = null,
     val savedPlantId: Long? = null,
     val saving: Boolean = false,
-)
+    /** Aucune espèce rattachée : le nom saisi tient lieu d'identité. */
+    val isManual: Boolean = false,
+) {
+    val canSave: Boolean get() = !saving && (!isManual || nickname.isNotBlank())
+}
 
 class AddPlantViewModel(
     private val session: IdentificationSession,
     private val careService: SpeciesCareService,
     private val repository: MyPlantsRepository,
     private val candidateIndex: Int,
+    private val perenualId: Int,
+    private val scientificName: String,
+    private val commonName: String,
     private val clock: Clock,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(AddPlantUiState())
+    private val isManual = candidateIndex < 0 && perenualId <= 0 && scientificName.isBlank()
+
+    private val _state = MutableStateFlow(AddPlantUiState(isManual = isManual))
     val state: StateFlow<AddPlantUiState> = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
-            val candidate = session.candidateAt(candidateIndex)
-            if (candidate == null) {
-                _state.update { it.copy(loading = false) }
+            if (isManual) {
+                // Rien à récupérer : l'utilisateur nomme sa plante et fixe son rythme.
+                _state.update {
+                    it.copy(loading = false, sheet = CareSheet.manual(""), nickname = "")
+                }
+                recomputePlan()
                 return@launch
             }
 
-            // La fiche est déjà en cache après le passage sur l'écran d'espèce : cet appel ne
+            val candidate = candidateIndex.takeIf { it >= 0 }?.let(session::candidateAt)
+
+            // Après un passage sur l'écran d'espèce, la fiche est en cache : cet appel ne
             // consomme aucune requête supplémentaire.
-            val sheet = careService.careSheetFor(candidate).sheet
+            val sheet = when {
+                candidate != null -> careService.careSheetFor(candidate).sheet
+                else -> careService.careSheetFor(
+                    SpeciesSubject(
+                        scientificName = scientificName,
+                        commonNames = listOfNotNull(commonName.takeIf { it.isNotBlank() }),
+                        knownPerenualId = perenualId.takeIf { it > 0 },
+                    )
+                ).sheet
+            }
 
             _state.update {
                 it.copy(
@@ -64,7 +88,11 @@ class AddPlantViewModel(
     }
 
     fun setNickname(value: String) {
-        _state.update { it.copy(nickname = value) }
+        _state.update { current ->
+            // En saisie manuelle, le nom donné à la plante devient aussi son identité d'espèce.
+            val sheet = if (current.isManual) CareSheet.manual(value) else current.sheet
+            current.copy(nickname = value, sheet = sheet)
+        }
     }
 
     fun setLocation(location: PlantLocation) {
@@ -88,7 +116,7 @@ class AddPlantViewModel(
     fun save() {
         val current = _state.value
         val sheet = current.sheet ?: return
-        if (current.saving) return
+        if (!current.canSave) return
 
         _state.update { it.copy(saving = true) }
 
@@ -96,7 +124,8 @@ class AddPlantViewModel(
             val id = repository.add(
                 nickname = current.nickname,
                 careSheet = sheet,
-                photoBytes = session.photoBytes,
+                // Une plante ajoutée manuellement n'a pas de photo d'identification.
+                photoBytes = if (current.isManual) null else session.photoBytes,
                 location = current.location,
                 customIntervalDays = current.customIntervalDays,
                 wateredNow = current.wateredNow,

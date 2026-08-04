@@ -37,7 +37,7 @@ interface MyPlantDao {
     suspend fun delete(plant: MyPlantEntity)
 
     @Query("UPDATE my_plants SET lastWateredAt = :wateredAt, nextDueAt = :nextDueAt WHERE id = :id")
-    suspend fun recordWatering(id: Long, wateredAt: Long, nextDueAt: Long)
+    suspend fun recordWatering(id: Long, wateredAt: Long?, nextDueAt: Long)
 
     @Query("UPDATE my_plants SET nextDueAt = :nextDueAt WHERE id = :id")
     suspend fun updateNextDue(id: Long, nextDueAt: Long)
@@ -49,8 +49,18 @@ interface WateringEventDao {
     @Query("SELECT * FROM watering_events WHERE plantId = :plantId ORDER BY wateredAt DESC LIMIT :limit")
     fun observeForPlant(plantId: Long, limit: Int = 50): Flow<List<WateringEventEntity>>
 
+    @Query("SELECT * FROM watering_events WHERE id = :id")
+    suspend fun findById(id: Long): WateringEventEntity?
+
+    /** Dernier arrosage restant après une suppression, ou `null` s'il n'en reste aucun. */
+    @Query("SELECT MAX(wateredAt) FROM watering_events WHERE plantId = :plantId")
+    suspend fun lastWateredAt(plantId: Long): Long?
+
     @Insert
     suspend fun insert(event: WateringEventEntity): Long
+
+    @Query("DELETE FROM watering_events WHERE id = :id")
+    suspend fun deleteById(id: Long)
 
     @Query("DELETE FROM watering_events WHERE plantId = :plantId")
     suspend fun deleteForPlant(plantId: Long)

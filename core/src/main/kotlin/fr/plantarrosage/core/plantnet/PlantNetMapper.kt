@@ -9,6 +9,9 @@ object PlantNetMapper {
     /** En dessous de ce score, le candidat est trop faible pour valoir la peine d'être affiché. */
     private const val MIN_DISPLAYABLE_SCORE = 0.01
 
+    /** Assez pour comparer sans noyer l'écran ni la bande passante. */
+    private const val MAX_REFERENCE_IMAGES = 6
+
     fun toDomain(dto: PlantNetResponseDto): IdentificationResult {
         val candidates = dto.results
             .mapNotNull { result ->
@@ -21,7 +24,12 @@ object PlantNetMapper {
                     family = result.species.family?.scientificNameWithoutAuthor,
                     commonNames = result.species.commonNames.filter { it.isNotBlank() },
                     score = result.score,
-                    relatedImageUrl = result.images.firstNotNullOfOrNull { it.url?.medium ?: it.url?.small },
+                    relatedImageUrls = result.images
+                        .mapNotNull { it.url?.medium ?: it.url?.small ?: it.url?.original }
+                        .distinct()
+                        .take(MAX_REFERENCE_IMAGES),
+                    gbifId = result.gbif?.id?.takeIf { it.isNotBlank() },
+                    powoId = result.powo?.id?.takeIf { it.isNotBlank() },
                 )
             }
             .filter { it.score >= MIN_DISPLAYABLE_SCORE }

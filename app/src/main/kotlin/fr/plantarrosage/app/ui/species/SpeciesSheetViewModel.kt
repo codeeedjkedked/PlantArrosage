@@ -5,7 +5,8 @@ import androidx.lifecycle.viewModelScope
 import fr.plantarrosage.app.data.repo.IdentificationSession
 import fr.plantarrosage.core.model.AppError
 import fr.plantarrosage.core.model.CareSheet
-import fr.plantarrosage.core.model.IdentificationCandidate
+import fr.plantarrosage.core.model.SourceLinks
+import fr.plantarrosage.core.model.SpeciesSubject
 import fr.plantarrosage.core.service.SpeciesCareService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,17 +16,24 @@ import kotlinx.coroutines.launch
 
 data class SpeciesUiState(
     val loading: Boolean = true,
-    val candidate: IdentificationCandidate? = null,
     val sheet: CareSheet? = null,
+    val links: List<SourceLinks.Link> = emptyList(),
     val fromCache: Boolean = false,
     val stale: Boolean = false,
     val warning: AppError? = null,
 )
 
+/**
+ * Fiche d'entretien d'une espèce, quelle que soit sa provenance : identification Pl@ntNet ou
+ * recherche par nom.
+ */
 class SpeciesSheetViewModel(
     private val session: IdentificationSession,
     private val careService: SpeciesCareService,
     private val candidateIndex: Int,
+    private val perenualId: Int,
+    private val scientificName: String,
+    private val commonName: String,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SpeciesUiState())
@@ -36,24 +44,41 @@ class SpeciesSheetViewModel(
     }
 
     /**
-     * La fiche n'est demandée qu'à l'ouverture d'un candidat, jamais pour les cinq résultats.
+     * La fiche n'est demandée qu'à l'ouverture d'une espèce, jamais pour les cinq résultats.
      * À lui seul, ce choix divise par cinq la consommation du quota Perenual.
      */
     fun load() {
-        val candidate = session.candidateAt(candidateIndex)
-        if (candidate == null) {
-            _state.value = SpeciesUiState(loading = false)
-            return
-        }
-
-        _state.update { it.copy(loading = true, candidate = candidate) }
+        _state.update { it.copy(loading = true) }
 
         viewModelScope.launch {
-            val result = careService.careSheetFor(candidate)
+            val candidate = candidateIndex.takeIf { it >= 0 }?.let(session::candidateAt)
+
+            val result = when {
+                candidate != null -> careService.careSheetFor(candidate)
+
+                scientificName.isNotBlank() -> careService.careSheetFor(
+                    SpeciesSubject(
+                        scientificName = scientificName,
+                        commonNames = listOfNotNull(commonName.takeIf { it.isNotBlank() }),
+                        knownPerenualId = perenualId.takeIf { it > 0 },
+                    )
+                )
+
+                else -> {
+                    _state.value = SpeciesUiState(loading = false)
+                    return@launch
+                }
+            }
+
             _state.value = SpeciesUiState(
                 loading = false,
-                candidate = candidate,
                 sheet = result.sheet,
+                links = SourceLinks.forSheet(
+                    scientificName = result.sheet.scientificName,
+                    perenualId = result.sheet.perenualId,
+                    gbifId = result.sheet.gbifId,
+                    powoId = result.sheet.powoId,
+                ),
                 fromCache = result.fromCache,
                 stale = result.stale,
                 warning = result.warning,

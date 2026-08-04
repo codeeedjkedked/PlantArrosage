@@ -1,7 +1,10 @@
 package fr.plantarrosage.app.ui.species
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -11,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.OpenInNew
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -21,12 +25,15 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
@@ -41,6 +48,7 @@ import fr.plantarrosage.app.ui.common.LoadingState
 import fr.plantarrosage.core.care.FrenchLabels
 import fr.plantarrosage.core.model.CareSheet
 import fr.plantarrosage.core.model.DetailLevel
+import fr.plantarrosage.core.model.SourceLinks
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -76,6 +84,7 @@ fun SpeciesSheetScreen(
 
             else -> SheetContent(
                 sheet = state.sheet!!,
+                links = state.links,
                 stale = state.stale,
                 warningText = state.warning?.messageFr,
                 onAddToCollection = onAddToCollection,
@@ -90,6 +99,7 @@ fun SpeciesSheetScreen(
 @Composable
 private fun SheetContent(
     sheet: CareSheet,
+    links: List<SourceLinks.Link>,
     stale: Boolean,
     warningText: String?,
     onAddToCollection: () -> Unit,
@@ -199,6 +209,10 @@ private fun SheetContent(
             SourceTextCard(sheet)
         }
 
+        if (links.isNotEmpty()) {
+            SourcesCard(links)
+        }
+
         Button(onClick = onAddToCollection, modifier = Modifier.fillMaxWidth()) {
             Text(stringResource(R.string.species_add_to_collection))
         }
@@ -266,6 +280,51 @@ private fun SourceTextCard(sheet: CareSheet) {
             sheet.guideSections.forEach { section ->
                 Text(section.titleFr, style = MaterialTheme.typography.titleSmall)
                 Text(section.body, style = MaterialTheme.typography.bodyMedium)
+            }
+        }
+    }
+}
+
+/**
+ * Renvois vers les bases de référence.
+ *
+ * Prolongement du parti pris sur la confiance : on affiche un score plutôt qu'une certitude, il
+ * faut donc donner les moyens d'aller vérifier ailleurs.
+ */
+@Composable
+private fun SourcesCard(links: List<SourceLinks.Link>) {
+    val context = LocalContext.current
+
+    SectionCard(title = stringResource(R.string.species_section_sources)) {
+        Text(
+            stringResource(R.string.species_sources_help),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        links.forEach { link ->
+            TextButton(
+                onClick = {
+                    runCatching {
+                        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link.url)))
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Column {
+                        Text(link.sourceFr, style = MaterialTheme.typography.bodyMedium)
+                        Text(
+                            link.labelFr,
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                    Icon(Icons.Default.OpenInNew, contentDescription = null)
+                }
             }
         }
     }

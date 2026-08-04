@@ -176,6 +176,32 @@ class MyPlantsRepository(
         )
     }
 
+    /**
+     * Annule un arrosage saisi par erreur.
+     *
+     * Ce n'est pas une simple suppression de ligne : le dernier arrosage de la plante et son
+     * échéance sont recalculés depuis les événements restants. Sinon, effacer le plus récent
+     * laisserait la plante avec une date de dernier arrosage qui n'existe plus nulle part.
+     */
+    suspend fun deleteWateringEvent(eventId: Long) {
+        val event = eventDao.findById(eventId) ?: return
+        eventDao.deleteById(eventId)
+
+        val plant = plantDao.findById(event.plantId) ?: return
+        val dernierRestant = eventDao.lastWateredAt(event.plantId)
+        val plan = scheduleFor(plant).plan
+
+        val nextDueAt = NextWateringCalculator.nextDue(
+            lastWateredAt = dernierRestant?.let(Instant::ofEpochMilli),
+            createdAt = Instant.ofEpochMilli(plant.createdAt),
+            intervalDays = plan.effectiveIntervalDays,
+            reminderHour = settings.currentReminderHour(),
+            zone = zone,
+        )
+
+        plantDao.recordWatering(event.plantId, dernierRestant, nextDueAt.toEpochMilli())
+    }
+
     /** Action « Reporter à demain » de la notification. */
     suspend fun snoozeOneDay(plantId: Long) {
         val entity = plantDao.findById(plantId) ?: return

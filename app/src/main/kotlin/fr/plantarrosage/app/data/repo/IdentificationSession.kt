@@ -22,9 +22,18 @@ class IdentificationSession {
     var photoBytes: ByteArray? = null
         private set
 
-    fun store(result: IdentificationResult, photoBytes: ByteArray?) {
+    /**
+     * Photos prises par l'utilisateur, conservées pour l'écran de résultats.
+     * Les afficher à côté des clichés de référence est ce qui permet de trancher entre deux
+     * espèces voisines.
+     */
+    var userPhotoUris: List<String> = emptyList()
+        private set
+
+    fun store(result: IdentificationResult, photoBytes: ByteArray?, userPhotoUris: List<String>) {
         _result.value = result
         this.photoBytes = photoBytes
+        this.userPhotoUris = userPhotoUris
     }
 
     fun candidateAt(index: Int): IdentificationCandidate? =
@@ -33,5 +42,6 @@ class IdentificationSession {
     fun clear() {
         _result.value = null
         photoBytes = null
+        userPhotoUris = emptyList()
     }
 }

@@ -10,10 +10,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 
 class ResultsViewModel(
-    session: IdentificationSession,
+    private val session: IdentificationSession,
 ) : ViewModel() {
 
     val candidates: StateFlow<List<IdentificationCandidate>> = session.result
         .map { it?.candidates.orEmpty() }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
+    /** Photos de l'utilisateur, à afficher en regard des clichés de référence. */
+    val userPhotos: List<String> get() = session.userPhotoUris
 }

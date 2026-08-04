@@ -6,7 +6,7 @@ import fr.plantarrosage.core.matching.SpeciesListEntry
 import fr.plantarrosage.core.model.CareGuideSection
 import fr.plantarrosage.core.model.CareSheet
 import fr.plantarrosage.core.model.DetailLevel
-import fr.plantarrosage.core.model.IdentificationCandidate
+import fr.plantarrosage.core.model.SpeciesSubject
 import fr.plantarrosage.core.model.MatchQuality
 
 /** Convertit les réponses Perenual en fiche d'entretien française. */
@@ -32,7 +32,7 @@ object PerenualMapper {
      * C'est le cas normal — et non dégradé — pour toute espèce hors du palier gratuit.
      */
     fun toSummarySheet(
-        candidate: IdentificationCandidate,
+        subject: SpeciesSubject,
         entry: SpeciesListEntry,
         matchQuality: MatchQuality,
     ): CareSheet {
@@ -45,9 +45,9 @@ object PerenualMapper {
         )
 
         return CareSheet(
-            scientificName = candidate.scientificName,
-            commonNameFr = candidate.bestCommonName ?: entry.commonName,
-            family = candidate.family,
+            scientificName = subject.scientificName,
+            commonNameFr = subject.bestCommonName ?: entry.commonName,
+            family = subject.family,
             perenualId = entry.id,
             matchQuality = matchQuality,
             detailLevel = DetailLevel.SUMMARY,
@@ -58,13 +58,13 @@ object PerenualMapper {
             sunlightRaw = entry.sunlight.sanitized(),
             sunlightFr = entry.sunlight.sanitized().mapNotNull { FrenchLabels.sunlight(it) },
             cycleFr = FrenchLabels.cycle(entry.cycle.sanitized()),
-            imageUrl = entry.imageUrl ?: candidate.relatedImageUrl,
+            imageUrl = entry.imageUrl ?: subject.imageUrl,
         )
     }
 
     /** Fiche complète : détails + guide d'entretien. */
     fun toFullSheet(
-        candidate: IdentificationCandidate,
+        subject: SpeciesSubject,
         entry: SpeciesListEntry,
         details: PerenualSpeciesDetailsDto,
         guide: PerenualCareGuideListDto?,
@@ -84,9 +84,9 @@ object PerenualMapper {
         val sunlight = details.sunlight.sanitized().ifEmpty { entry.sunlight.sanitized() }
 
         return CareSheet(
-            scientificName = candidate.scientificName,
-            commonNameFr = candidate.bestCommonName ?: details.commonName ?: entry.commonName,
-            family = candidate.family ?: details.family.sanitized(),
+            scientificName = subject.scientificName,
+            commonNameFr = subject.bestCommonName ?: details.commonName ?: entry.commonName,
+            family = subject.family ?: details.family.sanitized(),
             perenualId = entry.id,
             matchQuality = matchQuality,
             detailLevel = DetailLevel.FULL,
@@ -119,7 +119,7 @@ object PerenualMapper {
             descriptionLanguage = "en",
             guideSections = toGuideSections(guide),
 
-            imageUrl = details.defaultImage?.bestUrl ?: entry.imageUrl ?: candidate.relatedImageUrl,
+            imageUrl = details.defaultImage?.bestUrl ?: entry.imageUrl ?: subject.imageUrl,
         )
     }
 

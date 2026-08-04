@@ -19,7 +19,14 @@
     <string name="home_empty_title">Aucune plante pour l\'instant</string>
     <string name="home_empty_body">Photographiez une plante pour l\'identifier, consulter sa fiche d\'entretien et suivre ses arrosages.</string>
     <string name="home_empty_cta">Identifier une plante</string>
-    <string name="home_fab_identify">Identifier</string>
+    <string name="home_fab_add">Ajouter</string>
+    <string name="home_add_sheet_title">Ajouter une plante</string>
+    <string name="home_add_by_photo">Identifier par photo</string>
+    <string name="home_add_by_photo_help">Reconnaissance automatique à partir d\'une ou plusieurs photos</string>
+    <string name="home_add_by_search">Chercher une espèce</string>
+    <string name="home_add_by_search_help">Rechercher par nom pour consulter sa fiche d\'entretien</string>
+    <string name="home_add_manually">Ajouter sans fiche</string>
+    <string name="home_add_manually_help">Nommez votre plante et fixez son rythme vous-même</string>
     <string name="home_mark_watered">Arrosée</string>
 
     <!-- Capture -->
@@ -42,6 +49,9 @@
     <!-- Résultats -->
     <string name="results_title">Résultats</string>
     <string name="results_subtitle">Choisissez l\'espèce qui correspond le mieux.</string>
+    <string name="results_your_photos">Vos photos</string>
+    <string name="results_reference_photos">Photos de référence de cette espèce</string>
+    <string name="results_no_reference_photo">Aucune photo de référence disponible pour cette espèce.</string>
     <string name="results_family">Famille : %s</string>
     <string name="results_empty_title">Aucune espèce reconnue</string>
     <string name="results_empty_body">Réessayez avec une photo plus nette, en cadrant un seul organe sur un fond dégagé.</string>
@@ -65,6 +75,8 @@
     <string name="species_hardiness">Rusticité</string>
     <string name="species_indoor">Convient à l\'intérieur</string>
     <string name="species_drought_tolerant">Tolère la sécheresse</string>
+    <string name="species_section_sources">Sources</string>
+    <string name="species_sources_help">Vérifiez l\'identification auprès des bases de référence.</string>
     <string name="species_add_to_collection">Ajouter à mes plantes</string>
 
     <!-- Bandeaux de qualité d'appariement -->
@@ -85,6 +97,8 @@
     <string name="add_already_watered">Je viens de l\'arroser</string>
     <string name="add_reminders">Recevoir des rappels</string>
     <string name="add_confirm">Ajouter</string>
+    <string name="add_manual_name">Nom de la plante</string>
+    <string name="add_manual_help">Aucune espèce n\'est rattachée : donnez un nom à votre plante et ajustez son rythme d\'arrosage. Vous pourrez le modifier à tout moment.</string>
 
     <!-- Détail d'une plante -->
     <string name="detail_title">Ma plante</string>
@@ -94,6 +108,8 @@
     <string name="detail_never_watered">Jamais arrosée</string>
     <string name="detail_history">Historique des arrosages</string>
     <string name="detail_history_empty">Aucun arrosage enregistré pour l\'instant.</string>
+    <string name="detail_history_help">Supprimez une ligne si vous l\'avez saisie par erreur : l\'échéance sera recalculée.</string>
+    <string name="detail_history_delete">Supprimer cet arrosage</string>
     <string name="detail_care_summary">Fiche d\'entretien</string>
     <string name="detail_identified_as">Identifiée comme %s</string>
     <string name="detail_reminders_on">Rappels activés</string>
@@ -101,6 +117,18 @@
     <string name="detail_interval_edit_body">Nombre de jours entre deux arrosages. Laissez vide pour revenir au calcul automatique.</string>
     <string name="detail_delete_title">Supprimer cette plante ?</string>
     <string name="detail_delete_body">Son historique d\'arrosage et sa photo seront également supprimés.</string>
+
+    <!-- Recherche d'espèce -->
+    <string name="search_title">Chercher une espèce</string>
+    <string name="search_field_label">Nom de l\'espèce</string>
+    <string name="search_field_hint">monstera, lavande, ficus…</string>
+    <string name="search_field_help">Nom commun ou scientifique. La recherche est lancée quand vous validez, pour économiser le quota.</string>
+    <string name="search_action">Rechercher</string>
+    <string name="search_intro_title">Rechercher une espèce</string>
+    <string name="search_intro_body">Saisissez un nom pour consulter sa fiche d\'entretien et, si vous le souhaitez, l\'ajouter à vos plantes.</string>
+    <string name="search_empty_title">Aucune espèce trouvée</string>
+    <string name="search_empty_body">Essayez une autre orthographe, ou le nom scientifique. La base Perenual est en anglais : « lavender » donnera plus de résultats que « lavande ».</string>
+    <string name="search_add_manually">Ajouter sans fiche</string>
 
     <!-- Réglages -->
     <string name="settings_title">Réglages</string>

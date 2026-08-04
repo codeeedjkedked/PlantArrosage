@@ -13,10 +13,21 @@ data class IdentificationCandidate(
     val commonNames: List<String> = emptyList(),
     /** Score entre 0 et 1 tel que renvoyé par l'API. */
     val score: Double,
-    /** Photo de référence de l'espèce, taille moyenne. */
-    val relatedImageUrl: String? = null,
+    /**
+     * Photos de référence de l'espèce, taille moyenne.
+     *
+     * Plusieurs plutôt qu'une seule : c'est en comparant sa plante à un éventail de clichés que
+     * l'utilisateur peut trancher entre deux espèces voisines. Une vignette unique ne suffit pas.
+     */
+    val relatedImageUrls: List<String> = emptyList(),
+    /** Identifiant GBIF, pour renvoyer vers la fiche taxonomique de référence. */
+    val gbifId: String? = null,
+    /** Identifiant POWO (Kew), pour la nomenclature. */
+    val powoId: String? = null,
 ) {
     val bestCommonName: String? get() = commonNames.firstOrNull()
+
+    val relatedImageUrl: String? get() = relatedImageUrls.firstOrNull()
 
     val confidence: ConfidenceBand get() = ConfidenceBand.of(score)
 }

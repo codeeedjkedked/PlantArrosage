@@ -47,6 +47,11 @@ class PlantDetailViewModel(
         viewModelScope.launch { repository.recordWatering(plantId) }
     }
 
+    /** Annule un arrosage saisi par erreur ; l'échéance est recalculée en conséquence. */
+    fun deleteWateringEvent(eventId: Long) {
+        viewModelScope.launch { repository.deleteWateringEvent(eventId) }
+    }
+
     fun setCustomInterval(days: Int?) {
         viewModelScope.launch { repository.setCustomInterval(plantId, days) }
     }

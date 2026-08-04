@@ -8,6 +8,9 @@ import fr.plantarrosage.core.model.DetailLevel
 import fr.plantarrosage.core.model.IdentificationCandidate
 import fr.plantarrosage.core.model.MatchQuality
 import fr.plantarrosage.core.model.NormalizedName
+import fr.plantarrosage.core.model.SpeciesSubject
+import fr.plantarrosage.core.model.toSubject
+import fr.plantarrosage.core.matching.SpeciesListEntry
 import fr.plantarrosage.core.perenual.PerenualClient
 import fr.plantarrosage.core.perenual.PerenualLimits
 import fr.plantarrosage.core.perenual.PerenualMapper
@@ -56,31 +59,56 @@ class SpeciesCareService(
     private val keyLocks = mutableMapOf<String, Mutex>()
     private val keyLocksGuard = Mutex()
 
+    /**
+     * Recherche d'espèces par nom, pour l'écran de recherche et l'ajout manuel.
+     * Une requête Perenual, comptabilisée comme les autres.
+     */
+    suspend fun searchSpecies(query: String): Outcome<List<SpeciesListEntry>> {
+        val terme = query.trim()
+        if (terme.length < 2) return Outcome.Success(emptyList())
+
+        return when (val response = perenualClient.searchSpecies(terme)) {
+            is Outcome.Success -> Outcome.Success(PerenualMapper.toEntries(response.value))
+            is Outcome.Failure -> response
+        }
+    }
+
+    /**
+     * Variante pour une identification Pl@ntNet : reporte sur la fiche les renvois vers GBIF et
+     * POWO, que seul Pl@ntNet fournit.
+     */
     suspend fun careSheetFor(candidate: IdentificationCandidate): CareSheetResult {
-        val normalized = ScientificNameNormalizer.normalize(candidate.scientificName)
-            ?: return CareSheetResult(CareSheet.fallbackFrom(candidate))
+        val result = careSheetFor(candidate.toSubject())
+        return result.copy(
+            sheet = result.sheet.copy(gbifId = candidate.gbifId, powoId = candidate.powoId)
+        )
+    }
+
+    suspend fun careSheetFor(subject: SpeciesSubject): CareSheetResult {
+        val normalized = ScientificNameNormalizer.normalize(subject.scientificName)
+            ?: return CareSheetResult(CareSheet.fallbackFrom(subject))
 
         val lock = keyLocksGuard.withLock { keyLocks.getOrPut(normalized.binomial) { Mutex() } }
 
         return lock.withLock {
             // Relecture du cache après acquisition : un appel concurrent vient peut-être de le
             // remplir, auquel cas il n'y a plus rien à demander au réseau.
-            readFreshCache(candidate, normalized)?.let { return@withLock it }
-            resolve(candidate, normalized)
+            readFreshCache(subject, normalized)?.let { return@withLock it }
+            resolve(subject, normalized)
         }
     }
 
     // ------------------------------------------------------------------ cache
 
     private suspend fun readFreshCache(
-        candidate: IdentificationCandidate,
+        subject: SpeciesSubject,
         normalized: NormalizedName,
     ): CareSheetResult? {
         val cached = cache.get(normalized.binomial) ?: return null
         if (!isFresh(cached)) return null
 
         return CareSheetResult(
-            sheet = cached.careSheet ?: CareSheet.fallbackFrom(candidate),
+            sheet = cached.careSheet ?: CareSheet.fallbackFrom(subject),
             fromCache = true,
         )
     }
@@ -110,27 +138,39 @@ class SpeciesCareService(
     // ---------------------------------------------------------------- réseau
 
     private suspend fun resolve(
-        candidate: IdentificationCandidate,
+        subject: SpeciesSubject,
         normalized: NormalizedName,
     ): CareSheetResult {
+        // 0. L'espèce vient d'une recherche : son identifiant Perenual est déjà connu, inutile de
+        //    redépenser une requête de recherche pour le retrouver.
+        subject.knownPerenualId?.let { perenualId ->
+            val entry = SpeciesListEntry(
+                id = perenualId,
+                commonName = subject.bestCommonName,
+                scientificNames = listOf(subject.scientificName),
+                imageUrl = subject.imageUrl,
+            )
+            return buildFromEntry(subject, normalized, entry, MatchQuality.EXACT)
+        }
+
         // 1. Recherche sur le binôme.
         val binomialSearch = perenualClient.searchSpecies(normalized.binomial)
         if (binomialSearch is Outcome.Failure) {
-            return degradeOnFailure(candidate, normalized, binomialSearch.error)
+            return degradeOnFailure(subject, normalized, binomialSearch.error)
         }
 
         val entries = PerenualMapper.toEntries((binomialSearch as Outcome.Success).value)
-        var match = SpeciesMatcher.match(normalized, entries, candidate.commonNames)
+        var match = SpeciesMatcher.match(normalized, entries, subject.commonNames)
 
         // 2. Repli unique sur le genre — jamais de troisième requête, le budget est trop étroit.
         if (match == null && !normalized.isGenusOnly) {
             when (val genusSearch = perenualClient.searchSpecies(normalized.genus)) {
                 is Outcome.Success -> {
                     val genusEntries = PerenualMapper.toEntries(genusSearch.value)
-                    match = SpeciesMatcher.match(normalized, genusEntries, candidate.commonNames)
+                    match = SpeciesMatcher.match(normalized, genusEntries, subject.commonNames)
                 }
                 is Outcome.Failure -> {
-                    return degradeOnFailure(candidate, normalized, genusSearch.error)
+                    return degradeOnFailure(subject, normalized, genusSearch.error)
                 }
             }
         }
@@ -138,30 +178,41 @@ class SpeciesCareService(
         // 3. Aucune correspondance : on mémorise l'absence et on rend une fiche de repli.
         if (match == null) {
             store(normalized, null, MatchQuality.NONE)
-            return CareSheetResult(sheet = CareSheet.fallbackFrom(candidate))
+            return CareSheetResult(sheet = CareSheet.fallbackFrom(subject))
         }
 
-        // 4. Détails complets si l'espèce est dans le périmètre de l'offre gratuite.
-        val entry = match.entry
+        return buildFromEntry(subject, normalized, match.entry, match.quality)
+    }
+
+    /**
+     * Construit la fiche depuis une entrée Perenual retenue : détails complets si l'espèce est
+     * dans le périmètre de l'offre gratuite, sinon fiche résumée — qui est un état de plein
+     * droit, pas un échec.
+     */
+    private suspend fun buildFromEntry(
+        subject: SpeciesSubject,
+        normalized: NormalizedName,
+        entry: SpeciesListEntry,
+        quality: MatchQuality,
+    ): CareSheetResult {
         if (PerenualLimits.supportsDetails(entry.id)) {
             val details = perenualClient.speciesDetails(entry.id)
             if (details is Outcome.Success) {
                 val guide = (perenualClient.careGuide(entry.id) as? Outcome.Success)?.value
                 val sheet = PerenualMapper.toFullSheet(
-                    candidate = candidate,
+                    subject = subject,
                     entry = entry,
                     details = details.value,
                     guide = guide,
-                    matchQuality = match.quality,
+                    matchQuality = quality,
                 )
-                store(normalized, sheet, match.quality)
+                store(normalized, sheet, quality)
                 return CareSheetResult(sheet = sheet)
             }
         }
 
-        // 5. Fiche résumée : état de plein droit, pas un échec.
-        val summary = PerenualMapper.toSummarySheet(candidate, entry, match.quality)
-        store(normalized, summary, match.quality)
+        val summary = PerenualMapper.toSummarySheet(subject, entry, quality)
+        store(normalized, summary, quality)
         return CareSheetResult(sheet = summary)
     }
 
@@ -169,7 +220,7 @@ class SpeciesCareService(
      * Quota épuisé ou réseau coupé : on sert le cache même périmé plutôt que rien, et on le dit.
      */
     private suspend fun degradeOnFailure(
-        candidate: IdentificationCandidate,
+        subject: SpeciesSubject,
         normalized: NormalizedName,
         error: AppError,
     ): CareSheetResult {
@@ -184,7 +235,7 @@ class SpeciesCareService(
         }
 
         return CareSheetResult(
-            sheet = CareSheet.fallbackFrom(candidate),
+            sheet = CareSheet.fallbackFrom(subject),
             warning = error,
         )
     }

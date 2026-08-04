@@ -366,6 +366,64 @@ class SpeciesCareServiceTest {
         }
     }
 
+    // ---------- Recherche et sujets non issus d'une identification ----------
+
+    @Test
+    fun `recherche une espèce par nom`() = runTest {
+        val engine = fullEngine()
+
+        val result = service(engine).searchSpecies("monstera")
+
+        val entries = (result as fr.plantarrosage.core.util.Outcome.Success).value
+        assertEquals(listOf(1786, 1785), entries.map { it.id })
+    }
+
+    @Test
+    fun `une recherche trop courte ne consomme aucune requête`() = runTest {
+        val engine = fullEngine()
+
+        service(engine).searchSpecies("m")
+
+        assertEquals(0, engine.callCount)
+    }
+
+    @Test
+    fun `un identifiant Perenual déjà connu évite la requête de recherche`() = runTest {
+        val engine = fullEngine()
+        val sujet = fr.plantarrosage.core.model.SpeciesSubject(
+            scientificName = "Monstera deliciosa",
+            knownPerenualId = 1786,
+        )
+
+        val result = service(engine).careSheetFor(sujet)
+
+        // Détails + guide seulement : la recherche par nom est court-circuitée.
+        assertEquals(2, engine.callCount)
+        assertEquals(DetailLevel.FULL, result.sheet.detailLevel)
+        assertEquals(1786, result.sheet.perenualId)
+    }
+
+    @Test
+    fun `une plante saisie à la main reste enregistrable`() {
+        val sheet = CareSheet.manual("Mon vieux ficus")
+
+        assertTrue(sheet.isFallback)
+        assertEquals("Mon vieux ficus", sheet.scientificName)
+        assertEquals("Mon vieux ficus", sheet.commonNameFr)
+        assertEquals(CareSheet.DEFAULT_INTERVAL_DAYS, sheet.baseWateringIntervalDays)
+    }
+
+    @Test
+    fun `les renvois vers GBIF et POWO sont reportés sur la fiche`() = runTest {
+        val engine = fullEngine()
+        val candidat = monstera.copy(gbifId = "5329113", powoId = "urn:lsid:ipni.org:names:86258-1")
+
+        val result = service(engine).careSheetFor(candidat)
+
+        assertEquals("5329113", result.sheet.gbifId)
+        assertEquals("urn:lsid:ipni.org:names:86258-1", result.sheet.powoId)
+    }
+
     private fun sheet(detailLevel: DetailLevel, quality: MatchQuality) = CareSheet(
         scientificName = "Monstera deliciosa",
         matchQuality = quality,

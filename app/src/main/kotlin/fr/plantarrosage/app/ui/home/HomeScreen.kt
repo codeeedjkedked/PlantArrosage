@@ -15,6 +15,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.PhotoCamera
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.WaterDrop
 import androidx.compose.material3.Card
@@ -24,12 +27,16 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,10 +55,13 @@ import fr.plantarrosage.core.care.NextWateringCalculator
 fun HomeScreen(
     viewModel: HomeViewModel,
     onIdentify: () -> Unit,
+    onSearchSpecies: () -> Unit,
+    onAddManually: () -> Unit,
     onOpenPlant: (Long) -> Unit,
     onOpenSettings: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    var showAddSheet by remember { mutableStateOf(false) }
 
     // Les libellés sont résolus ici : le contenu d'un LazyColumn est une lambda LazyListScope,
     // pas un contexte @Composable, et stringResource n'y est pas appelable.
@@ -73,9 +83,9 @@ fun HomeScreen(
         },
         floatingActionButton = {
             ExtendedFloatingActionButton(
-                onClick = onIdentify,
+                onClick = { showAddSheet = true },
                 icon = { Icon(Icons.Default.Add, contentDescription = null) },
-                text = { Text(stringResource(R.string.home_fab_identify)) },
+                text = { Text(stringResource(R.string.home_fab_add)) },
             )
         },
     ) { padding ->
@@ -84,7 +94,7 @@ fun HomeScreen(
                 title = stringResource(R.string.home_empty_title),
                 body = stringResource(R.string.home_empty_body),
                 actionLabel = stringResource(R.string.home_empty_cta),
-                onAction = onIdentify,
+                onAction = { showAddSheet = true },
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(padding),
@@ -104,6 +114,78 @@ fun HomeScreen(
             plantSection(titleToday, state.dueToday, waterLabel, onOpenPlant, viewModel::recordWatering)
             plantSection(titleSoon, state.soon, waterLabel, onOpenPlant, viewModel::recordWatering)
             plantSection(titleAll, state.later, waterLabel, onOpenPlant, viewModel::recordWatering)
+        }
+    }
+
+    if (showAddSheet) {
+        AddPlantSheet(
+            onDismiss = { showAddSheet = false },
+            onIdentify = onIdentify,
+            onSearchSpecies = onSearchSpecies,
+            onAddManually = onAddManually,
+        )
+    }
+}
+
+@Composable
+private fun AddPlantSheet(
+    onDismiss: () -> Unit,
+    onIdentify: () -> Unit,
+    onSearchSpecies: () -> Unit,
+    onAddManually: () -> Unit,
+) {
+    ModalBottomSheet(onDismissRequest = onDismiss) {
+        Column(modifier = Modifier.padding(bottom = 32.dp)) {
+            Text(
+                stringResource(R.string.home_add_sheet_title),
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp),
+            )
+            AddOption(
+                icon = Icons.Default.PhotoCamera,
+                title = stringResource(R.string.home_add_by_photo),
+                subtitle = stringResource(R.string.home_add_by_photo_help),
+                onClick = { onDismiss(); onIdentify() },
+            )
+            AddOption(
+                icon = Icons.Default.Search,
+                title = stringResource(R.string.home_add_by_search),
+                subtitle = stringResource(R.string.home_add_by_search_help),
+                onClick = { onDismiss(); onSearchSpecies() },
+            )
+            AddOption(
+                icon = Icons.Default.Edit,
+                title = stringResource(R.string.home_add_manually),
+                subtitle = stringResource(R.string.home_add_manually_help),
+                onClick = { onDismiss(); onAddManually() },
+            )
+        }
+    }
+}
+
+@Composable
+private fun AddOption(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    title: String,
+    subtitle: String,
+    onClick: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(horizontal = 24.dp, vertical = 14.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(icon, contentDescription = null)
+        Column {
+            Text(title, style = MaterialTheme.typography.bodyLarge)
+            Text(
+                subtitle,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
         }
     }
 }

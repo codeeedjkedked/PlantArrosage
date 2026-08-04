@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.WaterDrop
 import androidx.compose.material3.AlertDialog
@@ -274,14 +275,32 @@ fun PlantDetailScreen(
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     } else {
+                        Text(
+                            stringResource(R.string.detail_history_help),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
                         state.history.forEachIndexed { index, event ->
                             if (index > 0) HorizontalDivider()
-                            Text(
-                                Instant.ofEpochMilli(event.wateredAt)
-                                    .atZone(zone).toLocalDate().format(dateFormat),
-                                style = MaterialTheme.typography.bodyMedium,
-                                modifier = Modifier.padding(vertical = 4.dp),
-                            )
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Text(
+                                    Instant.ofEpochMilli(event.wateredAt)
+                                        .atZone(zone).toLocalDate().format(dateFormat),
+                                    style = MaterialTheme.typography.bodyMedium,
+                                )
+                                IconButton(onClick = { viewModel.deleteWateringEvent(event.id) }) {
+                                    Icon(
+                                        Icons.Default.Close,
+                                        contentDescription = stringResource(
+                                            R.string.detail_history_delete
+                                        ),
+                                    )
+                                }
+                            }
                         }
                     }
                 }

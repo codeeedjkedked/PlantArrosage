@@ -35,6 +35,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import fr.plantarrosage.app.R
+import fr.plantarrosage.app.ui.common.InfoBanner
 import fr.plantarrosage.app.ui.common.LoadingState
 import fr.plantarrosage.core.model.PlantLocation
 
@@ -83,11 +84,22 @@ fun AddPlantScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
+            if (state.isManual) {
+                InfoBanner(text = stringResource(R.string.add_manual_help))
+            }
+
             OutlinedTextField(
                 value = state.nickname,
                 onValueChange = viewModel::setNickname,
-                label = { Text(stringResource(R.string.add_nickname)) },
+                label = {
+                    Text(
+                        stringResource(
+                            if (state.isManual) R.string.add_manual_name else R.string.add_nickname
+                        )
+                    )
+                },
                 placeholder = { Text(stringResource(R.string.add_nickname_hint)) },
+                isError = state.isManual && state.nickname.isBlank(),
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -161,7 +173,7 @@ fun AddPlantScreen(
 
             Button(
                 onClick = viewModel::save,
-                enabled = !state.saving && state.sheet != null,
+                enabled = state.canSave && state.sheet != null,
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Text(stringResource(R.string.add_confirm))

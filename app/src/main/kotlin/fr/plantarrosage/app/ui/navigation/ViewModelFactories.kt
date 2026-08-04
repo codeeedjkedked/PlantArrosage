@@ -10,6 +10,7 @@ import fr.plantarrosage.app.ui.home.HomeViewModel
 import fr.plantarrosage.app.ui.plantdetail.PlantDetailViewModel
 import fr.plantarrosage.app.ui.results.ResultsViewModel
 import fr.plantarrosage.app.ui.settings.SettingsViewModel
+import fr.plantarrosage.app.ui.search.SpeciesSearchViewModel
 import fr.plantarrosage.app.ui.species.SpeciesSheetViewModel
 
 /**
@@ -40,25 +41,35 @@ object ViewModelFactories {
         initializer { ResultsViewModel(container.identificationSession) }
     }
 
-    fun species(container: AppContainer, candidateIndex: Int): ViewModelProvider.Factory =
+    fun speciesSearch(container: AppContainer): ViewModelProvider.Factory = viewModelFactory {
+        initializer { SpeciesSearchViewModel(container.speciesCareService) }
+    }
+
+    fun species(container: AppContainer, route: Route.Species): ViewModelProvider.Factory =
         viewModelFactory {
             initializer {
                 SpeciesSheetViewModel(
                     session = container.identificationSession,
                     careService = container.speciesCareService,
-                    candidateIndex = candidateIndex,
+                    candidateIndex = route.candidateIndex,
+                    perenualId = route.perenualId,
+                    scientificName = route.scientificName,
+                    commonName = route.commonName,
                 )
             }
         }
 
-    fun addPlant(container: AppContainer, candidateIndex: Int): ViewModelProvider.Factory =
+    fun addPlant(container: AppContainer, route: Route.AddPlant): ViewModelProvider.Factory =
         viewModelFactory {
             initializer {
                 AddPlantViewModel(
                     session = container.identificationSession,
                     careService = container.speciesCareService,
                     repository = container.myPlantsRepository,
-                    candidateIndex = candidateIndex,
+                    candidateIndex = route.candidateIndex,
+                    perenualId = route.perenualId,
+                    scientificName = route.scientificName,
+                    commonName = route.commonName,
                     clock = container.clock,
                 )
             }

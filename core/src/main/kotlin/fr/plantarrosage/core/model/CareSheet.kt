@@ -56,6 +56,10 @@ data class CareSheet(
     val guideSections: List<CareGuideSection> = emptyList(),
 
     val imageUrl: String? = null,
+
+    // --- Renvois vers les bases de référence ---
+    val gbifId: String? = null,
+    val powoId: String? = null,
 ) {
     /** Vrai quand aucune donnée Perenual n'a pu être associée. */
     val isFallback: Boolean get() = detailLevel == DetailLevel.NONE
@@ -77,14 +81,34 @@ data class CareSheet(
          * donnée d'entretien, la plante reste enregistrable et les rappels fonctionnent, avec un
          * intervalle par défaut que l'utilisateur peut ajuster.
          */
-        fun fallbackFrom(candidate: IdentificationCandidate): CareSheet = CareSheet(
-            scientificName = candidate.scientificName,
-            commonNameFr = candidate.bestCommonName,
-            family = candidate.family,
+        fun fallbackFrom(subject: SpeciesSubject): CareSheet = CareSheet(
+            scientificName = subject.scientificName,
+            commonNameFr = subject.bestCommonName,
+            family = subject.family,
             matchQuality = MatchQuality.NONE,
             detailLevel = DetailLevel.NONE,
             baseWateringIntervalDays = DEFAULT_INTERVAL_DAYS,
-            imageUrl = candidate.relatedImageUrl,
+            imageUrl = subject.imageUrl,
+        )
+
+        fun fallbackFrom(candidate: IdentificationCandidate): CareSheet =
+            fallbackFrom(candidate.toSubject()).copy(
+                gbifId = candidate.gbifId,
+                powoId = candidate.powoId,
+            )
+
+        /**
+         * Plante saisie entièrement à la main, sans espèce identifiée.
+         *
+         * L'utilisateur reste maître : il nomme sa plante et fixe son rythme. Le fait qu'aucune
+         * base ne la connaisse ne doit pas l'empêcher de la suivre.
+         */
+        fun manual(name: String): CareSheet = CareSheet(
+            scientificName = name.trim(),
+            commonNameFr = name.trim(),
+            matchQuality = MatchQuality.NONE,
+            detailLevel = DetailLevel.NONE,
+            baseWateringIntervalDays = DEFAULT_INTERVAL_DAYS,
         )
     }
 }

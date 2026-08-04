@@ -160,7 +160,7 @@ class PerenualDtoParsingTest {
         val details = decode(PerenualSpeciesDetailsDto.serializer(), "species_details_free_tier_quirks.json")
 
         val sheet = PerenualMapper.toFullSheet(
-            candidate = candidate(),
+            subject = sujet(),
             entry = entries.first(),
             details = details,
             guide = null,
@@ -184,7 +184,7 @@ class PerenualDtoParsingTest {
             decode(PerenualSpeciesListDto.serializer(), "species_list_monstera.json")
         )
         val sheet = PerenualMapper.toFullSheet(
-            candidate = candidate(),
+            subject = sujet(),
             entry = entries.first(),
             details = decode(PerenualSpeciesDetailsDto.serializer(), "species_details_monstera.json"),
             guide = decode(PerenualCareGuideListDto.serializer(), "care_guide_monstera.json"),
@@ -211,7 +211,7 @@ class PerenualDtoParsingTest {
             decode(PerenualSpeciesListDto.serializer(), "species_list_monstera.json")
         )
         val sheet = PerenualMapper.toFullSheet(
-            candidate = candidate(),
+            subject = sujet(),
             entry = entries.first(),
             details = decode(PerenualSpeciesDetailsDto.serializer(), "species_details_monstera.json"),
             guide = null,
@@ -229,7 +229,7 @@ class PerenualDtoParsingTest {
         )
 
         val sheet = PerenualMapper.toSummarySheet(
-            candidate = candidate(),
+            subject = sujet(),
             entry = entries.first(),
             matchQuality = fr.plantarrosage.core.model.MatchQuality.EXACT,
         )
@@ -240,11 +240,9 @@ class PerenualDtoParsingTest {
         assertNull(sheet.description)
     }
 
-    private fun candidate() = fr.plantarrosage.core.model.IdentificationCandidate(
+    private fun sujet() = fr.plantarrosage.core.model.SpeciesSubject(
         scientificName = "Monstera deliciosa",
-        genus = "Monstera",
         family = "Araceae",
         commonNames = listOf("Monstera", "Faux philodendron"),
-        score = 0.87,
     )
 }
