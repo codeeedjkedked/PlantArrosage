@@ -1,0 +1,38 @@
+{
+  "data": [
+    {
+      "id": 1786,
+      "common_name": "Swiss cheese plant",
+      "scientific_name": ["Monstera deliciosa"],
+      "other_name": ["Split-leaf philodendron", "Fruit salad plant"],
+      "cycle": "Perennial",
+      "watering": "Average",
+      "sunlight": ["part shade", "filtered shade"],
+      "default_image": {
+        "license": 45,
+        "license_name": "Attribution-ShareAlike 3.0",
+        "thumbnail": "https://perenual.com/storage/species_image/1786_monstera_deliciosa/thumbnail/x.jpg",
+        "small_url": "https://perenual.com/storage/species_image/1786_monstera_deliciosa/small/x.jpg",
+        "medium_url": "https://perenual.com/storage/species_image/1786_monstera_deliciosa/medium/x.jpg",
+        "regular_url": "https://perenual.com/storage/species_image/1786_monstera_deliciosa/regular/x.jpg",
+        "original_url": "https://perenual.com/storage/species_image/1786_monstera_deliciosa/og/x.jpg"
+      }
+    },
+    {
+      "id": 1785,
+      "common_name": "Adanson's monstera",
+      "scientific_name": ["Monstera adansonii"],
+      "other_name": [],
+      "cycle": "Perennial",
+      "watering": "Frequent",
+      "sunlight": "part shade",
+      "default_image": null
+    }
+  ],
+  "to": 2,
+  "per_page": 30,
+  "current_page": 1,
+  "from": 1,
+  "last_page": 1,
+  "total": 2
+}

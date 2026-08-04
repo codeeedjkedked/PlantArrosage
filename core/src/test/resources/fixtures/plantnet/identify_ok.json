@@ -1,0 +1,79 @@
+{
+  "query": {
+    "project": "all",
+    "images": ["a1b2c3"],
+    "organs": ["leaf"],
+    "includeRelatedImages": true
+  },
+  "language": "fr",
+  "preferedReferential": "k-world-flora",
+  "bestMatch": "Monstera deliciosa Liebm.",
+  "results": [
+    {
+      "score": 0.87342,
+      "species": {
+        "scientificNameWithoutAuthor": "Monstera deliciosa",
+        "scientificNameAuthorship": "Liebm.",
+        "genus": {
+          "scientificNameWithoutAuthor": "Monstera",
+          "scientificNameAuthorship": "",
+          "scientificName": "Monstera"
+        },
+        "family": {
+          "scientificNameWithoutAuthor": "Araceae",
+          "scientificNameAuthorship": "",
+          "scientificName": "Araceae"
+        },
+        "commonNames": ["Monstera", "Faux philodendron", "Plante gruyère"],
+        "scientificName": "Monstera deliciosa Liebm."
+      },
+      "images": [
+        {
+          "organ": "leaf",
+          "author": "Jean Dupont",
+          "license": "cc-by-sa",
+          "date": { "timestamp": 1620000000, "string": "3 mai 2021" },
+          "url": {
+            "o": "https://bs.plantnet.org/image/o/aaa.jpg",
+            "m": "https://bs.plantnet.org/image/m/aaa.jpg",
+            "s": "https://bs.plantnet.org/image/s/aaa.jpg"
+          }
+        }
+      ],
+      "gbif": { "id": "5329113" },
+      "powo": { "id": "urn:lsid:ipni.org:names:86258-1" }
+    },
+    {
+      "score": 0.0421,
+      "species": {
+        "scientificNameWithoutAuthor": "Monstera adansonii",
+        "scientificNameAuthorship": "Schott",
+        "genus": { "scientificNameWithoutAuthor": "Monstera" },
+        "family": { "scientificNameWithoutAuthor": "Araceae" },
+        "commonNames": ["Monstera de Adanson"]
+      },
+      "images": [
+        {
+          "organ": "leaf",
+          "url": {
+            "o": "https://bs.plantnet.org/image/o/bbb.jpg",
+            "m": "https://bs.plantnet.org/image/m/bbb.jpg",
+            "s": "https://bs.plantnet.org/image/s/bbb.jpg"
+          }
+        }
+      ]
+    },
+    {
+      "score": 0.0089,
+      "species": {
+        "scientificNameWithoutAuthor": "Epipremnum aureum",
+        "genus": { "scientificNameWithoutAuthor": "Epipremnum" },
+        "family": { "scientificNameWithoutAuthor": "Araceae" },
+        "commonNames": ["Pothos"]
+      },
+      "images": []
+    }
+  ],
+  "version": "2024-11-12 (7.3)",
+  "remainingIdentificationRequests": 462
+}

@@ -1,0 +1,11 @@
+{
+  "bestMatch": "Aloe vera",
+  "results": [
+    {
+      "score": 0.51,
+      "species": {
+        "scientificNameWithoutAuthor": "Aloe vera"
+      }
+    }
+  ]
+}

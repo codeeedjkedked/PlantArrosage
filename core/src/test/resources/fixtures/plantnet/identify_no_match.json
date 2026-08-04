@@ -1,0 +1,12 @@
+{
+  "query": {
+    "project": "all",
+    "images": ["deadbeef"],
+    "organs": ["auto"]
+  },
+  "language": "fr",
+  "bestMatch": null,
+  "results": [],
+  "version": "2024-11-12 (7.3)",
+  "remainingIdentificationRequests": 461
+}

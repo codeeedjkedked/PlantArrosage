@@ -1,0 +1,33 @@
+{
+  "data": [
+    {
+      "id": 1786,
+      "species_id": 1786,
+      "common_name": "Swiss cheese plant",
+      "scientific_name": ["Monstera deliciosa"],
+      "section": [
+        {
+          "id": 5358,
+          "type": "watering",
+          "description": "Water thoroughly when the top 2-3 cm of soil feel dry, then let excess drain away. Reduce frequency noticeably in winter."
+        },
+        {
+          "id": 5359,
+          "type": "sunlight",
+          "description": "Bright, indirect light suits it best. Direct midday sun scorches the leaves."
+        },
+        {
+          "id": 5360,
+          "type": "pruning",
+          "description": "Remove yellowing leaves at the base. Prune in early spring to control size."
+        }
+      ]
+    }
+  ],
+  "to": 1,
+  "per_page": 30,
+  "current_page": 1,
+  "from": 1,
+  "last_page": 1,
+  "total": 1
+}
