@@ -3,12 +3,17 @@ name: Construire l'APK
 on:
   push:
     branches: ["**"]
+    tags: ["v*"]
   workflow_dispatch:
 
 jobs:
   build:
     name: Tests et APK de debug
     runs-on: ubuntu-latest
+
+    # Nécessaire pour que `gh release create` puisse écrire sur le dépôt.
+    permissions:
+      contents: write
 
     env:
       # Les noms de tests sont en français : le compilateur Kotlin en dérive des noms de fichiers
@@ -42,12 +47,41 @@ jobs:
       - name: Construire l'APK de debug
         run: ./gradlew :app:assembleDebug --stacktrace
 
-      - name: Publier l'APK
+      # Nom explicite : l'APK sorti de Gradle s'appelle app-debug.apk, ce qui ne dit rien une
+      # fois téléchargé à côté d'autres fichiers.
+      - name: Renommer l'APK
+        id: apk
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          [ "$GITHUB_REF_TYPE" = "tag" ] || version="${GITHUB_SHA::7}"
+          nom="PlantArrosage-${version}-debug.apk"
+          mv app/build/outputs/apk/debug/app-debug.apk "app/build/outputs/apk/debug/${nom}"
+          echo "chemin=app/build/outputs/apk/debug/${nom}" >> "$GITHUB_OUTPUT"
+
+      - name: Publier l'APK en artefact
         uses: actions/upload-artifact@v4
         with:
           name: PlantArrosage-debug-apk
-          path: app/build/outputs/apk/debug/*.apk
+          path: ${{ steps.apk.outputs.chemin }}
           if-no-files-found: error
+
+      # Sur tag uniquement : crée une release publique, avec un lien de téléchargement direct
+      # et permanent, contrairement à un artefact qui expire au bout de 90 jours.
+      - name: Publier la release
+        if: github.ref_type == 'tag'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            --title "PlantArrosage $GITHUB_REF_NAME" \
+            --notes "APK de debug, signé avec la clé de debug Android : installable directement après avoir autorisé les sources inconnues.
+
+          **Aucune clé API n'est incluse.** Au premier lancement, ouvrez Réglages et collez :
+          - une clé Pl@ntNet — https://my.plantnet.org/ (gratuite, ~500 identifications/jour)
+          - une clé Perenual — https://perenual.com/docs/api (gratuite, 100 requêtes/jour)
+
+          Identification fournie par Pl@ntNet, données d'entretien par Perenual." \
+            "${{ steps.apk.outputs.chemin }}"
 
       - name: Publier les rapports de test en cas d'échec
         if: failure()

@@ -49,9 +49,16 @@ Ouvrez le projet dans Android Studio (SDK Platform 35) pour l'exécuter sur appa
 
 ### Récupérer l'APK sans rien installer
 
-Chaque poussée déclenche le workflow **Construire l'APK**, qui compile sur un runner GitHub et
-publie l'APK en artefact. Onglet *Actions* du dépôt → dernier run → section *Artifacts* →
-`PlantArrosage-debug-apk`.
+**Le plus simple** : la page des
+[releases](https://github.com/codeeedjkedked/PlantArrosage/releases) propose un téléchargement
+direct et permanent.
+
+Sinon, chaque poussée déclenche le workflow **Construire l'APK**, qui compile sur un runner GitHub
+et publie l'APK en artefact. Onglet *Actions* → dernier run → section *Artifacts* →
+`PlantArrosage-debug-apk` (expire au bout de 90 jours).
+
+Pour publier une nouvelle version : poussez un tag `vX.Y.Z`, le workflow crée la release et y
+attache l'APK.
 
 L'APK est signé avec la clé de debug : installable directement sur un téléphone après avoir
 autorisé les sources inconnues. Il ne contient **aucune clé API** — vous les collez dans l'écran
