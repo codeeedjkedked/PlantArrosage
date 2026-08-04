@@ -73,9 +73,7 @@ object WateringIntervalCalculator {
         userOverrideDays: Int? = null,
     ): WateringPlan = compute(
         baseIntervalDays = sheet.baseWateringIntervalDays,
-        baseSourceFr = sheet.wateringBenchmarkFr
-            ?: sheet.wateringFr?.lowercase()
-            ?: "valeur par défaut",
+        baseSourceFr = sheet.baseIntervalSourceFr.ifBlank { "fiche de l'espèce" },
         sunlightRaw = sheet.sunlightRaw,
         droughtTolerant = sheet.droughtTolerant,
         location = location,
@@ -83,23 +81,49 @@ object WateringIntervalCalculator {
         userOverrideDays = userOverrideDays,
     )
 
+    /**
+     * Rythme typique d'une **espèce**, hors contexte d'une plante précise.
+     *
+     * N'applique que les traits intrinsèques à l'espèce — tolérance à la sécheresse, exposition —
+     * en laissant de côté la saison et l'emplacement, qui n'ont de sens que pour une plante
+     * donnée.
+     *
+     * Sans cela, l'offre gratuite de Perenual ne fournissant le plus souvent qu'une énumération
+     * à quatre valeurs, la quasi-totalité des espèces afficherait le même « 7 jours » et la
+     * fiche perdrait tout pouvoir de distinction.
+     */
+    fun speciesTypical(sheet: CareSheet): WateringPlan = compute(
+        baseIntervalDays = sheet.baseWateringIntervalDays,
+        baseSourceFr = sheet.baseIntervalSourceFr.ifBlank { "fiche de l'espèce" },
+        sunlightRaw = sheet.sunlightRaw,
+        droughtTolerant = sheet.droughtTolerant,
+        location = PlantLocation.INTERIEUR,
+        today = null,
+    )
+
+    /**
+     * @param today date d'évaluation, ou `null` pour ignorer la saison et l'emplacement — cas
+     *   d'un rythme décrit au niveau de l'espèce et non d'une plante.
+     */
     fun compute(
         baseIntervalDays: Int,
         baseSourceFr: String,
         sunlightRaw: List<String>,
         droughtTolerant: Boolean?,
         location: PlantLocation,
-        today: LocalDate,
+        today: LocalDate?,
         userOverrideDays: Int? = null,
     ): WateringPlan {
         val factors = buildList {
-            val season = SeasonResolver.seasonOf(today)
-            if (season.multiplier != 1.0) {
-                add(WateringFactor(season.labelFr, season.multiplier))
-            }
+            if (today != null) {
+                val season = SeasonResolver.seasonOf(today)
+                if (season.multiplier != 1.0) {
+                    add(WateringFactor(season.labelFr, season.multiplier))
+                }
 
-            if (location == PlantLocation.EXTERIEUR) {
-                add(WateringFactor("extérieur (vent et soleil)", OUTDOOR_MULTIPLIER))
+                if (location == PlantLocation.EXTERIEUR) {
+                    add(WateringFactor("extérieur (vent et soleil)", OUTDOOR_MULTIPLIER))
+                }
             }
 
             if (droughtTolerant == true) {

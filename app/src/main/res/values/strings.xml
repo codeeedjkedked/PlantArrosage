@@ -68,6 +68,7 @@
     <string name="species_section_description">Description</string>
     <string name="species_description_language_note">Source : Perenual, texte en anglais</string>
     <string name="species_watering_interval">Environ tous les %d jours</string>
+    <string name="species_watering_species_note">Rythme typique de l\'espèce. Sur votre plante, il sera ajusté selon la saison et l\'emplacement.</string>
     <string name="species_cycle">Cycle</string>
     <string name="species_care_level">Niveau d\'entretien</string>
     <string name="species_growth_rate">Croissance</string>

@@ -209,6 +209,67 @@ class WateringIntervalCalculatorTest {
         }
     }
 
+    // ---------- Rythme typique d'une espèce ----------
+
+    @Test
+    fun `le rythme d'espèce ignore la saison et l'emplacement`() {
+        val fiche = fiche(base = 10)
+
+        // Évalué en plein hiver, le rythme d'espèce ne doit pas en tenir compte.
+        val plan = WateringIntervalCalculator.speciesTypical(fiche)
+
+        assertEquals(10, plan.effectiveIntervalDays)
+        assertTrue(plan.factors.none { it.labelFr.contains("hiver") }, plan.explanationFr())
+        assertTrue(plan.factors.none { it.labelFr.contains("extérieur") }, plan.explanationFr())
+    }
+
+    @Test
+    fun `le rythme d'espèce distingue deux espèces au même arrosage brut`() {
+        // Sans les traits intrinsèques, ces deux espèces afficheraient toutes deux 7 jours,
+        // l'énumération Perenual étant « Average » dans les deux cas.
+        val fougere = fiche(base = 7, sunlight = listOf("full_shade"))
+        val cactus = fiche(base = 7, droughtTolerant = true, sunlight = listOf("full_sun"))
+
+        val plainFougere = WateringIntervalCalculator.speciesTypical(fougere)
+        val planCactus = WateringIntervalCalculator.speciesTypical(cactus)
+
+        assertEquals(8, plainFougere.effectiveIntervalDays) // 7 × 1,2
+        assertEquals(8, planCactus.effectiveIntervalDays) // 7 × 1,3 × 0,9 = 8,19
+        assertTrue(plainFougere.factors.any { it.labelFr.contains("ombre") })
+        assertTrue(planCactus.factors.any { it.labelFr.contains("sécheresse") })
+    }
+
+    @Test
+    fun `le rythme d'espèce reprend l'attribution de la fiche`() {
+        val plan = WateringIntervalCalculator.speciesTypical(
+            fiche(base = 7, source = "arrosage modéré")
+        )
+
+        assertTrue(plan.explanationFr().contains("arrosage modéré"), plan.explanationFr())
+    }
+
+    @Test
+    fun `une fiche sans attribution reste lisible`() {
+        val plan = WateringIntervalCalculator.speciesTypical(fiche(base = 7, source = ""))
+
+        assertTrue(plan.explanationFr().contains("fiche de l'espèce"), plan.explanationFr())
+    }
+
+    private fun fiche(
+        base: Int,
+        source: String = "arrosage modéré",
+        droughtTolerant: Boolean? = null,
+        sunlight: List<String> = emptyList(),
+    ) = fr.plantarrosage.core.model.CareSheet(
+        scientificName = "Test species",
+        matchQuality = fr.plantarrosage.core.model.MatchQuality.EXACT,
+        detailLevel = fr.plantarrosage.core.model.DetailLevel.FULL,
+        baseWateringIntervalDays = base,
+        baseIntervalSourceFr = source,
+        droughtTolerant = droughtTolerant,
+        sunlightRaw = sunlight,
+    )
+
     private fun compute(
         base: Int,
         today: LocalDate,

@@ -38,7 +38,7 @@ object PerenualMapper {
     ): CareSheet {
         // Pas de repère chiffré dans `species-list` : l'énumération `watering` suffit à dériver
         // un intervalle, ce qui rend la fiche résumée pleinement exploitable.
-        val (baseDays, _) = WateringIntervalCalculator.baseIntervalDays(
+        val (baseDays, baseSource) = WateringIntervalCalculator.baseIntervalDays(
             benchmarkValue = null,
             benchmarkUnit = null,
             wateringEnum = entry.watering.sanitized(),
@@ -55,6 +55,7 @@ object PerenualMapper {
             wateringFr = FrenchLabels.watering(entry.watering.sanitized()),
             wateringBenchmarkFr = null,
             baseWateringIntervalDays = baseDays,
+            baseIntervalSourceFr = baseSource,
             sunlightRaw = entry.sunlight.sanitized(),
             sunlightFr = entry.sunlight.sanitized().mapNotNull { FrenchLabels.sunlight(it) },
             cycleFr = FrenchLabels.cycle(entry.cycle.sanitized()),
@@ -95,6 +96,7 @@ object PerenualMapper {
             wateringFr = FrenchLabels.watering(wateringEnum),
             wateringBenchmarkFr = benchmarkLabel,
             baseWateringIntervalDays = baseDays,
+            baseIntervalSourceFr = baseSource,
 
             sunlightRaw = sunlight,
             sunlightFr = sunlight.mapNotNull { FrenchLabels.sunlight(it) },

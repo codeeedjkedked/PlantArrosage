@@ -59,11 +59,17 @@ class MyPlantsRepository(
 
     suspend fun findById(id: Long): MyPlantEntity? = plantDao.findById(id)
 
-    /** Recalcule le plan d'arrosage courant d'une plante. */
-    fun scheduleFor(entity: MyPlantEntity): PlantWithSchedule {
+    /**
+     * Recalcule le plan d'arrosage courant d'une plante.
+     *
+     * @param sheet fiche enregistrée, quand elle a déjà été décodée : elle porte l'attribution
+     *   du chiffre de base. Omise pour les listes, où décoder le JSON de chaque ligne coûterait
+     *   plus que ce que l'explication rapporte.
+     */
+    fun scheduleFor(entity: MyPlantEntity, sheet: CareSheet? = null): PlantWithSchedule {
         val plan = WateringIntervalCalculator.compute(
             baseIntervalDays = entity.baseIntervalDays,
-            baseSourceFr = "fiche de l'espèce",
+            baseSourceFr = sheet?.baseIntervalSourceFr?.ifBlank { null } ?: "fiche de l'espèce",
             sunlightRaw = decodeSunlight(entity.sunlightRawJson),
             droughtTolerant = entity.droughtTolerant,
             location = entity.location.toLocation(),

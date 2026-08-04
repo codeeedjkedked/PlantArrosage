@@ -34,10 +34,13 @@ class PlantDetailViewModel(
         if (entity == null) {
             PlantDetailUiState(loading = false, deleted = true)
         } else {
+            val sheet = repository.decodeCareSheet(entity.careJson)
             PlantDetailUiState(
                 loading = false,
-                plant = repository.scheduleFor(entity),
-                careSheet = repository.decodeCareSheet(entity.careJson),
+                // La fiche est déjà décodée ici : on s'en sert pour que l'explication cite la
+                // vraie provenance du chiffre plutôt qu'un libellé générique.
+                plant = repository.scheduleFor(entity, sheet),
+                careSheet = sheet,
                 history = history,
             )
         }

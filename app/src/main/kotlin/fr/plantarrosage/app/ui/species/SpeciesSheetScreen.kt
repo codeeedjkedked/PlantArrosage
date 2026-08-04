@@ -29,6 +29,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,6 +47,7 @@ import fr.plantarrosage.app.ui.common.EmptyState
 import fr.plantarrosage.app.ui.common.InfoBanner
 import fr.plantarrosage.app.ui.common.LoadingState
 import fr.plantarrosage.core.care.FrenchLabels
+import fr.plantarrosage.core.care.WateringIntervalCalculator
 import fr.plantarrosage.core.model.CareSheet
 import fr.plantarrosage.core.model.DetailLevel
 import fr.plantarrosage.core.model.SourceLinks
@@ -147,18 +149,26 @@ private fun SheetContent(
         QualityBanners(sheet = sheet, stale = stale, warningText = warningText)
 
         SectionCard(title = stringResource(R.string.species_section_watering)) {
+            // Le rythme typique de l'espèce, traits intrinsèques compris, et surtout d'où il
+            // vient : sans attribution, une valeur par défaut et une donnée réelle se
+            // ressemblent trait pour trait.
+            val plan = remember(sheet) { WateringIntervalCalculator.speciesTypical(sheet) }
+
             Text(
-                stringResource(R.string.species_watering_interval, sheet.baseWateringIntervalDays),
+                stringResource(R.string.species_watering_interval, plan.effectiveIntervalDays),
                 style = MaterialTheme.typography.titleMedium,
             )
+            Text(
+                plan.explanationFr(),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Text(
+                stringResource(R.string.species_watering_species_note),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
             sheet.wateringFr?.let { CareRow(stringResource(R.string.species_section_watering), it) }
-            sheet.wateringBenchmarkFr?.let {
-                Text(
-                    it,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
         }
 
         if (sheet.sunlightFr.isNotEmpty()) {

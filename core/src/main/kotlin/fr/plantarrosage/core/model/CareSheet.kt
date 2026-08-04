@@ -29,6 +29,13 @@ data class CareSheet(
     val wateringBenchmarkFr: String? = null,
     /** Intervalle de base en jours, avant ajustements saisonniers. */
     val baseWateringIntervalDays: Int,
+    /**
+     * D'où vient [baseWateringIntervalDays].
+     *
+     * Toujours renseigné : sans attribution, une valeur par défaut et une donnée réelle
+     * s'affichent à l'identique, et l'utilisateur ne peut pas juger de ce qu'il lit.
+     */
+    val baseIntervalSourceFr: String = "",
 
     // --- Lumière ---
     val sunlightRaw: List<String> = emptyList(),
@@ -74,6 +81,8 @@ data class CareSheet(
         /** Intervalle retenu quand aucune source ne dit rien. Volontairement prudent. */
         const val DEFAULT_INTERVAL_DAYS = 7
 
+        const val DEFAULT_INTERVAL_SOURCE = "valeur par défaut, aucune donnée disponible"
+
         /**
          * Fiche de repli construite sur les seules données Pl@ntNet.
          *
@@ -88,6 +97,7 @@ data class CareSheet(
             matchQuality = MatchQuality.NONE,
             detailLevel = DetailLevel.NONE,
             baseWateringIntervalDays = DEFAULT_INTERVAL_DAYS,
+            baseIntervalSourceFr = DEFAULT_INTERVAL_SOURCE,
             imageUrl = subject.imageUrl,
         )
 
@@ -109,6 +119,7 @@ data class CareSheet(
             matchQuality = MatchQuality.NONE,
             detailLevel = DetailLevel.NONE,
             baseWateringIntervalDays = DEFAULT_INTERVAL_DAYS,
+            baseIntervalSourceFr = DEFAULT_INTERVAL_SOURCE,
         )
     }
 }
