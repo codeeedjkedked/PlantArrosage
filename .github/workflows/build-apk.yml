@@ -1,0 +1,60 @@
+name: Construire l'APK
+
+on:
+  push:
+    branches: ["**"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Tests et APK de debug
+    runs-on: ubuntu-latest
+
+    env:
+      # Les noms de tests sont en français : le compilateur Kotlin en dérive des noms de fichiers
+      # .class accentués, ce qui exige une locale UTF-8.
+      LANG: C.UTF-8
+      LC_ALL: C.UTF-8
+
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Installer le JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Préparer le SDK Android
+        uses: android-actions/setup-android@v3
+        with:
+          packages: 'platforms;android-35 build-tools;35.0.0 platform-tools'
+
+      - name: Configurer Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      # Le module :core est du JVM pur : il se teste sans SDK Android et concentre toute la
+      # logique métier. On le passe en premier pour échouer vite si la régression est là.
+      - name: Tester le module :core
+        run: ./gradlew -PskipAndroid=true :core:test
+
+      - name: Construire l'APK de debug
+        run: ./gradlew :app:assembleDebug --stacktrace
+
+      - name: Publier l'APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: PlantArrosage-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+
+      - name: Publier les rapports de test en cas d'échec
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rapports-tests
+          path: |
+            core/build/reports/tests/
+            app/build/reports/
+          if-no-files-found: ignore

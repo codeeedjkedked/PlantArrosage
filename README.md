@@ -45,7 +45,17 @@ capture renvoie alors vers les Réglages au lieu d'échouer sur un 401.
 ./gradlew :core:test             # tests unitaires du module métier
 ```
 
-Ouvrez le projet dans Android Studio (SDK Platform 36) pour l'exécuter sur appareil ou émulateur.
+Ouvrez le projet dans Android Studio (SDK Platform 35) pour l'exécuter sur appareil ou émulateur.
+
+### Récupérer l'APK sans rien installer
+
+Chaque poussée déclenche le workflow **Construire l'APK**, qui compile sur un runner GitHub et
+publie l'APK en artefact. Onglet *Actions* du dépôt → dernier run → section *Artifacts* →
+`PlantArrosage-debug-apk`.
+
+L'APK est signé avec la clé de debug : installable directement sur un téléphone après avoir
+autorisé les sources inconnues. Il ne contient **aucune clé API** — vous les collez dans l'écran
+Réglages au premier lancement.
 
 ---
 
@@ -73,7 +83,7 @@ secondes sur un JVM ordinaire, sans instrumentation. `:app` reste largement déc
 | Base | Room (3 tables) |
 | Rappels | WorkManager, tâche quotidienne — pas d'alarme exacte |
 | Injection | Manuelle, via `AppContainer` |
-| minSdk / compileSdk | 26 / 36 |
+| minSdk / compileSdk | 26 / 35 |
 
 ### Points de conception
 

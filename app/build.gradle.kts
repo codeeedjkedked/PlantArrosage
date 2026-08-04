@@ -24,12 +24,13 @@ fun apiKey(name: String): String = localProperties.getProperty(name).orEmpty()
 
 android {
     namespace = "fr.plantarrosage.app"
-    compileSdk = 36
+    // 35 et non 36 : l'AGP 8.7.3 n'est pas validé au-delà, et la BOM Compose retenue vise 35.
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "fr.plantarrosage.app"
         minSdk = 26
-        targetSdk = 36
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
