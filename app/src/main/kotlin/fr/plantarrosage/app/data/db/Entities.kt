@@ -22,7 +22,16 @@ import androidx.room.PrimaryKey
 data class MyPlantEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val nickname: String,
+    /** Photo de couverture : la première du lot, celle qui illustre la liste et les rappels. */
     val photoUri: String?,
+    /**
+     * Toutes les photos conservées, couverture comprise, encodées en tableau JSON.
+     *
+     * Une table dédiée serait plus orthodoxe, mais on lit toujours ces URI en même temps que la
+     * plante et jamais séparément : la colonne évite une jointure et une migration de schéma
+     * autrement plus lourde pour un gain nul.
+     */
+    val photoUrisJson: String? = null,
     val scientificName: String,
     val normalizedBinomial: String,
     val commonNameFr: String?,

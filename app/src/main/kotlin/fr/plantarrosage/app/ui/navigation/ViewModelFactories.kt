@@ -87,6 +87,7 @@ object ViewModelFactories {
                 perenualClient = container.perenualClient,
                 cache = container.speciesCareCache,
                 plantsRepository = container.myPlantsRepository,
+                backupRepository = container.backupRepository,
             )
         }
     }

@@ -54,6 +54,8 @@ object WateringIntervalCalculator {
         val adviceFr: String? = null,
         val pitfallFr: String? = null,
         val droughtTolerant: Boolean? = null,
+        /** La valeur intègre déjà les traits de l'espèce : ne pas les réappliquer. */
+        val isCurated: Boolean = false,
     )
 
     /**
@@ -77,6 +79,7 @@ object WateringIntervalCalculator {
             adviceFr = entry.adviceFr,
             pitfallFr = entry.pitfallFr,
             droughtTolerant = entry.droughtTolerance.isDroughtTolerant,
+            isCurated = true,
         )
 
         // 1 et 2 — base locale, espèce puis genre.
@@ -144,7 +147,7 @@ object WateringIntervalCalculator {
         baseIntervalDays = sheet.baseWateringIntervalDays,
         baseSourceFr = sheet.baseIntervalSourceFr.ifBlank { "fiche de l'espèce" },
         sunlightRaw = sheet.sunlightRaw,
-        droughtTolerant = sheet.droughtTolerant,
+        droughtTolerant = sheet.droughtTolerant.takeUnless { sheet.baseIsCurated },
         location = location,
         today = today,
         userOverrideDays = userOverrideDays,
@@ -165,7 +168,7 @@ object WateringIntervalCalculator {
         baseIntervalDays = sheet.baseWateringIntervalDays,
         baseSourceFr = sheet.baseIntervalSourceFr.ifBlank { "fiche de l'espèce" },
         sunlightRaw = sheet.sunlightRaw,
-        droughtTolerant = sheet.droughtTolerant,
+        droughtTolerant = sheet.droughtTolerant.takeUnless { sheet.baseIsCurated },
         location = PlantLocation.INTERIEUR,
         today = null,
     )

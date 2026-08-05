@@ -140,6 +140,7 @@ class SpeciesCareService(
             baseWateringIntervalDays = base.days,
             baseIntervalSourceFr = base.sourceFr,
             hasWateringData = !base.isDefault,
+            baseIsCurated = base.isCurated,
             wateringAdviceFr = base.adviceFr ?: sheet.wateringAdviceFr,
             wateringPitfallFr = base.pitfallFr ?: sheet.wateringPitfallFr,
             droughtTolerant = sheet.droughtTolerant ?: base.droughtTolerant,

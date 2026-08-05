@@ -22,9 +22,23 @@ class ImagePreparer(private val context: Context) {
     companion object {
         const val MAX_EDGE_PX = 1600
         const val JPEG_QUALITY = 85
+
+        /**
+         * Réglage plus serré pour les photos de galerie.
+         *
+         * Elles ne partent pas à l'identification et ne sont regardées qu'à l'écran : 1 200 px
+         * suffisent largement, et cinq photos par plante pèsent alors moins qu'une seule à pleine
+         * définition. Garder plus n'apporterait rien de visible et gonflerait les sauvegardes.
+         */
+        const val GALLERY_MAX_EDGE_PX = 1200
+        const val GALLERY_JPEG_QUALITY = 78
     }
 
-    suspend fun prepare(uri: Uri): ByteArray? = withContext(Dispatchers.IO) {
+    suspend fun prepare(
+        uri: Uri,
+        maxEdgePx: Int = MAX_EDGE_PX,
+        quality: Int = JPEG_QUALITY,
+    ): ByteArray? = withContext(Dispatchers.IO) {
         // Passe de mesure. `decodeStream` rend délibérément `null` lorsque `inJustDecodeBounds`
         // est actif : il ne renseigne que outWidth/outHeight. Le succès se lit donc sur ces
         // dimensions, jamais sur la valeur retournée.
@@ -39,17 +53,17 @@ class ImagePreparer(private val context: Context) {
         }
 
         val options = BitmapFactory.Options().apply {
-            inSampleSize = sampleSizeFor(bounds.outWidth, bounds.outHeight)
+            inSampleSize = sampleSizeFor(bounds.outWidth, bounds.outHeight, maxEdgePx)
         }
         val decoded = context.contentResolver.openInputStream(uri)?.use {
             BitmapFactory.decodeStream(it, null, options)
         } ?: return@withContext null
 
         val oriented = applyExifRotation(uri, decoded)
-        val scaled = scaleDown(oriented)
+        val scaled = scaleDown(oriented, maxEdgePx)
 
         val bytes = ByteArrayOutputStream().use { out ->
-            scaled.compress(Bitmap.CompressFormat.JPEG, JPEG_QUALITY, out)
+            scaled.compress(Bitmap.CompressFormat.JPEG, quality, out)
             out.toByteArray()
         }
 
@@ -63,21 +77,21 @@ class ImagePreparer(private val context: Context) {
     }
 
     /** Puissance de deux permettant de décoder sans dépasser inutilement la taille cible. */
-    private fun sampleSizeFor(width: Int, height: Int): Int {
+    private fun sampleSizeFor(width: Int, height: Int, maxEdgePx: Int): Int {
         var sample = 1
         var longestEdge = maxOf(width, height)
-        while (longestEdge / 2 >= MAX_EDGE_PX) {
+        while (longestEdge / 2 >= maxEdgePx) {
             longestEdge /= 2
             sample *= 2
         }
         return sample
     }
 
-    private fun scaleDown(bitmap: Bitmap): Bitmap {
+    private fun scaleDown(bitmap: Bitmap, maxEdgePx: Int): Bitmap {
         val longest = maxOf(bitmap.width, bitmap.height)
-        if (longest <= MAX_EDGE_PX) return bitmap
+        if (longest <= maxEdgePx) return bitmap
 
-        val ratio = MAX_EDGE_PX.toFloat() / longest
+        val ratio = maxEdgePx.toFloat() / longest
         return Bitmap.createScaledBitmap(
             bitmap,
             (bitmap.width * ratio).toInt().coerceAtLeast(1),

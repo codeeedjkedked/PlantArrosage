@@ -18,6 +18,7 @@ data class PlantDetailUiState(
     val loading: Boolean = true,
     val plant: PlantWithSchedule? = null,
     val careSheet: CareSheet? = null,
+    val photos: List<String> = emptyList(),
     val history: List<WateringEventEntity> = emptyList(),
     val deleted: Boolean = false,
 )
@@ -41,6 +42,7 @@ class PlantDetailViewModel(
                 // vraie provenance du chiffre plutôt qu'un libellé générique.
                 plant = repository.scheduleFor(entity, sheet),
                 careSheet = sheet,
+                photos = repository.photosOf(entity),
                 history = history,
             )
         }

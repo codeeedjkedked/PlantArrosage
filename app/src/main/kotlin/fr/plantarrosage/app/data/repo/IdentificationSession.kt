@@ -18,8 +18,18 @@ class IdentificationSession {
     private val _result = MutableStateFlow<IdentificationResult?>(null)
     val result: StateFlow<IdentificationResult?> = _result.asStateFlow()
 
-    /** Photo retenue pour la plante, déjà préparée. */
+    /** Photo de couverture, déjà préparée en pleine qualité. */
     var photoBytes: ByteArray? = null
+        private set
+
+    /**
+     * Toutes les photos préparées, couverture comprise, prêtes à être enregistrées avec la plante.
+     *
+     * On les prépare dès l'identification et non au moment de l'enregistrement : les URI de
+     * capture pointent vers le cache, que le système peut vider à tout moment entre les deux
+     * écrans.
+     */
+    var galleryBytes: List<ByteArray> = emptyList()
         private set
 
     /**
@@ -30,9 +40,15 @@ class IdentificationSession {
     var userPhotoUris: List<String> = emptyList()
         private set
 
-    fun store(result: IdentificationResult, photoBytes: ByteArray?, userPhotoUris: List<String>) {
+    fun store(
+        result: IdentificationResult,
+        photoBytes: ByteArray?,
+        galleryBytes: List<ByteArray>,
+        userPhotoUris: List<String>,
+    ) {
         _result.value = result
         this.photoBytes = photoBytes
+        this.galleryBytes = galleryBytes
         this.userPhotoUris = userPhotoUris
     }
 
@@ -42,6 +58,7 @@ class IdentificationSession {
     fun clear() {
         _result.value = null
         photoBytes = null
+        galleryBytes = emptyList()
         userPhotoUris = emptyList()
     }
 }

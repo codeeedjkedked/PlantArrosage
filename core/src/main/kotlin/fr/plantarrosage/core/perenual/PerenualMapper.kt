@@ -60,6 +60,7 @@ object PerenualMapper {
             baseWateringIntervalDays = base.days,
             baseIntervalSourceFr = base.sourceFr,
             hasWateringData = !base.isDefault,
+            baseIsCurated = base.isCurated,
             wateringAdviceFr = base.adviceFr,
             wateringPitfallFr = base.pitfallFr,
             sunlightRaw = entry.sunlight.sanitized(),
@@ -106,6 +107,7 @@ object PerenualMapper {
             baseWateringIntervalDays = base.days,
             baseIntervalSourceFr = base.sourceFr,
             hasWateringData = !base.isDefault,
+            baseIsCurated = base.isCurated,
             wateringAdviceFr = base.adviceFr,
             wateringPitfallFr = base.pitfallFr,
 

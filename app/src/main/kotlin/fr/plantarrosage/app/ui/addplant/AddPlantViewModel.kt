@@ -126,6 +126,7 @@ class AddPlantViewModel(
                 careSheet = sheet,
                 // Une plante ajoutée manuellement n'a pas de photo d'identification.
                 photoBytes = if (current.isManual) null else session.photoBytes,
+                galleryBytes = if (current.isManual) emptyList() else session.galleryBytes,
                 location = current.location,
                 customIntervalDays = current.customIntervalDays,
                 wateredNow = current.wateredNow,

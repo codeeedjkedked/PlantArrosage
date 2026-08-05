@@ -6,6 +6,7 @@ import fr.plantarrosage.app.data.db.WateringEventDao
 import fr.plantarrosage.app.data.db.WateringEventEntity
 import fr.plantarrosage.app.data.media.PhotoStorage
 import fr.plantarrosage.app.data.prefs.SettingsRepository
+import fr.plantarrosage.core.backup.BackupPlant
 import fr.plantarrosage.core.care.NextWateringCalculator
 import fr.plantarrosage.core.care.WateringIntervalCalculator
 import fr.plantarrosage.core.matching.ScientificNameNormalizer
@@ -93,13 +94,19 @@ class MyPlantsRepository(
         nickname: String,
         careSheet: CareSheet,
         photoBytes: ByteArray?,
+        galleryBytes: List<ByteArray> = emptyList(),
         location: PlantLocation,
         customIntervalDays: Int?,
         wateredNow: Boolean,
         remindersEnabled: Boolean,
     ): Long {
         val now = clock.instant()
-        val photoUri = photoBytes?.let { photoStorage.persist(it) }
+
+        // La galerie contient déjà la couverture quand elle vient d'une identification ; on ne la
+        // persiste donc qu'une fois, et on retombe sur la seule couverture si la liste est vide.
+        val gallery = galleryBytes.ifEmpty { listOfNotNull(photoBytes) }
+        val photoUris = photoStorage.persistAll(gallery).map { it.toString() }
+        val photoUri = photoUris.firstOrNull()
         val reminderHour = settings.currentReminderHour()
 
         val plan = WateringIntervalCalculator.compute(
@@ -121,7 +128,8 @@ class MyPlantsRepository(
         val id = plantDao.insert(
             MyPlantEntity(
                 nickname = nickname.ifBlank { careSheet.commonNameFr ?: careSheet.scientificName },
-                photoUri = photoUri?.toString(),
+                photoUri = photoUri,
+                photoUrisJson = encodeStrings(photoUris),
                 scientificName = careSheet.scientificName,
                 normalizedBinomial = ScientificNameNormalizer
                     .normalize(careSheet.scientificName)?.binomial.orEmpty(),
@@ -242,8 +250,84 @@ class MyPlantsRepository(
 
     suspend fun delete(plantId: Long) {
         val entity = plantDao.findById(plantId) ?: return
-        photoStorage.delete(entity.photoUri)
+        photoStorage.deleteAll(photosOf(entity))
         plantDao.delete(entity) // les arrosages suivent par cascade
+    }
+
+    /**
+     * Photos d'une plante, couverture en tête.
+     *
+     * Le repli sur `photoUri` n'est pas décoratif : toutes les plantes enregistrées avant la
+     * migration ont une galerie vide et leur unique photo dans l'ancienne colonne.
+     */
+    fun photosOf(entity: MyPlantEntity): List<String> =
+        decodeStrings(entity.photoUrisJson).ifEmpty { listOfNotNull(entity.photoUri) }
+
+    /** Historique complet d'une plante, pour l'export. */
+    suspend fun historyOf(plantId: Long): List<WateringEventEntity> = eventDao.findForPlant(plantId)
+
+    /**
+     * Réinsère une plante venue d'une sauvegarde, avec son historique.
+     *
+     * La date de création d'origine est **conservée** : c'est elle qui, avec l'espèce, identifie
+     * la plante d'un appareil à l'autre et empêche un second import de la dupliquer. L'échéance,
+     * en revanche, est recalculée pour aujourd'hui — restaurer une échéance vieille de six mois
+     * déclencherait une avalanche de rappels en retard.
+     */
+    suspend fun restore(
+        plant: BackupPlant,
+        photoUris: List<String>,
+        events: List<WateringEventEntity>,
+    ): Long {
+        val location = plant.location.toLocation()
+        val lastWateredAt = plant.lastWateredAtEpochMillis
+            ?: events.maxOfOrNull { it.wateredAt }
+
+        val sheet = decodeCareSheet(plant.careJson)
+        val intervalDays = plant.customIntervalDays
+            ?: sheet?.let {
+                WateringIntervalCalculator.compute(
+                    sheet = it,
+                    location = location,
+                    today = clock.instant().atZone(zone).toLocalDate(),
+                ).effectiveIntervalDays
+            }
+            ?: plant.baseIntervalDays
+
+        val nextDueAt = NextWateringCalculator.nextDue(
+            lastWateredAt = lastWateredAt?.let(Instant::ofEpochMilli),
+            createdAt = clock.instant(),
+            intervalDays = intervalDays,
+            reminderHour = settings.currentReminderHour(),
+            zone = zone,
+        )
+
+        val id = plantDao.insert(
+            MyPlantEntity(
+                nickname = plant.nickname,
+                photoUri = photoUris.firstOrNull(),
+                photoUrisJson = encodeStrings(photoUris),
+                scientificName = plant.scientificName,
+                normalizedBinomial = plant.normalizedBinomial,
+                commonNameFr = plant.commonNameFr,
+                family = plant.family,
+                perenualId = plant.perenualId,
+                careJson = plant.careJson,
+                location = location.name,
+                baseIntervalDays = plant.baseIntervalDays,
+                customIntervalDays = plant.customIntervalDays,
+                sunlightRawJson = plant.sunlightRawJson,
+                droughtTolerant = plant.droughtTolerant,
+                lastWateredAt = lastWateredAt,
+                nextDueAt = nextDueAt.toEpochMilli(),
+                remindersEnabled = plant.remindersEnabled,
+                notes = plant.notes,
+                createdAt = plant.createdAtEpochMillis,
+            )
+        )
+
+        events.forEach { eventDao.insert(it.copy(id = 0, plantId = id)) }
+        return id
     }
 
     /** Plantes dont l'échéance est atteinte, pour le worker de rappel. */
@@ -329,10 +413,14 @@ class MyPlantsRepository(
         runCatching { HttpClientFactory.json.decodeFromString(CareSheet.serializer(), it) }.getOrNull()
     }
 
-    private fun encodeSunlight(values: List<String>): String =
+    private fun encodeSunlight(values: List<String>): String = encodeStrings(values)
+
+    private fun decodeSunlight(json: String?): List<String> = decodeStrings(json)
+
+    private fun encodeStrings(values: List<String>): String =
         HttpClientFactory.json.encodeToString(ListSerializer(String.serializer()), values)
 
-    private fun decodeSunlight(json: String?): List<String> = json?.let {
+    private fun decodeStrings(json: String?): List<String> = json?.let {
         runCatching {
             HttpClientFactory.json.decodeFromString(ListSerializer(String.serializer()), it)
         }.getOrNull()

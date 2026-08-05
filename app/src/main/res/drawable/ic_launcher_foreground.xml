@@ -1,18 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Feuille et goutte d'eau : les deux idées de l'application. -->
+<!--
+  Feuille nervurée et goutte d'eau : les deux idées de l'application.
+  Tout le dessin tient dans le disque central de 66 dp, la seule zone qu'un lanceur ne rogne
+  jamais, quelle que soit la forme de masque qu'il applique.
+-->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
 
-    <!-- Feuille -->
+    <!-- Limbe -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M54,28 C68,28 78,38 78,52 C78,66 68,78 54,78 C48,78 43,76 39,72 L54,52 L36,66 C34,62 33,57 33,52 C33,38 42,28 54,28 Z" />
+        android:pathData="M78,30 C78,58 58,78 34,74 C30,50 50,30 78,30 Z" />
 
-    <!-- Goutte -->
+    <!-- Nervure principale -->
     <path
-        android:fillColor="#A8D5B5"
-        android:pathData="M54,58 C58,64 61,68 61,72 C61,76 58,79 54,79 C50,79 47,76 47,72 C47,68 50,64 54,58 Z" />
+        android:strokeColor="#2F6B41"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M37,71 L74,34" />
+
+    <!-- Nervures secondaires -->
+    <path
+        android:strokeColor="#2F6B41"
+        android:strokeWidth="2.2"
+        android:strokeLineCap="round"
+        android:pathData="M46,62 L44,48 M46,62 L60,60 M57,51 L55,39 M57,51 L69,49" />
+
+    <!-- Goutte, posée sur le bord du limbe -->
+    <path
+        android:fillColor="#B4F1C2"
+        android:pathData="M68,55 C74,65 78,71 78,76 C78,81 73,85 68,85 C63,85 58,81 58,76 C58,71 62,65 68,55 Z" />
+
+    <!-- Reflet -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M64,77 C64,73 65,70 67,67 C66,71 66,74 66,77 C66,80 67,82 69,83 C66,83 64,80 64,77 Z" />
 </vector>

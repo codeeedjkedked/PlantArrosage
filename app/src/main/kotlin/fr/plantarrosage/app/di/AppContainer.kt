@@ -7,6 +7,7 @@ import fr.plantarrosage.app.data.db.AppDatabase
 import fr.plantarrosage.app.data.media.ImagePreparer
 import fr.plantarrosage.app.data.media.PhotoStorage
 import fr.plantarrosage.app.data.prefs.SettingsRepository
+import fr.plantarrosage.app.data.repo.BackupRepository
 import fr.plantarrosage.app.data.repo.IdentificationRepository
 import fr.plantarrosage.app.data.repo.IdentificationSession
 import fr.plantarrosage.app.data.repo.MyPlantsRepository
@@ -87,6 +88,16 @@ class AppContainer(context: Context) {
             eventDao = database.wateringEventDao(),
             settings = settings,
             photoStorage = photoStorage,
+            clock = clock,
+        )
+    }
+
+    val backupRepository: BackupRepository by lazy {
+        BackupRepository(
+            context = appContext,
+            plants = myPlantsRepository,
+            photoStorage = photoStorage,
+            settings = settings,
             clock = clock,
         )
     }

@@ -5,16 +5,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Grass
+import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.filled.Opacity
+import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material.icons.filled.WaterDrop
+import androidx.compose.material.icons.filled.WbSunny
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -38,17 +41,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
 import fr.plantarrosage.app.R
 import fr.plantarrosage.app.ui.common.CareRow
 import fr.plantarrosage.app.ui.common.LoadingState
+import fr.plantarrosage.app.ui.common.PhotoGallery
+import fr.plantarrosage.app.ui.common.SectionHeader
+import fr.plantarrosage.app.ui.theme.PlantTheme
 import fr.plantarrosage.core.care.FrenchLabels
 import fr.plantarrosage.core.care.NextWateringCalculator
 import fr.plantarrosage.core.model.PlantLocation
@@ -108,17 +111,7 @@ fun PlantDetailScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            entity.photoUri?.let { uri ->
-                AsyncImage(
-                    model = uri,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
-                        .clip(RoundedCornerShape(16.dp)),
-                )
-            }
+            PhotoGallery(photos = state.photos, contentDescription = entity.nickname)
 
             Column {
                 Text(
@@ -135,13 +128,20 @@ fun PlantDetailScreen(
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    Text(
-                        stringResource(R.string.detail_next_due),
-                        style = MaterialTheme.typography.labelLarge,
+                    SectionHeader(
+                        icon = Icons.Default.WaterDrop,
+                        title = stringResource(R.string.detail_next_due),
+                        container = MaterialTheme.colorScheme.secondaryContainer,
+                        content = MaterialTheme.colorScheme.onSecondaryContainer,
                     )
                     Text(
                         NextWateringCalculator.humanReadableFr(plant.daysUntilDue),
                         style = MaterialTheme.typography.headlineMedium,
+                        color = when {
+                            plant.isOverdue -> PlantTheme.watering.onOverdue
+                            plant.isDueToday -> PlantTheme.watering.onDueToday
+                            else -> MaterialTheme.colorScheme.onSurface
+                        },
                     )
                     Text(
                         entity.lastWateredAt?.let {
@@ -170,9 +170,9 @@ fun PlantDetailScreen(
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    Text(
-                        stringResource(R.string.detail_interval_edit_title),
-                        style = MaterialTheme.typography.titleMedium,
+                    SectionHeader(
+                        icon = Icons.Default.Tune,
+                        title = stringResource(R.string.detail_interval_edit_title),
                     )
                     Text(plant.plan.explanationFr(), style = MaterialTheme.typography.bodyMedium)
 
@@ -225,17 +225,22 @@ fun PlantDetailScreen(
                         modifier = Modifier.padding(16.dp),
                         verticalArrangement = Arrangement.spacedBy(6.dp),
                     ) {
-                        Text(
-                            stringResource(R.string.detail_care_summary),
-                            style = MaterialTheme.typography.titleMedium,
+                        SectionHeader(
+                            icon = Icons.Default.Grass,
+                            title = stringResource(R.string.detail_care_summary),
                         )
                         sheet.wateringFr?.let {
-                            CareRow(stringResource(R.string.species_section_watering), it)
+                            CareRow(
+                                stringResource(R.string.species_section_watering),
+                                it,
+                                icon = Icons.Default.Opacity,
+                            )
                         }
                         if (sheet.sunlightFr.isNotEmpty()) {
                             CareRow(
                                 stringResource(R.string.species_section_light),
                                 sheet.sunlightFr.joinToString(", "),
+                                icon = Icons.Default.WbSunny,
                             )
                         }
                         sheet.cycleFr?.let { CareRow(stringResource(R.string.species_cycle), it) }
@@ -264,9 +269,11 @@ fun PlantDetailScreen(
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(6.dp),
                 ) {
-                    Text(
-                        stringResource(R.string.detail_history),
-                        style = MaterialTheme.typography.titleMedium,
+                    SectionHeader(
+                        icon = Icons.Default.History,
+                        title = stringResource(R.string.detail_history),
+                        container = MaterialTheme.colorScheme.surfaceVariant,
+                        content = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     if (state.history.isEmpty()) {
                         Text(

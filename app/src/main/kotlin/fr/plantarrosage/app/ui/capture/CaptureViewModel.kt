@@ -93,11 +93,25 @@ class CaptureViewModel(
         viewModelScope.launch {
             when (val outcome = identificationRepository.identify(photos)) {
                 is Outcome.Success -> {
-                    // La première photo devient l'illustration de la plante si elle est enregistrée.
+                    // La première photo devient l'illustration de la plante ; les suivantes sont
+                    // conservées en galerie, dans une définition plus modeste puisqu'elles ne
+                    // servent qu'à être regardées.
                     val photoBytes = imagePreparer.prepare(photos.first().uri)
+                    val gallery = buildList {
+                        photoBytes?.let(::add)
+                        photos.drop(1).forEach { photo ->
+                            imagePreparer.prepare(
+                                uri = photo.uri,
+                                maxEdgePx = ImagePreparer.GALLERY_MAX_EDGE_PX,
+                                quality = ImagePreparer.GALLERY_JPEG_QUALITY,
+                            )?.let(::add)
+                        }
+                    }
+
                     session.store(
                         result = outcome.value,
                         photoBytes = photoBytes,
+                        galleryBytes = gallery,
                         userPhotoUris = photos.map { it.uri.toString() },
                     )
                     _state.update {

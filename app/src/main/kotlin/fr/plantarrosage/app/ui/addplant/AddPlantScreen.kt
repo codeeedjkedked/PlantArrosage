@@ -37,6 +37,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import fr.plantarrosage.app.R
 import fr.plantarrosage.app.ui.common.InfoBanner
 import fr.plantarrosage.app.ui.common.LoadingState
+import fr.plantarrosage.app.ui.common.SwitchRow
 import fr.plantarrosage.core.model.PlantLocation
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -179,17 +180,5 @@ fun AddPlantScreen(
                 Text(stringResource(R.string.add_confirm))
             }
         }
-    }
-}
-
-@Composable
-private fun SwitchRow(label: String, checked: Boolean, onCheckedChange: (Boolean) -> Unit) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(label, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
-        Switch(checked = checked, onCheckedChange = onCheckedChange)
     }
 }

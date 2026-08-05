@@ -42,6 +42,15 @@ data class CareSheet(
      * comme une donnée.
      */
     val hasWateringData: Boolean = true,
+    /**
+     * Vrai quand [baseWateringIntervalDays] vient de la base locale curée.
+     *
+     * Ce n'est pas une simple provenance : une valeur curée intègre **déjà** les traits de
+     * l'espèce, tolérance à la sécheresse comprise. Leur réappliquer le facteur correspondant
+     * allongerait l'intervalle une seconde fois — un aloès passerait de quatorze jours en été à
+     * dix-neuf, bien au-delà de ce que recommandent les sources horticoles.
+     */
+    val baseIsCurated: Boolean = false,
     /** Conseil d'arrosage rédigé, issu de la base locale. */
     val wateringAdviceFr: String? = null,
     /** Erreur classique sur cette plante, quand elle vaut d'être signalée. */

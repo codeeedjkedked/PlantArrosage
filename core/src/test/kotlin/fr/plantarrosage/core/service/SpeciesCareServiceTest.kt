@@ -1,5 +1,6 @@
 package fr.plantarrosage.core.service
 
+import fr.plantarrosage.core.care.WateringIntervalCalculator
 import fr.plantarrosage.core.model.AppError
 import fr.plantarrosage.core.model.CareSheet
 import fr.plantarrosage.core.model.DetailLevel
@@ -470,7 +471,26 @@ class SpeciesCareServiceTest {
         val jSansevieria = service(fullEngine()).careSheetFor(sansevieria).sheet.baseWateringIntervalDays
         val jCalathea = service(fullEngine()).careSheetFor(calathea).sheet.baseWateringIntervalDays
 
-        assertTrue(jSansevieria > jCalathea * 3, "$jSansevieria contre $jCalathea")
+        // Le rapport compte moins que l'écart absolu : deux semaines séparent le geste à faire.
+        assertTrue(jSansevieria >= jCalathea * 2, "$jSansevieria contre $jCalathea")
+        assertTrue(jSansevieria - jCalathea >= 10, "écart de ${jSansevieria - jCalathea} jours")
+    }
+
+    @Test
+    fun `une base curée ne subit pas deux fois le bonus de sécheresse`() = runTest {
+        // La valeur curée intègre déjà la tolérance à la sécheresse. Lui réappliquer le facteur
+        // de 1,3 allongeait l'intervalle d'un aloès bien au-delà des sources horticoles.
+        val aloes = monstera.copy(scientificName = "Aloe vera")
+
+        val sheet = service(fullEngine()).careSheetFor(aloes).sheet
+        val typique = WateringIntervalCalculator.speciesTypical(sheet)
+
+        assertTrue(sheet.baseIsCurated, "la base devrait venir du fichier curé")
+        assertEquals(
+            sheet.baseWateringIntervalDays,
+            typique.effectiveIntervalDays,
+            "aucun facteur ne doit s'appliquer à une base déjà curée",
+        )
     }
 
     private fun sheet(detailLevel: DetailLevel, quality: MatchQuality) = CareSheet(

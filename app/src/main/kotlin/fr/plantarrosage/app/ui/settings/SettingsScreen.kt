@@ -3,6 +3,8 @@ package fr.plantarrosage.app.ui.settings
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,18 +15,22 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.Upload
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -33,6 +39,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -41,7 +48,9 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import fr.plantarrosage.app.R
+import fr.plantarrosage.app.ui.common.BannerTone
 import fr.plantarrosage.app.ui.common.InfoBanner
+import fr.plantarrosage.app.ui.common.SwitchRow
 import fr.plantarrosage.app.work.NotificationHelper
 import fr.plantarrosage.core.model.PlantNetProject
 import fr.plantarrosage.core.model.PlantOrgan
@@ -200,6 +209,16 @@ fun SettingsScreen(
                 )
             }
 
+            // ---------- Sauvegarde ----------
+            BackupSection(
+                state = state,
+                onExport = viewModel::export,
+                onImport = viewModel::import,
+                onIncludeKeysChange = viewModel::setIncludeKeysInBackup,
+                onRestoreSettingsChange = viewModel::setRestoreSettingsOnImport,
+                suggestedFileName = viewModel::suggestedBackupFileName,
+            )
+
             // ---------- Cache ----------
             Section(stringResource(R.string.settings_section_cache)) {
                 Text(
@@ -223,6 +242,115 @@ fun SettingsScreen(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
+        }
+    }
+}
+
+/**
+ * Sauvegarde et restauration.
+ *
+ * Les deux boutons passent par le sélecteur de documents du système : l'utilisateur choisit
+ * lui-même où écrire et quoi relire, ce qui évite toute permission de stockage et fait de
+ * l'archive un fichier ordinaire, qu'il peut copier sur un ordinateur ou dans son nuage.
+ */
+@Composable
+private fun BackupSection(
+    state: SettingsUiState,
+    onExport: (Uri) -> Unit,
+    onImport: (Uri) -> Unit,
+    onIncludeKeysChange: (Boolean) -> Unit,
+    onRestoreSettingsChange: (Boolean) -> Unit,
+    suggestedFileName: () -> String,
+) {
+    val exportLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.CreateDocument("application/zip")
+    ) { uri -> uri?.let(onExport) }
+
+    val importLauncher = rememberLauncherForActivityResult(
+        // Certains gestionnaires de fichiers déclarent les ZIP en octet-stream : n'accepter que
+        // « application/zip » rendrait l'archive ingrisable dans le sélecteur.
+        ActivityResultContracts.OpenDocument()
+    ) { uri -> uri?.let(onImport) }
+
+    Section(stringResource(R.string.settings_section_backup)) {
+        Text(
+            stringResource(R.string.settings_backup_help),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+
+        SwitchRow(
+            label = stringResource(R.string.settings_backup_include_keys),
+            checked = state.includeKeysInBackup,
+            onCheckedChange = onIncludeKeysChange,
+            style = MaterialTheme.typography.bodyMedium,
+        )
+        if (state.includeKeysInBackup) {
+            InfoBanner(
+                text = stringResource(R.string.settings_backup_keys_warning),
+                tone = BannerTone.WARNING,
+            )
+        }
+
+        SwitchRow(
+            label = stringResource(R.string.settings_backup_restore_settings),
+            checked = state.restoreSettingsOnImport,
+            onCheckedChange = onRestoreSettingsChange,
+            style = MaterialTheme.typography.bodyMedium,
+        )
+
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            OutlinedButton(
+                onClick = { exportLauncher.launch(suggestedFileName()) },
+                enabled = !state.backupBusy,
+            ) {
+                Icon(Icons.Default.Upload, contentDescription = null)
+                Text(
+                    stringResource(R.string.settings_backup_export),
+                    modifier = Modifier.padding(start = 6.dp),
+                )
+            }
+            OutlinedButton(
+                onClick = { importLauncher.launch(arrayOf("application/zip", "application/octet-stream")) },
+                enabled = !state.backupBusy,
+            ) {
+                Icon(Icons.Default.Download, contentDescription = null)
+                Text(
+                    stringResource(R.string.settings_backup_import),
+                    modifier = Modifier.padding(start = 6.dp),
+                )
+            }
+        }
+
+        if (state.backupBusy) {
+            LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+        }
+
+        when (val result = state.backupResult) {
+            is BackupResult.Exported -> InfoBanner(
+                text = stringResource(
+                    R.string.settings_backup_exported,
+                    result.summary.plantCount,
+                    result.summary.photoCount,
+                    result.summary.sizeBytes / 1024,
+                ),
+            )
+
+            is BackupResult.Imported -> InfoBanner(
+                text = stringResource(
+                    R.string.settings_backup_imported,
+                    result.summary.addedCount,
+                    result.summary.photoCount,
+                    result.summary.alreadyPresent,
+                ),
+            )
+
+            is BackupResult.Failed -> InfoBanner(
+                text = result.error.messageFr,
+                tone = BannerTone.WARNING,
+            )
+
+            null -> Unit
         }
     }
 }

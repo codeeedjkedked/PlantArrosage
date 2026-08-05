@@ -31,8 +31,8 @@ android {
         applicationId = "fr.plantarrosage.app"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 5
+        versionName = "1.3.0"
 
         buildConfigField("String", "PLANTNET_API_KEY", "\"${apiKey("PLANTNET_API_KEY")}\"")
         buildConfigField("String", "PERENUAL_API_KEY", "\"${apiKey("PERENUAL_API_KEY")}\"")

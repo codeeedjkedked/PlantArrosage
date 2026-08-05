@@ -39,6 +39,15 @@ class SpeciesSheetViewModel(
     private val _state = MutableStateFlow(SpeciesUiState())
     val state: StateFlow<SpeciesUiState> = _state.asStateFlow()
 
+    /**
+     * Les photos que l'utilisateur vient de prendre, vides lors d'une recherche par nom.
+     *
+     * Les rappeler ici, sous la fiche, permet de confronter ce qu'on lit à ce qu'on a devant soi
+     * sans revenir en arrière — c'est le moment où l'on décide si l'identification tient.
+     */
+    val userPhotos: List<String>
+        get() = if (candidateIndex >= 0) session.userPhotoUris else emptyList()
+
     init {
         load()
     }

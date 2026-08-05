@@ -39,12 +39,40 @@ class PhotoStorage(private val context: Context) {
         FileProvider.getUriForFile(context, authority, file)
     }
 
+    /** Variante pour une galerie entière, dans l'ordre reçu. */
+    suspend fun persistAll(photos: List<ByteArray>): List<Uri> = photos.map { persist(it) }
+
     /** Supprime la photo d'une plante effacée. Une URI inconnue est ignorée sans bruit. */
     suspend fun delete(uriString: String?) = withContext(Dispatchers.IO) {
         if (uriString.isNullOrBlank()) return@withContext
         val name = Uri.parse(uriString).lastPathSegment ?: return@withContext
         File(photoDir, name).takeIf { it.exists() }?.delete()
         Unit
+    }
+
+    /** Supprime tout un lot. Les doublons sont sans effet, `delete` étant idempotent. */
+    suspend fun deleteAll(uriStrings: Collection<String?>) = uriStrings.forEach { delete(it) }
+
+    /**
+     * Écrit des octets déjà nommés, tels qu'ils sortent d'une archive de sauvegarde.
+     *
+     * L'import doit retrouver exactement les noms de fichiers cités par le JSON, sinon les URI
+     * restaurées pointeraient dans le vide. C'est la seule raison pour laquelle ce point d'entrée
+     * accepte un nom au lieu d'en tirer un au sort.
+     */
+    suspend fun restore(fileName: String, bytes: ByteArray): Uri = withContext(Dispatchers.IO) {
+        val safeName = File(fileName).name
+        val file = File(photoDir, safeName)
+        file.writeBytes(bytes)
+        FileProvider.getUriForFile(context, authority, file)
+    }
+
+    /** Lit une photo enregistrée, pour l'ajouter à une archive. */
+    suspend fun read(uriString: String?): Pair<String, ByteArray>? = withContext(Dispatchers.IO) {
+        if (uriString.isNullOrBlank()) return@withContext null
+        val name = Uri.parse(uriString).lastPathSegment ?: return@withContext null
+        val file = File(photoDir, name).takeIf { it.exists() } ?: return@withContext null
+        name to file.readBytes()
     }
 
     /** Vide les captures temporaires, appelé au démarrage. */

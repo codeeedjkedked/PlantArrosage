@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ic_launcher_background">#2E6B3E</color>
+    <!-- Vert feuille du thème : le logo et l'écran de démarrage parlent la même langue. -->
+    <color name="ic_launcher_background">#2F6B41</color>
 </resources>

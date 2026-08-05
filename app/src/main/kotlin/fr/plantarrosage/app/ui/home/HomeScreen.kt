@@ -1,22 +1,31 @@
 package fr.plantarrosage.app.ui.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.LocalFlorist
 import androidx.compose.material.icons.filled.PhotoCamera
+import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.WaterDrop
@@ -40,6 +49,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -48,6 +59,7 @@ import coil.compose.AsyncImage
 import fr.plantarrosage.app.R
 import fr.plantarrosage.app.data.repo.PlantWithSchedule
 import fr.plantarrosage.app.ui.common.EmptyState
+import fr.plantarrosage.app.ui.theme.PlantTheme
 import fr.plantarrosage.core.care.NextWateringCalculator
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -111,9 +123,18 @@ fun HomeScreen(
         ) {
             // Les plantes en retard ou dues aujourd'hui viennent en tête : c'est la seule
             // information qui justifie d'ouvrir l'application un matin donné.
-            plantSection(titleToday, state.dueToday, waterLabel, onOpenPlant, viewModel::recordWatering)
-            plantSection(titleSoon, state.soon, waterLabel, onOpenPlant, viewModel::recordWatering)
-            plantSection(titleAll, state.later, waterLabel, onOpenPlant, viewModel::recordWatering)
+            plantSection(
+                titleToday, Icons.Default.WaterDrop, state.dueToday,
+                waterLabel, onOpenPlant, viewModel::recordWatering,
+            )
+            plantSection(
+                titleSoon, Icons.Default.Schedule, state.soon,
+                waterLabel, onOpenPlant, viewModel::recordWatering,
+            )
+            plantSection(
+                titleAll, Icons.Default.LocalFlorist, state.later,
+                waterLabel, onOpenPlant, viewModel::recordWatering,
+            )
         }
     }
 
@@ -146,18 +167,24 @@ private fun AddPlantSheet(
                 icon = Icons.Default.PhotoCamera,
                 title = stringResource(R.string.home_add_by_photo),
                 subtitle = stringResource(R.string.home_add_by_photo_help),
+                container = MaterialTheme.colorScheme.primaryContainer,
+                content = MaterialTheme.colorScheme.onPrimaryContainer,
                 onClick = { onDismiss(); onIdentify() },
             )
             AddOption(
                 icon = Icons.Default.Search,
                 title = stringResource(R.string.home_add_by_search),
                 subtitle = stringResource(R.string.home_add_by_search_help),
+                container = MaterialTheme.colorScheme.tertiaryContainer,
+                content = MaterialTheme.colorScheme.onTertiaryContainer,
                 onClick = { onDismiss(); onSearchSpecies() },
             )
             AddOption(
                 icon = Icons.Default.Edit,
                 title = stringResource(R.string.home_add_manually),
                 subtitle = stringResource(R.string.home_add_manually_help),
+                container = MaterialTheme.colorScheme.secondaryContainer,
+                content = MaterialTheme.colorScheme.onSecondaryContainer,
                 onClick = { onDismiss(); onAddManually() },
             )
         }
@@ -166,9 +193,11 @@ private fun AddPlantSheet(
 
 @Composable
 private fun AddOption(
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    icon: ImageVector,
     title: String,
     subtitle: String,
+    container: Color,
+    content: Color,
     onClick: () -> Unit,
 ) {
     Row(
@@ -179,7 +208,14 @@ private fun AddOption(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Icon(icon, contentDescription = null)
+        Box(
+            modifier = Modifier
+                .size(40.dp)
+                .background(container, CircleShape),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(icon, contentDescription = null, tint = content, modifier = Modifier.size(22.dp))
+        }
         Column {
             Text(title, style = MaterialTheme.typography.bodyLarge)
             Text(
@@ -193,6 +229,7 @@ private fun AddOption(
 
 private fun LazyListScope.plantSection(
     title: String,
+    icon: ImageVector,
     plants: List<PlantWithSchedule>,
     waterLabel: String,
     onOpenPlant: (Long) -> Unit,
@@ -201,11 +238,19 @@ private fun LazyListScope.plantSection(
     if (plants.isEmpty()) return
 
     item(key = "header-$title") {
-        Text(
-            title,
-            style = MaterialTheme.typography.titleMedium,
+        Row(
             modifier = Modifier.padding(top = 16.dp, bottom = 4.dp),
-        )
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                icon,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(18.dp),
+            )
+            Text(title, style = MaterialTheme.typography.titleMedium)
+        }
     }
     items(plants, key = { it.entity.id }) { plant ->
         PlantCard(
@@ -224,49 +269,107 @@ private fun PlantCard(
     onOpen: () -> Unit,
     onWater: () -> Unit,
 ) {
-    val colors = if (plant.isOverdue) {
-        CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
-    } else {
-        CardDefaults.cardColors()
+    // Un liseré coloré sur la tranche gauche plutôt qu'un fond entier : la couleur reste lisible
+    // au premier coup d'œil sans écraser le texte ni la photo.
+    val watering = PlantTheme.watering
+    val (edge, badge, onBadge) = when {
+        plant.isOverdue -> Triple(watering.onOverdue, watering.overdue, watering.onOverdue)
+        plant.isDueToday -> Triple(watering.onDueToday, watering.dueToday, watering.onDueToday)
+        else -> Triple(Color.Transparent, watering.upcoming, watering.onUpcoming)
     }
 
     Card(
-        colors = colors,
+        colors = CardDefaults.cardColors(),
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onOpen),
     ) {
-        Row(
-            modifier = Modifier.padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            AsyncImage(
-                model = plant.entity.photoUri,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
+        Row(modifier = Modifier.height(IntrinsicSize.Min)) {
+            Box(
                 modifier = Modifier
-                    .size(56.dp)
-                    .clip(RoundedCornerShape(10.dp)),
+                    .width(6.dp)
+                    .fillMaxHeight()
+                    .background(edge),
             )
 
-            Column(modifier = Modifier.weight(1f)) {
-                Text(plant.entity.nickname, style = MaterialTheme.typography.titleMedium)
-                Text(
-                    plant.entity.commonNameFr ?: plant.entity.scientificName,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                Text(
-                    NextWateringCalculator.humanReadableFr(plant.daysUntilDue),
-                    style = MaterialTheme.typography.bodyMedium,
-                )
-            }
+            Row(
+                modifier = Modifier.padding(12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                PlantThumbnail(plant.entity.photoUri, plant.entity.nickname)
 
-            TextButton(onClick = onWater) {
-                Icon(Icons.Default.WaterDrop, contentDescription = null)
-                Text(waterLabel, modifier = Modifier.padding(start = 4.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(plant.entity.nickname, style = MaterialTheme.typography.titleMedium)
+                    Text(
+                        plant.entity.commonNameFr ?: plant.entity.scientificName,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    Row(
+                        modifier = Modifier
+                            .padding(top = 4.dp)
+                            .background(badge, RoundedCornerShape(8.dp))
+                            .padding(horizontal = 8.dp, vertical = 3.dp),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Icon(
+                            Icons.Default.Schedule,
+                            contentDescription = null,
+                            tint = onBadge,
+                            modifier = Modifier.size(14.dp),
+                        )
+                        Text(
+                            NextWateringCalculator.humanReadableFr(plant.daysUntilDue),
+                            style = MaterialTheme.typography.labelLarge,
+                            color = onBadge,
+                        )
+                    }
+                }
+
+                TextButton(onClick = onWater) {
+                    Icon(Icons.Default.WaterDrop, contentDescription = null)
+                    Text(waterLabel, modifier = Modifier.padding(start = 4.dp))
+                }
             }
         }
+    }
+}
+
+/**
+ * Vignette de la plante, avec un substitut dessiné quand aucune photo n'existe.
+ *
+ * Sans lui, une plante ajoutée à la main laissait un carré vide : la liste paraissait cassée
+ * alors que tout allait bien.
+ */
+@Composable
+private fun PlantThumbnail(photoUri: String?, nickname: String) {
+    val shape = RoundedCornerShape(10.dp)
+
+    if (photoUri != null) {
+        AsyncImage(
+            model = photoUri,
+            contentDescription = nickname,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(56.dp)
+                .clip(shape),
+        )
+        return
+    }
+
+    Box(
+        modifier = Modifier
+            .size(56.dp)
+            .background(PlantTheme.watering.leafTint, shape),
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            Icons.Default.LocalFlorist,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.size(28.dp),
+        )
     }
 }

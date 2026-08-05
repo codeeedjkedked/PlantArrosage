@@ -1,10 +1,15 @@
 package fr.plantarrosage.app.ui.settings
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import fr.plantarrosage.app.data.cache.RoomSpeciesCareCache
 import fr.plantarrosage.app.data.prefs.SettingsRepository
+import fr.plantarrosage.app.data.repo.BackupRepository
+import fr.plantarrosage.app.data.repo.ExportSummary
+import fr.plantarrosage.app.data.repo.ImportSummary
 import fr.plantarrosage.app.data.repo.MyPlantsRepository
+import fr.plantarrosage.core.model.AppError
 import fr.plantarrosage.core.model.PlantNetProject
 import fr.plantarrosage.core.model.PlantOrgan
 import fr.plantarrosage.core.perenual.PerenualClient
@@ -32,13 +37,30 @@ data class SettingsUiState(
     val perenualCallsToday: Int = 0,
     val perenualDailyLimit: Int = PerenualLimits.FREE_TIER_DAILY_REQUESTS,
     val cacheCleared: Boolean = false,
+    val backupBusy: Boolean = false,
+    val backupResult: BackupResult? = null,
+    val includeKeysInBackup: Boolean = true,
+    val restoreSettingsOnImport: Boolean = true,
 )
+
+/**
+ * Issue de la dernière sauvegarde ou restauration.
+ *
+ * Le modèle ne compose pas la phrase affichée : les chiffres restent bruts et c'est l'écran qui
+ * les met en français, comme partout ailleurs dans l'application.
+ */
+sealed interface BackupResult {
+    data class Exported(val summary: ExportSummary) : BackupResult
+    data class Imported(val summary: ImportSummary) : BackupResult
+    data class Failed(val error: AppError) : BackupResult
+}
 
 class SettingsViewModel(
     private val settings: SettingsRepository,
     private val perenualClient: PerenualClient,
     private val cache: RoomSpeciesCareCache,
     private val plantsRepository: MyPlantsRepository,
+    private val backupRepository: BackupRepository,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(
@@ -141,6 +163,54 @@ class SettingsViewModel(
 
     fun dismissCacheMessage() {
         _state.update { it.copy(cacheCleared = false) }
+    }
+
+    // ------------------------------------------------------ sauvegarde
+
+    fun suggestedBackupFileName(): String = backupRepository.suggestedFileName()
+
+    fun setIncludeKeysInBackup(include: Boolean) {
+        _state.update { it.copy(includeKeysInBackup = include) }
+    }
+
+    fun setRestoreSettingsOnImport(restore: Boolean) {
+        _state.update { it.copy(restoreSettingsOnImport = restore) }
+    }
+
+    fun export(target: Uri) {
+        _state.update { it.copy(backupBusy = true, backupResult = null) }
+        viewModelScope.launch {
+            val outcome = backupRepository.export(target, _state.value.includeKeysInBackup)
+            _state.update {
+                it.copy(
+                    backupBusy = false,
+                    backupResult = when (outcome) {
+                        is Outcome.Success -> BackupResult.Exported(outcome.value)
+                        is Outcome.Failure -> BackupResult.Failed(outcome.error)
+                    },
+                )
+            }
+        }
+    }
+
+    fun import(source: Uri) {
+        _state.update { it.copy(backupBusy = true, backupResult = null) }
+        viewModelScope.launch {
+            val outcome = backupRepository.import(source, _state.value.restoreSettingsOnImport)
+            _state.update {
+                it.copy(
+                    backupBusy = false,
+                    backupResult = when (outcome) {
+                        is Outcome.Success -> BackupResult.Imported(outcome.value)
+                        is Outcome.Failure -> BackupResult.Failed(outcome.error)
+                    },
+                )
+            }
+        }
+    }
+
+    fun dismissBackupResult() {
+        _state.update { it.copy(backupResult = null) }
     }
 
     private data class Quintuple(

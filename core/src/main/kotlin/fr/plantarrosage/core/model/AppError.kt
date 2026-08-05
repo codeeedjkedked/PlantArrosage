@@ -41,4 +41,21 @@ sealed class AppError(val messageFr: String) {
     /** La réponse a bien été reçue mais ne correspond pas au schéma attendu. */
     data class Parsing(val detail: String) :
         AppError("Réponse inattendue du service. Signalez-le si le problème persiste.")
+
+    /** Le fichier choisi à l'import n'est pas une sauvegarde exploitable. */
+    data class BackupUnreadable(val detail: String) :
+        AppError("Ce fichier n'est pas une sauvegarde PlantArrosage lisible.")
+
+    /**
+     * Sauvegarde écrite par une version plus récente de l'application.
+     *
+     * Le dire franchement plutôt que d'importer au petit bonheur : un format inconnu se lirait
+     * partiellement, et l'utilisateur croirait sa collection restaurée alors qu'il en manquerait
+     * des morceaux.
+     */
+    data class BackupTooRecent(val version: Int) :
+        AppError(
+            "Cette sauvegarde vient d'une version plus récente de l'application (format $version). " +
+                "Mettez à jour PlantArrosage avant de l'importer."
+        )
 }

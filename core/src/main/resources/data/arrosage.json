@@ -353,7 +353,7 @@
     {
       "cle": "calathea",
       "rang": "GENRE",
-      "intervalleJours": 4,
+      "intervalleJours": 7,
       "toleranceSecheresse": "FAIBLE",
       "conseilFr": "Substrat toujours légèrement humide, jamais détrempé. Eau non calcaire de préférence.",
       "pieges": "Bords des feuilles secs et enroulés : air trop sec ou eau trop calcaire, rarement un manque d'eau."
@@ -529,7 +529,7 @@
     {
       "cle": "ctenanthe",
       "rang": "GENRE",
-      "intervalleJours": 5,
+      "intervalleJours": 7,
       "toleranceSecheresse": "FAIBLE",
       "conseilFr": "Substrat frais en permanence, à l'abri du soleil direct."
     },
@@ -818,7 +818,7 @@
     {
       "cle": "goeppertia",
       "rang": "GENRE",
-      "intervalleJours": 4,
+      "intervalleJours": 7,
       "toleranceSecheresse": "FAIBLE",
       "conseilFr": "Nom actuel de nombreux calathéas : mêmes exigences, substrat frais et eau douce."
     },
@@ -1042,7 +1042,7 @@
     {
       "cle": "maranta",
       "rang": "GENRE",
-      "intervalleJours": 5,
+      "intervalleJours": 8,
       "toleranceSecheresse": "FAIBLE",
       "conseilFr": "Ne laissez jamais sécher complètement. Apprécie une forte humidité de l'air."
     },
@@ -1589,7 +1589,7 @@
     {
       "cle": "stromanthe",
       "rang": "GENRE",
-      "intervalleJours": 5,
+      "intervalleJours": 7,
       "toleranceSecheresse": "FAIBLE",
       "conseilFr": "Frais et humide, eau non calcaire."
     },

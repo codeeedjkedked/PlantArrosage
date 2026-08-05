@@ -80,6 +80,13 @@
     <string name="species_sources_help">Vérifiez l\'identification auprès des bases de référence.</string>
     <string name="species_add_to_collection">Ajouter à mes plantes</string>
 
+    <string name="species_section_your_photos">Vos photos</string>
+    <string name="species_your_photos_help">Comparez avec les clichés de référence avant de valider l\'identification.</string>
+
+    <!-- Étiquettes de traits, en haut de la fiche -->
+    <string name="trait_indoor">Intérieur</string>
+    <string name="trait_drought_tolerant">Résiste à la sécheresse</string>
+
     <!-- Bandeaux de qualité d'appariement -->
     <string name="banner_genus_approximation">Fiche basée sur une espèce voisine du genre %s. Les besoins réels peuvent différer.</string>
     <string name="banner_approximate_match">Rapprochement établi à partir du nom commun seulement. À vérifier.</string>
@@ -163,6 +170,17 @@
     <string name="settings_quota_plantnet">Pl@ntNet : %d identifications restantes</string>
     <string name="settings_quota_plantnet_unknown">Pl@ntNet : quota inconnu pour l\'instant</string>
     <string name="settings_quota_perenual">Perenual : %1$d requêtes utilisées sur %2$d aujourd\'hui</string>
+
+    <!-- Sauvegarde -->
+    <string name="settings_section_backup">Sauvegarde</string>
+    <string name="settings_backup_help">Exportez vos plantes, leurs photos et leur historique d\'arrosage dans un fichier .zip. Vous choisissez où l\'enregistrer, et vous pourrez le réimporter sur un autre téléphone.</string>
+    <string name="settings_backup_include_keys">Inclure les clés API</string>
+    <string name="settings_backup_keys_warning">Le fichier contiendra vos clés API : ne le partagez avec personne.</string>
+    <string name="settings_backup_restore_settings">Restaurer aussi les réglages à l\'import</string>
+    <string name="settings_backup_export">Exporter</string>
+    <string name="settings_backup_import">Importer</string>
+    <string name="settings_backup_exported">Sauvegarde écrite : %1$d plantes, %2$d photos, %3$d Ko.</string>
+    <string name="settings_backup_imported">Import terminé : %1$d plantes ajoutées, %2$d photos restaurées, %3$d déjà présentes.</string>
 
     <string name="settings_section_cache">Cache</string>
     <string name="settings_clear_cache">Vider le cache d\'espèces</string>

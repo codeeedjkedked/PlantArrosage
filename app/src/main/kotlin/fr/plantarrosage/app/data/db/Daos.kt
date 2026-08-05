@@ -52,6 +52,10 @@ interface WateringEventDao {
     @Query("SELECT * FROM watering_events WHERE id = :id")
     suspend fun findById(id: Long): WateringEventEntity?
 
+    /** Historique complet, sans plafond : l'export ne doit rien tronquer. */
+    @Query("SELECT * FROM watering_events WHERE plantId = :plantId ORDER BY wateredAt ASC")
+    suspend fun findForPlant(plantId: Long): List<WateringEventEntity>
+
     /** Dernier arrosage restant après une suppression, ou `null` s'il n'en reste aucun. */
     @Query("SELECT MAX(wateredAt) FROM watering_events WHERE plantId = :plantId")
     suspend fun lastWateredAt(plantId: Long): Long?
