@@ -4,6 +4,9 @@ import fr.plantarrosage.core.model.CareSheet
 import fr.plantarrosage.core.model.PlantLocation
 import fr.plantarrosage.core.model.WateringFactor
 import fr.plantarrosage.core.model.WateringPlan
+import fr.plantarrosage.core.water.WateringRank
+import fr.plantarrosage.core.water.WateringReference
+import fr.plantarrosage.core.water.WateringReferenceEntry
 import java.time.LocalDate
 import kotlin.math.roundToInt
 
@@ -37,6 +40,72 @@ object WateringIntervalCalculator {
     private const val DROUGHT_TOLERANT_MULTIPLIER = 1.3
     private const val FULL_SUN_MULTIPLIER = 0.9
     private const val FULL_SHADE_MULTIPLIER = 1.2
+
+    /**
+     * Base retenue pour une espèce, avec sa provenance.
+     *
+     * [isDefault] distingue une valeur réellement documentée d'un repli prudent. Sans ce drapeau,
+     * les deux s'affichaient à l'identique et l'utilisateur ne pouvait pas juger de ce qu'il lisait.
+     */
+    data class BaseInterval(
+        val days: Int,
+        val sourceFr: String,
+        val isDefault: Boolean,
+        val adviceFr: String? = null,
+        val pitfallFr: String? = null,
+        val droughtTolerant: Boolean? = null,
+    )
+
+    /**
+     * Arbitre entre la base locale et ce que Perenual veut bien fournir.
+     *
+     * Du plus spécifique au plus vague. La base locale par **genre** passe devant l'énumération
+     * Perenual : une valeur curée vaut mieux qu'une échelle à quatre crans dont « Average » couvre
+     * la majorité des plantes. Elle passe en revanche derrière le repère chiffré, qui est propre à
+     * l'espèce quand il existe — mais il est réservé à l'offre payante et arrive donc rarement.
+     */
+    fun resolveBase(
+        curated: WateringReferenceEntry?,
+        benchmarkValue: String?,
+        benchmarkUnit: String?,
+        wateringEnum: String?,
+    ): BaseInterval {
+        fun fromCurated(entry: WateringReferenceEntry) = BaseInterval(
+            days = entry.intervalDays.coerceIn(MIN_INTERVAL_DAYS, MAX_INTERVAL_DAYS),
+            sourceFr = WateringReference.attribution(entry),
+            isDefault = false,
+            adviceFr = entry.adviceFr,
+            pitfallFr = entry.pitfallFr,
+            droughtTolerant = entry.droughtTolerance.isDroughtTolerant,
+        )
+
+        // 1 et 2 — base locale, espèce puis genre.
+        if (curated != null && curated.rank in PRECISE_RANKS) return fromCurated(curated)
+
+        // 3 — repère chiffré Perenual.
+        BenchmarkParser.parse(benchmarkValue, benchmarkUnit)?.let { benchmark ->
+            return BaseInterval(benchmark.days, benchmark.labelFr, isDefault = false)
+        }
+
+        // 4 — énumération Perenual.
+        val key = wateringEnum?.lowercase()?.trim()
+        ENUM_FALLBACK_DAYS[key]?.let { days ->
+            val label = FrenchLabels.watering(wateringEnum)?.lowercase() ?: "arrosage $key"
+            return BaseInterval(days, "$label (Perenual)", isDefault = false)
+        }
+
+        // 5 — base locale, famille ou type.
+        if (curated != null) return fromCurated(curated)
+
+        // 6 — rien de connu : on le dit plutôt que d'inventer un chiffre.
+        return BaseInterval(
+            days = CareSheet.DEFAULT_INTERVAL_DAYS,
+            sourceFr = CareSheet.DEFAULT_INTERVAL_SOURCE,
+            isDefault = true,
+        )
+    }
+
+    private val PRECISE_RANKS = setOf(WateringRank.ESPECE, WateringRank.GENRE)
 
     /**
      * Calcule la base en jours, avant tout ajustement.

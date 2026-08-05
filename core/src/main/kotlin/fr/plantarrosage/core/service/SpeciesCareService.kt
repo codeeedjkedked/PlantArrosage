@@ -16,7 +16,9 @@ import fr.plantarrosage.core.perenual.PerenualLimits
 import fr.plantarrosage.core.perenual.PerenualMapper
 import fr.plantarrosage.core.port.CachedSpeciesCare
 import fr.plantarrosage.core.port.SpeciesCareCache
+import fr.plantarrosage.core.care.WateringIntervalCalculator
 import fr.plantarrosage.core.util.Outcome
+import fr.plantarrosage.core.water.WateringReference
 import java.time.Clock
 import java.time.Duration
 import kotlinx.coroutines.sync.Mutex
@@ -86,7 +88,7 @@ class SpeciesCareService(
 
     suspend fun careSheetFor(subject: SpeciesSubject): CareSheetResult {
         val normalized = ScientificNameNormalizer.normalize(subject.scientificName)
-            ?: return CareSheetResult(CareSheet.fallbackFrom(subject))
+            ?: return CareSheetResult(withLocalWatering(CareSheet.fallbackFrom(subject), subject))
 
         val lock = keyLocksGuard.withLock { keyLocks.getOrPut(normalized.binomial) { Mutex() } }
 
@@ -108,8 +110,39 @@ class SpeciesCareService(
         if (!isFresh(cached)) return null
 
         return CareSheetResult(
-            sheet = cached.careSheet ?: CareSheet.fallbackFrom(subject),
+            sheet = cached.careSheet ?: withLocalWatering(CareSheet.fallbackFrom(subject), subject),
             fromCache = true,
+        )
+    }
+
+    /**
+     * Complète une fiche avec la base d'arrosage locale.
+     *
+     * Appliqué même aux fiches de repli : une espèce inconnue de Perenual peut parfaitement être
+     * documentée chez nous, et c'est tout l'intérêt d'une source qui ne dépend pas du réseau.
+     */
+    private fun withLocalWatering(sheet: CareSheet, subject: SpeciesSubject): CareSheet {
+        val normalized = ScientificNameNormalizer.normalize(sheet.scientificName)
+        val curated = WateringReference.lookup(
+            name = normalized,
+            family = sheet.family ?: subject.family,
+            typeHint = if (sheet.droughtTolerant == true) "succulente" else null,
+        ) ?: return sheet
+
+        val base = WateringIntervalCalculator.resolveBase(
+            curated = curated,
+            benchmarkValue = null,
+            benchmarkUnit = null,
+            wateringEnum = sheet.wateringRaw,
+        )
+
+        return sheet.copy(
+            baseWateringIntervalDays = base.days,
+            baseIntervalSourceFr = base.sourceFr,
+            hasWateringData = !base.isDefault,
+            wateringAdviceFr = base.adviceFr ?: sheet.wateringAdviceFr,
+            wateringPitfallFr = base.pitfallFr ?: sheet.wateringPitfallFr,
+            droughtTolerant = sheet.droughtTolerant ?: base.droughtTolerant,
         )
     }
 
@@ -178,7 +211,7 @@ class SpeciesCareService(
         // 3. Aucune correspondance : on mémorise l'absence et on rend une fiche de repli.
         if (match == null) {
             store(normalized, null, MatchQuality.NONE)
-            return CareSheetResult(sheet = CareSheet.fallbackFrom(subject))
+            return CareSheetResult(sheet = withLocalWatering(CareSheet.fallbackFrom(subject), subject))
         }
 
         return buildFromEntry(subject, normalized, match.entry, match.quality)
@@ -195,6 +228,12 @@ class SpeciesCareService(
         entry: SpeciesListEntry,
         quality: MatchQuality,
     ): CareSheetResult {
+        val curated = WateringReference.lookup(
+            name = normalized,
+            family = subject.family,
+            typeHint = null,
+        )
+
         if (PerenualLimits.supportsDetails(entry.id)) {
             val details = perenualClient.speciesDetails(entry.id)
             if (details is Outcome.Success) {
@@ -205,13 +244,14 @@ class SpeciesCareService(
                     details = details.value,
                     guide = guide,
                     matchQuality = quality,
+                    curated = curated,
                 )
                 store(normalized, sheet, quality)
                 return CareSheetResult(sheet = sheet)
             }
         }
 
-        val summary = PerenualMapper.toSummarySheet(subject, entry, quality)
+        val summary = PerenualMapper.toSummarySheet(subject, entry, quality, curated)
         store(normalized, summary, quality)
         return CareSheetResult(sheet = summary)
     }
@@ -235,7 +275,7 @@ class SpeciesCareService(
         }
 
         return CareSheetResult(
-            sheet = CareSheet.fallbackFrom(subject),
+            sheet = withLocalWatering(CareSheet.fallbackFrom(subject), subject),
             warning = error,
         )
     }

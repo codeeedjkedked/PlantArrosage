@@ -85,6 +85,8 @@
     <string name="banner_approximate_match">Rapprochement établi à partir du nom commun seulement. À vérifier.</string>
     <string name="banner_summary_only">Informations détaillées non disponibles pour cette espèce (limite de l\'offre gratuite Perenual).</string>
     <string name="banner_no_care_data">Aucune fiche d\'entretien trouvée pour cette espèce. Vous pouvez tout de même l\'enregistrer et ajuster son rythme d\'arrosage vous-même.</string>
+    <string name="banner_no_watering_data">Aucune source ne documente l\'arrosage de cette espèce. Le rythme affiché est une valeur par défaut prudente : ajustez-le selon vos observations.</string>
+    <string name="species_watering_pitfall">À éviter : %s</string>
     <string name="banner_cached_data">Données en cache — le service n\'était pas joignable.</string>
 
     <!-- Ajout d'une plante -->

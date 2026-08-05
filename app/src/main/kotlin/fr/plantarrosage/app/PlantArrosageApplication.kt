@@ -26,6 +26,10 @@ class PlantArrosageApplication : Application() {
 
         applicationScope.launch {
             container.photoStorage.clearCaptures()
+
+            // Les plantes enregistrées avant l'arrivée de la base d'arrosage locale portent
+            // encore la valeur par défaut : on les réaligne une fois au démarrage.
+            runCatching { container.myPlantsRepository.refreshBaseIntervalsFromReference() }
         }
     }
 }

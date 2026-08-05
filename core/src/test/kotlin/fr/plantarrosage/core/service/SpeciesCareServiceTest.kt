@@ -122,7 +122,10 @@ class SpeciesCareServiceTest {
         val result = service(engine).careSheetFor(monstera)
 
         assertEquals(DetailLevel.SUMMARY, result.sheet.detailLevel)
-        assertEquals(7, result.sheet.baseWateringIntervalDays) // « Average »
+        // La base locale prime sur l'énumération Perenual : 9 jours pour Monstera deliciosa,
+        // au lieu des 7 jours indifférenciés que donnait « Average ».
+        assertEquals(9, result.sheet.baseWateringIntervalDays)
+        assertTrue(result.sheet.baseIntervalSourceFr.contains("PlantArrosage"))
     }
 
     // ---------- Cache ----------
@@ -241,7 +244,11 @@ class SpeciesCareServiceTest {
         assertTrue(result.sheet.isFallback)
         assertEquals("Monstera deliciosa", result.sheet.scientificName)
         assertEquals("Monstera", result.sheet.commonNameFr)
-        assertEquals(CareSheet.DEFAULT_INTERVAL_DAYS, result.sheet.baseWateringIntervalDays)
+        // Perenual ne connaît pas l'espèce, mais la base locale si : c'est tout l'intérêt d'une
+        // source qui ne dépend pas du réseau. La fiche de repli reste donc documentée.
+        assertEquals(9, result.sheet.baseWateringIntervalDays)
+        assertTrue(result.sheet.hasWateringData)
+        assertNotNull(result.sheet.wateringAdviceFr)
     }
 
     @Test
@@ -422,6 +429,48 @@ class SpeciesCareServiceTest {
 
         assertEquals("5329113", result.sheet.gbifId)
         assertEquals("urn:lsid:ipni.org:names:86258-1", result.sheet.powoId)
+    }
+
+    // ---------- Base d'arrosage locale ----------
+
+    @Test
+    fun `une espèce inconnue de toutes les sources annonce l'absence de donnée`() = runTest {
+        val engine = RecordingMockEngine { respondJson(Fixtures.perenual("species_list_empty.json")) }
+        // Ni genre, ni famille connus : c'est le seul cas où l'application doit avouer
+        // qu'elle ne sait rien plutôt que d'avancer un chiffre.
+        val inconnue = monstera.copy(
+            scientificName = "Zzzzzz inexistantus",
+            family = "Zzzzaceae",
+            commonNames = emptyList(),
+        )
+
+        val result = service(engine).careSheetFor(inconnue)
+
+        assertFalse(result.sheet.hasWateringData)
+        assertEquals(CareSheet.DEFAULT_INTERVAL_DAYS, result.sheet.baseWateringIntervalDays)
+        assertTrue(result.sheet.baseIntervalSourceFr.contains("défaut"))
+    }
+
+    @Test
+    fun `la base locale accompagne le chiffre d'un conseil rédigé`() = runTest {
+        val result = service(fullEngine()).careSheetFor(monstera)
+
+        assertNotNull(result.sheet.wateringAdviceFr)
+        assertTrue(result.sheet.wateringAdviceFr!!.length > 20)
+        assertTrue(result.sheet.hasWateringData)
+    }
+
+    @Test
+    fun `deux espèces au même arrosage Perenual donnent des rythmes différents`() = runTest {
+        // Toutes deux « Average » chez Perenual, donc 7 jours auparavant pour l'une comme
+        // pour l'autre. La base locale les distingue.
+        val sansevieria = monstera.copy(scientificName = "Sansevieria trifasciata")
+        val calathea = monstera.copy(scientificName = "Calathea orbifolia")
+
+        val jSansevieria = service(fullEngine()).careSheetFor(sansevieria).sheet.baseWateringIntervalDays
+        val jCalathea = service(fullEngine()).careSheetFor(calathea).sheet.baseWateringIntervalDays
+
+        assertTrue(jSansevieria > jCalathea * 3, "$jSansevieria contre $jCalathea")
     }
 
     private fun sheet(detailLevel: DetailLevel, quality: MatchQuality) = CareSheet(

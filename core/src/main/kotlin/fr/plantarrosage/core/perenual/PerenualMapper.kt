@@ -8,6 +8,7 @@ import fr.plantarrosage.core.model.CareSheet
 import fr.plantarrosage.core.model.DetailLevel
 import fr.plantarrosage.core.model.SpeciesSubject
 import fr.plantarrosage.core.model.MatchQuality
+import fr.plantarrosage.core.water.WateringReferenceEntry
 
 /** Convertit les réponses Perenual en fiche d'entretien française. */
 object PerenualMapper {
@@ -35,10 +36,12 @@ object PerenualMapper {
         subject: SpeciesSubject,
         entry: SpeciesListEntry,
         matchQuality: MatchQuality,
+        curated: WateringReferenceEntry? = null,
     ): CareSheet {
-        // Pas de repère chiffré dans `species-list` : l'énumération `watering` suffit à dériver
-        // un intervalle, ce qui rend la fiche résumée pleinement exploitable.
-        val (baseDays, baseSource) = WateringIntervalCalculator.baseIntervalDays(
+        // `species-list` ne porte aucun repère chiffré : la base locale et l'énumération
+        // `watering` sont les seules sources d'intervalle ici.
+        val base = WateringIntervalCalculator.resolveBase(
+            curated = curated,
             benchmarkValue = null,
             benchmarkUnit = null,
             wateringEnum = entry.watering.sanitized(),
@@ -54,8 +57,11 @@ object PerenualMapper {
             wateringRaw = entry.watering.sanitized(),
             wateringFr = FrenchLabels.watering(entry.watering.sanitized()),
             wateringBenchmarkFr = null,
-            baseWateringIntervalDays = baseDays,
-            baseIntervalSourceFr = baseSource,
+            baseWateringIntervalDays = base.days,
+            baseIntervalSourceFr = base.sourceFr,
+            hasWateringData = !base.isDefault,
+            wateringAdviceFr = base.adviceFr,
+            wateringPitfallFr = base.pitfallFr,
             sunlightRaw = entry.sunlight.sanitized(),
             sunlightFr = entry.sunlight.sanitized().mapNotNull { FrenchLabels.sunlight(it) },
             cycleFr = FrenchLabels.cycle(entry.cycle.sanitized()),
@@ -70,17 +76,19 @@ object PerenualMapper {
         details: PerenualSpeciesDetailsDto,
         guide: PerenualCareGuideListDto?,
         matchQuality: MatchQuality,
+        curated: WateringReferenceEntry? = null,
     ): CareSheet {
         val benchmarkValue = details.wateringGeneralBenchmark?.value.sanitized()
         val benchmarkUnit = details.wateringGeneralBenchmark?.unit.sanitized()
         val wateringEnum = (details.watering ?: entry.watering).sanitized()
 
-        val (baseDays, baseSource) = WateringIntervalCalculator.baseIntervalDays(
+        val base = WateringIntervalCalculator.resolveBase(
+            curated = curated,
             benchmarkValue = benchmarkValue,
             benchmarkUnit = benchmarkUnit,
             wateringEnum = wateringEnum,
         )
-        val benchmarkLabel = baseSource.takeIf { it.contains("Perenual") }
+        val benchmarkLabel = base.sourceFr.takeIf { it.startsWith("repère Perenual") }
 
         val sunlight = details.sunlight.sanitized().ifEmpty { entry.sunlight.sanitized() }
 
@@ -95,8 +103,11 @@ object PerenualMapper {
             wateringRaw = wateringEnum,
             wateringFr = FrenchLabels.watering(wateringEnum),
             wateringBenchmarkFr = benchmarkLabel,
-            baseWateringIntervalDays = baseDays,
-            baseIntervalSourceFr = baseSource,
+            baseWateringIntervalDays = base.days,
+            baseIntervalSourceFr = base.sourceFr,
+            hasWateringData = !base.isDefault,
+            wateringAdviceFr = base.adviceFr,
+            wateringPitfallFr = base.pitfallFr,
 
             sunlightRaw = sunlight,
             sunlightFr = sunlight.mapNotNull { FrenchLabels.sunlight(it) },
@@ -112,7 +123,7 @@ object PerenualMapper {
                 details.hardiness?.max.sanitized(),
             ),
             indoor = details.indoor,
-            droughtTolerant = details.droughtTolerant,
+            droughtTolerant = details.droughtTolerant ?: base.droughtTolerant,
 
             poisonousToHumans = details.poisonousToHumans,
             poisonousToPets = details.poisonousToPets,

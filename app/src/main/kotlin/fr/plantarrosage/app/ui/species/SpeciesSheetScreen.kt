@@ -168,6 +168,20 @@ private fun SheetContent(
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
+
+            // Le conseil rédigé vaut souvent mieux que le chiffre : il dit quoi observer.
+            sheet.wateringAdviceFr?.let {
+                HorizontalDivider()
+                Text(it, style = MaterialTheme.typography.bodyMedium)
+            }
+            sheet.wateringPitfallFr?.let {
+                Text(
+                    stringResource(R.string.species_watering_pitfall, it),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+
             sheet.wateringFr?.let { CareRow(stringResource(R.string.species_section_watering), it) }
         }
 
@@ -246,6 +260,13 @@ private fun QualityBanners(sheet: CareSheet, stale: Boolean, warningText: String
             )
             sheet.matchQuality == fr.plantarrosage.core.model.MatchQuality.APPROXIMATE -> InfoBanner(
                 text = stringResource(R.string.banner_approximate_match),
+                tone = BannerTone.WARNING,
+            )
+        }
+
+        if (!sheet.hasWateringData) {
+            InfoBanner(
+                text = stringResource(R.string.banner_no_watering_data),
                 tone = BannerTone.WARNING,
             )
         }

@@ -36,6 +36,16 @@ data class CareSheet(
      * s'affichent à l'identique, et l'utilisateur ne peut pas juger de ce qu'il lit.
      */
     val baseIntervalSourceFr: String = "",
+    /**
+     * Faux quand aucune source ne documente l'arrosage et que l'intervalle affiché n'est qu'un
+     * repli prudent. L'écran doit alors le dire, plutôt que de présenter un chiffre inventé
+     * comme une donnée.
+     */
+    val hasWateringData: Boolean = true,
+    /** Conseil d'arrosage rédigé, issu de la base locale. */
+    val wateringAdviceFr: String? = null,
+    /** Erreur classique sur cette plante, quand elle vaut d'être signalée. */
+    val wateringPitfallFr: String? = null,
 
     // --- Lumière ---
     val sunlightRaw: List<String> = emptyList(),
@@ -98,6 +108,7 @@ data class CareSheet(
             detailLevel = DetailLevel.NONE,
             baseWateringIntervalDays = DEFAULT_INTERVAL_DAYS,
             baseIntervalSourceFr = DEFAULT_INTERVAL_SOURCE,
+            hasWateringData = false,
             imageUrl = subject.imageUrl,
         )
 
@@ -120,6 +131,7 @@ data class CareSheet(
             detailLevel = DetailLevel.NONE,
             baseWateringIntervalDays = DEFAULT_INTERVAL_DAYS,
             baseIntervalSourceFr = DEFAULT_INTERVAL_SOURCE,
+            hasWateringData = false,
         )
     }
 }

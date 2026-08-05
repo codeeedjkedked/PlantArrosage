@@ -13,6 +13,7 @@ import fr.plantarrosage.core.model.CareSheet
 import fr.plantarrosage.core.model.PlantLocation
 import fr.plantarrosage.core.model.WateringPlan
 import fr.plantarrosage.core.net.HttpClientFactory
+import fr.plantarrosage.core.water.WateringReference
 import java.time.Clock
 import java.time.Instant
 import java.time.ZoneId
@@ -266,6 +267,58 @@ class MyPlantsRepository(
         if (nextDueAt.toEpochMilli() != entity.nextDueAt) {
             plantDao.updateNextDue(entity.id, nextDueAt.toEpochMilli())
         }
+    }
+
+    /**
+     * Réaligne les intervalles de base sur la base d'arrosage locale.
+     *
+     * Les plantes enregistrées avant l'arrivée de cette base portent toutes la valeur par défaut
+     * de sept jours, figée en table : elles ne bénéficieraient jamais de la correction sans cette
+     * reprise. Un réglage manuel de l'utilisateur reste prioritaire de toute façon, et n'est donc
+     * pas touché.
+     *
+     * @return le nombre de plantes effectivement corrigées
+     */
+    suspend fun refreshBaseIntervalsFromReference(): Int {
+        var corrigees = 0
+
+        plantDao.findAll().forEach { entity ->
+            val curated = WateringReference.lookup(
+                name = ScientificNameNormalizer.normalize(entity.scientificName),
+                family = entity.family,
+                typeHint = if (entity.droughtTolerant == true) "succulente" else null,
+            ) ?: return@forEach
+
+            val base = WateringIntervalCalculator.resolveBase(
+                curated = curated,
+                benchmarkValue = null,
+                benchmarkUnit = null,
+                wateringEnum = null,
+            )
+            if (base.days == entity.baseIntervalDays) return@forEach
+
+            // L'instantané de fiche est mis à jour lui aussi, pour que le détail de la plante
+            // affiche le conseil et l'attribution comme une fiche fraîchement récupérée.
+            val sheet = decodeCareSheet(entity.careJson)?.copy(
+                baseWateringIntervalDays = base.days,
+                baseIntervalSourceFr = base.sourceFr,
+                hasWateringData = !base.isDefault,
+                wateringAdviceFr = base.adviceFr,
+                wateringPitfallFr = base.pitfallFr,
+            )
+
+            val updated = entity.copy(
+                baseIntervalDays = base.days,
+                careJson = sheet?.let {
+                    HttpClientFactory.json.encodeToString(CareSheet.serializer(), it)
+                } ?: entity.careJson,
+            )
+            plantDao.update(updated)
+            refreshNextDue(updated)
+            corrigees++
+        }
+
+        return corrigees
     }
 
     suspend fun refreshAllNextDue() {

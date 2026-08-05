@@ -1,0 +1,2129 @@
+{
+  "version": 1,
+  "avertissement": "Ordres de grandeur horticoles pour un pot bien drainé, à température ordinaire, hors période de rempotage. Ce ne sont pas des mesures expérimentales : ajustez selon votre substrat, votre pot et votre logement. Un doigt enfoncé de trois centimètres dans la terre reste le meilleur capteur.",
+  "entrees": [
+    {
+      "cle": "allium cepa",
+      "rang": "ESPECE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Oignon : arrosage modéré, puis arrêt complet trois semaines avant la récolte."
+    },
+    {
+      "cle": "allium porrum",
+      "rang": "ESPECE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Poireau : sol frais pendant toute la croissance, arrosage régulier au pied."
+    },
+    {
+      "cle": "allium sativum",
+      "rang": "ESPECE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Ail : très sobre, il craint sérieusement l'excès d'eau qui le fait pourrir."
+    },
+    {
+      "cle": "asparagus officinalis",
+      "rang": "ESPECE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Asperge : sol frais après la récolte, pendant la montée en feuillage."
+    },
+    {
+      "cle": "ficus benjamina",
+      "rang": "ESPECE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Substrat maintenu légèrement frais, sans excès.",
+      "pieges": "Perd massivement ses feuilles au moindre stress. Ne le déplacez pas sans raison."
+    },
+    {
+      "cle": "ficus carica",
+      "rang": "ESPECE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Le figuier supporte bien la sécheresse une fois installé et craint l'excès.",
+      "pieges": "Un excès d'eau fait éclater les figues."
+    },
+    {
+      "cle": "ficus elastica",
+      "rang": "ESPECE",
+      "intervalleJours": 11,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Laissez sécher la moitié du pot. Essuyez les feuilles pour préserver la photosynthèse."
+    },
+    {
+      "cle": "ficus lyrata",
+      "rang": "ESPECE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Arrosage régulier mais mesuré, en laissant sécher le tiers supérieur. Exige beaucoup de lumière.",
+      "pieges": "Taches brunes au centre des feuilles : excès d'eau. Taches sur les bords : manque."
+    },
+    {
+      "cle": "ficus microcarpa",
+      "rang": "ESPECE",
+      "intervalleJours": 9,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Souvent vendu en bonsaï : le petit volume de substrat impose de vérifier plus souvent."
+    },
+    {
+      "cle": "laurus nobilis",
+      "rang": "ESPECE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Laurier-sauce : laissez sécher la moitié du pot entre deux arrosages."
+    },
+    {
+      "cle": "monstera deliciosa",
+      "rang": "ESPECE",
+      "intervalleJours": 9,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Arrosez quand les trois premiers centimètres sont secs. Un tuteur mousse encourage de plus grandes feuilles."
+    },
+    {
+      "cle": "salvia officinalis",
+      "rang": "ESPECE",
+      "intervalleJours": 13,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Sauge officinale : sol sec et bien drainé, elle redoute l'humidité hivernale."
+    },
+    {
+      "cle": "solanum lycopersicum",
+      "rang": "ESPECE",
+      "intervalleJours": 3,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Arrosez copieusement au pied, deux à trois fois par semaine, jamais sur le feuillage.",
+      "pieges": "Arrosages irréguliers = fruits éclatés et nécrose apicale. La régularité prime sur la quantité."
+    },
+    {
+      "cle": "solanum melongena",
+      "rang": "ESPECE",
+      "intervalleJours": 3,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Aubergine : arrosage régulier et abondant au pied, sans mouiller le feuillage."
+    },
+    {
+      "cle": "solanum tuberosum",
+      "rang": "ESPECE",
+      "intervalleJours": 7,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Pomme de terre : arrosage suivi à la floraison, quand se forment les tubercules."
+    },
+    {
+      "cle": "zamioculcas zamiifolia",
+      "rang": "ESPECE",
+      "intervalleJours": 21,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Séchage intégral entre deux arrosages, et jusqu'à un mois en hiver."
+    },
+    {
+      "cle": "abies",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Sapin : sol frais et bien drainé, arrosage les premières années après plantation."
+    },
+    {
+      "cle": "acer",
+      "rang": "GENRE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "L'érable du Japon craint la sécheresse et le vent brûlant. Paillez le pied.",
+      "pieges": "Feuilles grillées sur les bords : coup de chaleur ou vent sec, pas une maladie."
+    },
+    {
+      "cle": "achillea",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Très résistante à la sécheresse : elle préfère un sol pauvre et drainé."
+    },
+    {
+      "cle": "adenium",
+      "rang": "GENRE",
+      "intervalleJours": 20,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Caudex gorgé d'eau : séchage complet, et arrêt total pendant le repos hivernal."
+    },
+    {
+      "cle": "adiantum",
+      "rang": "GENRE",
+      "intervalleJours": 3,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Le capillaire est la fougère la plus exigeante : humidité constante, sans exception.",
+      "pieges": "Sèche en quelques heures dans une pièce chauffée."
+    },
+    {
+      "cle": "aechmea",
+      "rang": "GENRE",
+      "intervalleJours": 9,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Réservoir central maintenu plein, substrat sec entre deux apports."
+    },
+    {
+      "cle": "aeonium",
+      "rang": "GENRE",
+      "intervalleJours": 14,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Croissance en hiver, repos en été : inversez le rythme habituel.",
+      "pieges": "Arroser en plein été, quand la rosette se referme, la fait pourrir."
+    },
+    {
+      "cle": "agave",
+      "rang": "GENRE",
+      "intervalleJours": 24,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Extrêmement sobre. En hiver, un arrosage mensuel est un maximum."
+    },
+    {
+      "cle": "aglaonema",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Laissez sécher la moitié du pot. Tolère bien la pénombre et les oublis."
+    },
+    {
+      "cle": "allium",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Aulx d'ornement : sobres et drainés, secs pendant le repos estival."
+    },
+    {
+      "cle": "alocasia",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Substrat constamment frais en croissance. Réduisez nettement dès l'automne.",
+      "pieges": "Entre souvent en dormance l'hiver : perdre ses feuilles n'est pas forcément un échec, cessez alors presque tout arrosage."
+    },
+    {
+      "cle": "aloe",
+      "rang": "GENRE",
+      "intervalleJours": 18,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Séchage complet entre deux arrosages. Substrat très drainant obligatoire."
+    },
+    {
+      "cle": "amaryllis",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Frais pendant la végétation, repos sec de septembre à novembre pour refleurir."
+    },
+    {
+      "cle": "anethum",
+      "rang": "GENRE",
+      "intervalleJours": 4,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Aneth : sol frais et léger, arrosage régulier pour retarder la montaison."
+    },
+    {
+      "cle": "anthurium",
+      "rang": "GENRE",
+      "intervalleJours": 7,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Laissez sécher le premier tiers. Apprécie un substrat aéré, type orchidée allégé."
+    },
+    {
+      "cle": "artemisia",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Estragon et armoises : sols secs et drainés, arrosage rare une fois installés."
+    },
+    {
+      "cle": "asparagus",
+      "rang": "GENRE",
+      "intervalleJours": 7,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Substrat frais ; les tubercules stockent un peu d'eau et pardonnent un oubli."
+    },
+    {
+      "cle": "aspidistra",
+      "rang": "GENRE",
+      "intervalleJours": 14,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "La plante la plus indestructible qui soit. Laissez sécher largement."
+    },
+    {
+      "cle": "asplenium",
+      "rang": "GENRE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Substrat frais en permanence. Évitez de verser l'eau au cœur de la rosette."
+    },
+    {
+      "cle": "aster",
+      "rang": "GENRE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Sol frais pendant la floraison automnale ; arrosez au pied en fin de journée."
+    },
+    {
+      "cle": "astilbe",
+      "rang": "GENRE",
+      "intervalleJours": 4,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Exige un sol constamment frais, voire humide ; c'est sa condition de survie."
+    },
+    {
+      "cle": "athyrium",
+      "rang": "GENRE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Sol constamment frais et ombragé ; la fougère femelle grille au moindre coup de sec."
+    },
+    {
+      "cle": "beaucarnea",
+      "rang": "GENRE",
+      "intervalleJours": 24,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Le pied d'éléphant stocke l'eau dans son caudex : arrosez très rarement.",
+      "pieges": "Un caudex mou signe une pourriture déjà avancée."
+    },
+    {
+      "cle": "begonia",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Arrosez au pied sans mouiller le feuillage.",
+      "pieges": "L'eau sur les feuilles favorise l'oïdium."
+    },
+    {
+      "cle": "bellis",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Pâquerette : sol frais, arrosage régulier en pot comme en pleine terre."
+    },
+    {
+      "cle": "berberis",
+      "rang": "GENRE",
+      "intervalleJours": 14,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Épine-vinette : très sobre une fois enracinée, aucun arrosage nécessaire en pleine terre."
+    },
+    {
+      "cle": "beta",
+      "rang": "GENRE",
+      "intervalleJours": 4,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Betterave et blette : sol frais, arrosage régulier pour éviter les racines fibreuses."
+    },
+    {
+      "cle": "betula",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Bouleau : racines superficielles, il souffre nettement des étés secs."
+    },
+    {
+      "cle": "bougainvillea",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Un léger stress hydrique favorise la floraison ; trop d'eau donne du feuillage.",
+      "pieges": "Trop d'eau donne des feuilles et pas de bractées."
+    },
+    {
+      "cle": "brassica",
+      "rang": "GENRE",
+      "intervalleJours": 3,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Choux : très gourmands en eau, particulièrement pendant la pommaison."
+    },
+    {
+      "cle": "buddleja",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Arbre aux papillons : très sobre une fois établi, inutile de l'arroser en pleine terre."
+    },
+    {
+      "cle": "buxus",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Arrosez le buis en pot et lors des étés secs ; en pleine terre il est sobre.",
+      "pieges": "La pyrale fait bien plus de dégâts que la soif."
+    },
+    {
+      "cle": "calathea",
+      "rang": "GENRE",
+      "intervalleJours": 4,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Substrat toujours légèrement humide, jamais détrempé. Eau non calcaire de préférence.",
+      "pieges": "Bords des feuilles secs et enroulés : air trop sec ou eau trop calcaire, rarement un manque d'eau."
+    },
+    {
+      "cle": "calibrachoa",
+      "rang": "GENRE",
+      "intervalleJours": 3,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Très gourmand en eau et en engrais ; la jardinière sèche en une demi-journée."
+    },
+    {
+      "cle": "camellia",
+      "rang": "GENRE",
+      "intervalleJours": 7,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Terre de bruyère fraîche, eau douce. Arrosez en été, quand se forment les boutons.",
+      "pieges": "Une sécheresse estivale fait avorter la floraison de l'hiver suivant."
+    },
+    {
+      "cle": "canna",
+      "rang": "GENRE",
+      "intervalleJours": 4,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Aime les sols riches et constamment frais ; grande consommatrice en plein été."
+    },
+    {
+      "cle": "capsicum",
+      "rang": "GENRE",
+      "intervalleJours": 3,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Poivrons et piments : sol frais, arrosage régulier au pied sans mouiller les feuilles."
+    },
+    {
+      "cle": "carex",
+      "rang": "GENRE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Laîches : sols frais à humides ; la plupart supportent même les zones détrempées."
+    },
+    {
+      "cle": "carpinus",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Charme : sol frais apprécié, arrosage utile les deux premières années."
+    },
+    {
+      "cle": "cattleya",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Laissez le substrat sécher franchement entre deux trempages ; racines très aérées."
+    },
+    {
+      "cle": "ceropegia",
+      "rang": "GENRE",
+      "intervalleJours": 16,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "La chaîne des cœurs forme des tubercules de réserve : arrosez très peu."
+    },
+    {
+      "cle": "chamaedorea",
+      "rang": "GENRE",
+      "intervalleJours": 9,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Substrat maintenu légèrement frais, jamais détrempé ; palmier d'ombre tolérant."
+    },
+    {
+      "cle": "chlorophytum",
+      "rang": "GENRE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Très accommodant. Laissez sécher la moitié du pot.",
+      "pieges": "Pointes brunes fréquentes avec une eau calcaire ou fluorée."
+    },
+    {
+      "cle": "chrysanthemum",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Arrosage régulier pendant la formation des boutons, plus mesuré ensuite."
+    },
+    {
+      "cle": "cissus",
+      "rang": "GENRE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Substrat légèrement frais, sans excès ; laissez sécher la surface entre deux apports."
+    },
+    {
+      "cle": "citrus",
+      "rang": "GENRE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Laissez sécher le tiers supérieur du substrat ; eau non calcaire de préférence.",
+      "pieges": "Chute des feuilles : le plus souvent un excès d'eau en hivernage froid."
+    },
+    {
+      "cle": "clematis",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Tête au soleil, pied à l'ombre : paillez et gardez le pied frais."
+    },
+    {
+      "cle": "clivia",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Repos sec de novembre à février : c'est ce qui déclenche la floraison.",
+      "pieges": "Arroser en hiver empêche la remontée florale."
+    },
+    {
+      "cle": "codiaeum",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Substrat frais et lumière vive ; le croton craint surtout les courants d'air.",
+      "pieges": "Perd ses feuilles basses au moindre stress hydrique ou thermique."
+    },
+    {
+      "cle": "colocasia",
+      "rang": "GENRE",
+      "intervalleJours": 4,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Plante de zone humide : le substrat ne doit jamais sécher complètement."
+    },
+    {
+      "cle": "cordyline",
+      "rang": "GENRE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Laissez sécher le premier tiers. Eau non calcaire de préférence."
+    },
+    {
+      "cle": "coriandrum",
+      "rang": "GENRE",
+      "intervalleJours": 4,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Coriandre : sol frais, sinon elle monte en graine.",
+      "pieges": "Un coup de sec déclenche la montaison et la rend amère."
+    },
+    {
+      "cle": "cosmos",
+      "rang": "GENRE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Sobre : il fleurit mieux en sol pauvre et sec qu'en sol riche et arrosé."
+    },
+    {
+      "cle": "cotoneaster",
+      "rang": "GENRE",
+      "intervalleJours": 14,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Supporte bien la sécheresse ; un arrosage mensuel suffit la première année."
+    },
+    {
+      "cle": "crassula",
+      "rang": "GENRE",
+      "intervalleJours": 18,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "L'arbre de jade stocke l'eau dans ses feuilles. Arrosez copieusement puis oubliez-le.",
+      "pieges": "Feuilles molles et ridées : manque d'eau. Feuilles molles et translucides : excès."
+    },
+    {
+      "cle": "crocus",
+      "rang": "GENRE",
+      "intervalleJours": 14,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Presque aucun arrosage nécessaire ; sec impérativement pendant le repos d'été."
+    },
+    {
+      "cle": "ctenanthe",
+      "rang": "GENRE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Substrat frais en permanence, à l'abri du soleil direct."
+    },
+    {
+      "cle": "cucumis",
+      "rang": "GENRE",
+      "intervalleJours": 2,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Concombres et melons : sol constamment frais, arrosage quotidien en été."
+    },
+    {
+      "cle": "cucurbita",
+      "rang": "GENRE",
+      "intervalleJours": 3,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Courges et courgettes boivent énormément. Arrosez au pied, abondamment.",
+      "pieges": "Le feuillage flétrit en pleine chaleur puis se redresse le soir : ce n'est pas un manque d'eau."
+    },
+    {
+      "cle": "cupressus",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Sobre une fois enraciné ; arrosez copieusement les deux premières années."
+    },
+    {
+      "cle": "cycas",
+      "rang": "GENRE",
+      "intervalleJours": 16,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Laissez sécher franchement entre deux arrosages ; sa croissance est très lente."
+    },
+    {
+      "cle": "cyclamen",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Arrosez par la soucoupe, jamais sur le cœur du tubercule ni sur le feuillage.",
+      "pieges": "L'eau au centre fait pourrir le tubercule en quelques jours."
+    },
+    {
+      "cle": "cymbidium",
+      "rang": "GENRE",
+      "intervalleJours": 7,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Substrat frais en été, nettement plus sec après la floraison pendant le repos."
+    },
+    {
+      "cle": "cynara",
+      "rang": "GENRE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Artichaut : sol frais et riche, arrosage soutenu pendant la formation des têtes."
+    },
+    {
+      "cle": "cyperus",
+      "rang": "GENRE",
+      "intervalleJours": 2,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Papyrus : le pot doit tremper en permanence dans une soucoupe remplie d'eau.",
+      "pieges": "C'est la seule plante d'intérieur courante qu'on ne peut pas trop arroser."
+    },
+    {
+      "cle": "cyrtomium",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Fougère robuste : tolère un léger dessèchement de surface, contrairement à ses cousines."
+    },
+    {
+      "cle": "dahlia",
+      "rang": "GENRE",
+      "intervalleJours": 4,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Très gourmand en été : arrosez copieusement au pied deux à trois fois par semaine."
+    },
+    {
+      "cle": "daucus",
+      "rang": "GENRE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Carotte : arrosage régulier et sans à-coups pendant tout le grossissement.",
+      "pieges": "Alternance sec/humide = racines fendues."
+    },
+    {
+      "cle": "davallia",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Laissez sécher légèrement la surface entre deux arrosages ; rhizomes à l'air libre."
+    },
+    {
+      "cle": "delphinium",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Sol frais et riche, arrosage soutenu ; tuteurez les hampes qui deviennent lourdes."
+    },
+    {
+      "cle": "dendrobium",
+      "rang": "GENRE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Arrosage soutenu en croissance, repos marqué et quasi sec en hiver."
+    },
+    {
+      "cle": "dieffenbachia",
+      "rang": "GENRE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Substrat légèrement humide en saison de croissance, plus sec en hiver.",
+      "pieges": "Sève irritante : lavez-vous les mains après toute taille."
+    },
+    {
+      "cle": "digitalis",
+      "rang": "GENRE",
+      "intervalleJours": 7,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Sol frais à mi-ombre.",
+      "pieges": "Toutes les parties sont très toxiques."
+    },
+    {
+      "cle": "dionaea",
+      "rang": "GENRE",
+      "intervalleJours": 2,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Carnivore : pied dans une soucoupe d'eau de pluie en permanence.",
+      "pieges": "L'eau du robinet la tue en quelques semaines. Eau de pluie ou déminéralisée uniquement."
+    },
+    {
+      "cle": "dischidia",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Épiphyte à feuillage charnu : séchage marqué entre deux arrosages, substrat très aéré."
+    },
+    {
+      "cle": "dracaena",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Laissez sécher la moitié supérieure du pot.",
+      "pieges": "Pointes brunes : souvent le fluor et le chlore de l'eau du robinet. Laissez l'eau reposer une nuit."
+    },
+    {
+      "cle": "drosera",
+      "rang": "GENRE",
+      "intervalleJours": 2,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Substrat gorgé d'eau de pluie en permanence, et jamais le moindre engrais."
+    },
+    {
+      "cle": "dryopteris",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Sol frais à l'ombre, paillage apprécié pour maintenir la fraîcheur en été."
+    },
+    {
+      "cle": "dypsis",
+      "rang": "GENRE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "L'areca boit beaucoup en été. Gardez le substrat frais et l'air humide.",
+      "pieges": "Pointes sèches : air trop sec, brumisez ou groupez les plantes."
+    },
+    {
+      "cle": "echeveria",
+      "rang": "GENRE",
+      "intervalleJours": 16,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Trempage complet puis séchage intégral. En hiver, une fois par mois suffit.",
+      "pieges": "Ne mouillez jamais le cœur de la rosette : l'eau qui s'y attarde fait pourrir la plante."
+    },
+    {
+      "cle": "echinacea",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Sobre une fois établie ; arrosez seulement lors des sécheresses prolongées."
+    },
+    {
+      "cle": "echinocactus",
+      "rang": "GENRE",
+      "intervalleJours": 24,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Arrosez uniquement en période de croissance, jamais l'hiver."
+    },
+    {
+      "cle": "epipremnum",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Attendez que le substrat soit sec sur la moitié de la hauteur du pot. Le pothos pardonne l'oubli, jamais l'excès.",
+      "pieges": "Des tiges molles et translucides indiquent un arrosage trop fréquent."
+    },
+    {
+      "cle": "euphorbia",
+      "rang": "GENRE",
+      "intervalleJours": 16,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Les euphorbes succulentes se conduisent comme des cactées : séchage intégral.",
+      "pieges": "Latex blanc irritant pour la peau et les yeux."
+    },
+    {
+      "cle": "fagus",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Hêtre : sol frais, il souffre nettement des sécheresses prolongées."
+    },
+    {
+      "cle": "fatsia",
+      "rang": "GENRE",
+      "intervalleJours": 7,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Substrat frais et emplacement lumineux sans soleil direct ; grandes feuilles gourmandes."
+    },
+    {
+      "cle": "festuca",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Fétuques ornementales : très sobres, elles exigent surtout un sol bien drainé."
+    },
+    {
+      "cle": "ficus",
+      "rang": "GENRE",
+      "intervalleJours": 9,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Laissez sécher les trois premiers centimètres. Les ficus détestent surtout les changements brusques.",
+      "pieges": "Une chute de feuilles suit souvent un déplacement ou un courant d'air, pas un défaut d'arrosage."
+    },
+    {
+      "cle": "fittonia",
+      "rang": "GENRE",
+      "intervalleJours": 4,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Substrat constamment frais. S'affaisse dès qu'il manque d'eau.",
+      "pieges": "Se remet en une heure après arrosage, mais répéter l'épisode l'affaiblit."
+    },
+    {
+      "cle": "forsythia",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Sobre en pleine terre, sauf la première année qui suit la plantation."
+    },
+    {
+      "cle": "fragaria",
+      "rang": "GENRE",
+      "intervalleJours": 3,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Fraisier : sol frais et arrosage au pied ; l'eau sur les fruits les fait pourrir.",
+      "pieges": "L'eau sur les fruits fait pourrir la récolte."
+    },
+    {
+      "cle": "gardenia",
+      "rang": "GENRE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Substrat frais et eau non calcaire impérativement, sous peine de chlorose.",
+      "pieges": "Le calcaire provoque une chlorose : feuilles jaunes à nervures vertes."
+    },
+    {
+      "cle": "gasteria",
+      "rang": "GENRE",
+      "intervalleJours": 20,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Très tolérante à la sécheresse et sensible à l'excès : séchage complet obligatoire."
+    },
+    {
+      "cle": "geranium",
+      "rang": "GENRE",
+      "intervalleJours": 9,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Géraniums vivaces : très accommodants, un arrosage lors des sécheresses suffit."
+    },
+    {
+      "cle": "gladiolus",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Arrosage soutenu pendant la montée des hampes et la floraison, sec ensuite."
+    },
+    {
+      "cle": "goeppertia",
+      "rang": "GENRE",
+      "intervalleJours": 4,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Nom actuel de nombreux calathéas : mêmes exigences, substrat frais et eau douce."
+    },
+    {
+      "cle": "graptopetalum",
+      "rang": "GENRE",
+      "intervalleJours": 17,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Séchage intégral entre deux trempages ; substrat minéral très drainant."
+    },
+    {
+      "cle": "guzmania",
+      "rang": "GENRE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Remplissez le réservoir central d'eau douce, renouvelé chaque semaine."
+    },
+    {
+      "cle": "haworthia",
+      "rang": "GENRE",
+      "intervalleJours": 18,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Arrosage modéré, séchage total. Craint le soleil brûlant malgré son allure de cactée."
+    },
+    {
+      "cle": "hedera",
+      "rang": "GENRE",
+      "intervalleJours": 7,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Substrat frais, atmosphère fraîche. Craint plus la chaleur sèche que la soif."
+    },
+    {
+      "cle": "helianthus",
+      "rang": "GENRE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Le tournesol boit beaucoup en pleine croissance et pendant la formation du capitule."
+    },
+    {
+      "cle": "hemerocallis",
+      "rang": "GENRE",
+      "intervalleJours": 9,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Très accommodant une fois installé ; arrosez pendant la formation des boutons."
+    },
+    {
+      "cle": "heuchera",
+      "rang": "GENRE",
+      "intervalleJours": 7,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Sol frais et drainé à mi-ombre ; craint autant la sécheresse que l'eau stagnante."
+    },
+    {
+      "cle": "hibiscus",
+      "rang": "GENRE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Gourmand en eau pendant la floraison, nettement plus sobre en hivernage."
+    },
+    {
+      "cle": "hippeastrum",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Arrosage réduit jusqu'à l'apparition de la hampe, puis régulier.",
+      "pieges": "Ne mouillez jamais le sommet du bulbe."
+    },
+    {
+      "cle": "hosta",
+      "rang": "GENRE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Sol frais à l'ombre ; le feuillage flétrit très vite en situation ensoleillée.",
+      "pieges": "Limaces et escargots font plus de dégâts que la soif."
+    },
+    {
+      "cle": "howea",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Le kentia supporte la pénombre. Laissez sécher la moitié du pot."
+    },
+    {
+      "cle": "hoya",
+      "rang": "GENRE",
+      "intervalleJours": 14,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Feuillage épais et charnu : laissez sécher largement entre deux arrosages.",
+      "pieges": "Ne coupez jamais les pédoncules défleuris, ils refleurissent l'année suivante."
+    },
+    {
+      "cle": "huernia",
+      "rang": "GENRE",
+      "intervalleJours": 21,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Conduite de cactée : substrat très drainant, séchage total, repos hivernal sec."
+    },
+    {
+      "cle": "hyacinthus",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Frais pendant la végétation et la floraison, strictement sec pendant le repos estival."
+    },
+    {
+      "cle": "hydrangea",
+      "rang": "GENRE",
+      "intervalleJours": 4,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "L'hortensia est très exigeant en eau, surtout en pot ou en plein soleil.",
+      "pieges": "Son nom signifie « boit l'eau » : un flétrissement en pleine journée est fréquent et se rattrape le soir."
+    },
+    {
+      "cle": "hypoestes",
+      "rang": "GENRE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Ne laissez pas sécher : le feuillage flétrit en quelques heures dans une pièce chauffée."
+    },
+    {
+      "cle": "impatiens",
+      "rang": "GENRE",
+      "intervalleJours": 3,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Ne supporte aucun dessèchement : arrosage quotidien en jardinière l'été."
+    },
+    {
+      "cle": "iris",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Les iris de jardin craignent bien plus l'excès que le manque.",
+      "pieges": "Rhizome enterré = pourriture. Il doit affleurer."
+    },
+    {
+      "cle": "jasminum",
+      "rang": "GENRE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Arrosage régulier pendant la croissance et la floraison, réduit en hiver."
+    },
+    {
+      "cle": "juniperus",
+      "rang": "GENRE",
+      "intervalleJours": 14,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Genévrier : très résistant à la sécheresse, craint surtout l'eau stagnante."
+    },
+    {
+      "cle": "kalanchoe",
+      "rang": "GENRE",
+      "intervalleJours": 14,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Laissez sécher complètement. Arrosez au pied, sans mouiller le feuillage."
+    },
+    {
+      "cle": "lactuca",
+      "rang": "GENRE",
+      "intervalleJours": 2,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "La salade a des racines superficielles : arrosages fréquents et légers."
+    },
+    {
+      "cle": "laurus",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Laurier-sauce : laissez sécher la moitié du pot ; très sobre en pleine terre."
+    },
+    {
+      "cle": "lavandula",
+      "rang": "GENRE",
+      "intervalleJours": 14,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "La lavande redoute l'excès d'eau bien plus que la sécheresse.",
+      "pieges": "Un sol lourd et humide en hiver la tue en une saison."
+    },
+    {
+      "cle": "lilium",
+      "rang": "GENRE",
+      "intervalleJours": 7,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Sol frais et drainé, pied à l'ombre et tête au soleil ; paillez généreusement."
+    },
+    {
+      "cle": "lithops",
+      "rang": "GENRE",
+      "intervalleJours": 30,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Presque aucun arrosage. Cessez totalement pendant la mue printanière.",
+      "pieges": "La plante la plus tuée par excès d'eau : dans le doute, n'arrosez pas."
+    },
+    {
+      "cle": "lonicera",
+      "rang": "GENRE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Chèvrefeuille : sol frais apprécié, pied paillé et à l'ombre de préférence."
+    },
+    {
+      "cle": "malus",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Pommier : arrosage suivi pendant la formation et le grossissement des fruits."
+    },
+    {
+      "cle": "mammillaria",
+      "rang": "GENRE",
+      "intervalleJours": 21,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Arrosage copieux en été, séchage intégral, rien du tout de novembre à mars."
+    },
+    {
+      "cle": "mandevilla",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Substrat frais pendant la floraison, quasi sec pendant l'hivernage hors gel."
+    },
+    {
+      "cle": "maranta",
+      "rang": "GENRE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Ne laissez jamais sécher complètement. Apprécie une forte humidité de l'air."
+    },
+    {
+      "cle": "melissa",
+      "rang": "GENRE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Mélisse : sol frais et mi-ombre ; elle jaunit rapidement en plein soleil sec."
+    },
+    {
+      "cle": "mentha",
+      "rang": "GENRE",
+      "intervalleJours": 3,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "La menthe veut un sol constamment frais et supporte même les zones humides.",
+      "pieges": "Très envahissante : cultivez-la en pot enterré."
+    },
+    {
+      "cle": "miscanthus",
+      "rang": "GENRE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Sol frais apprécié ; tolère bien la sécheresse une fois solidement installé."
+    },
+    {
+      "cle": "monstera",
+      "rang": "GENRE",
+      "intervalleJours": 9,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Arrosez quand les trois premiers centimètres de substrat sont secs. Videz la soucoupe après vingt minutes.",
+      "pieges": "Les feuilles qui jaunissent par la base signalent presque toujours un excès d'eau, pas un manque."
+    },
+    {
+      "cle": "musa",
+      "rang": "GENRE",
+      "intervalleJours": 4,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Le bananier est très gourmand en eau et en lumière ; ne le laissez jamais sécher."
+    },
+    {
+      "cle": "muscari",
+      "rang": "GENRE",
+      "intervalleJours": 14,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Très sobre : la pluie suffit en pleine terre, sec pendant le repos estival."
+    },
+    {
+      "cle": "narcissus",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Frais au printemps pendant la végétation, sec en été pendant le repos du bulbe."
+    },
+    {
+      "cle": "neoregelia",
+      "rang": "GENRE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Même conduite que les autres broméliacées à réservoir : cœur plein, substrat sec."
+    },
+    {
+      "cle": "nepenthes",
+      "rang": "GENRE",
+      "intervalleJours": 3,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Substrat humide et air très humide ; eau de pluie exclusivement."
+    },
+    {
+      "cle": "nepeta",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Très résistante à la sécheresse, la népéta redoute surtout les sols lourds et humides."
+    },
+    {
+      "cle": "nephrolepis",
+      "rang": "GENRE",
+      "intervalleJours": 4,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "La fougère de Boston ne doit jamais sécher. Substrat constamment humide, air humide.",
+      "pieges": "Un seul dessèchement complet peut griller définitivement les frondes."
+    },
+    {
+      "cle": "nerium",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Le laurier-rose boit beaucoup en été, surtout en pot exposé au plein soleil.",
+      "pieges": "Toutes les parties sont très toxiques."
+    },
+    {
+      "cle": "ocimum",
+      "rang": "GENRE",
+      "intervalleJours": 3,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Le basilic boit beaucoup. Arrosez le matin, au pied, sans mouiller les feuilles.",
+      "pieges": "Feuilles noires et molles : arrosage du soir ou eau sur le feuillage."
+    },
+    {
+      "cle": "olea",
+      "rang": "GENRE",
+      "intervalleJours": 14,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "L'olivier en pot supporte la sécheresse mais pas l'eau stagnante."
+    },
+    {
+      "cle": "opuntia",
+      "rang": "GENRE",
+      "intervalleJours": 24,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Séchage complet entre deux arrosages et repos hivernal strictement sec."
+    },
+    {
+      "cle": "origanum",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Origan et marjolaine : méditerranéens et sobres, ils préfèrent un sol pauvre."
+    },
+    {
+      "cle": "pachira",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Laissez sécher la moitié du pot. Tronc tressé sensible à l'excès d'eau."
+    },
+    {
+      "cle": "pachyphytum",
+      "rang": "GENRE",
+      "intervalleJours": 18,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Très sobre : arrosez au pied sans jamais mouiller le feuillage pruineux."
+    },
+    {
+      "cle": "pachypodium",
+      "rang": "GENRE",
+      "intervalleJours": 21,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Séchage intégral. Aucun arrosage pendant la période sans feuilles."
+    },
+    {
+      "cle": "paeonia",
+      "rang": "GENRE",
+      "intervalleJours": 9,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Pivoine : arrosage régulier au printemps pendant la formation des boutons, sobre ensuite."
+    },
+    {
+      "cle": "papaver",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Pavot : sobre, il craint bien davantage l'humidité stagnante que la soif."
+    },
+    {
+      "cle": "passiflora",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Croissance rapide et forte consommation en été ; réduisez beaucoup en hiver."
+    },
+    {
+      "cle": "pelargonium",
+      "rang": "GENRE",
+      "intervalleJours": 9,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Le géranium des balcons préfère sécher entre deux arrosages.",
+      "pieges": "L'excès d'eau fait noircir le collet."
+    },
+    {
+      "cle": "pennisetum",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Sobre une fois enraciné ; arrosez la première année puis laissez faire la pluie."
+    },
+    {
+      "cle": "peperomia",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Feuillage semi-succulent : laissez sécher largement entre deux arrosages.",
+      "pieges": "Tiges qui noircissent à la base : excès d'eau."
+    },
+    {
+      "cle": "petroselinum",
+      "rang": "GENRE",
+      "intervalleJours": 4,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Le persil veut un sol frais en permanence, sinon il monte rapidement en graine."
+    },
+    {
+      "cle": "petunia",
+      "rang": "GENRE",
+      "intervalleJours": 3,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "En jardinière plein soleil, un arrosage quotidien est souvent nécessaire en été."
+    },
+    {
+      "cle": "phalaenopsis",
+      "rang": "GENRE",
+      "intervalleJours": 9,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Trempez le pot dix minutes puis égouttez complètement. Jamais d'eau résiduelle dans le cache-pot.",
+      "pieges": "Racines vertes : la plante a assez bu. Racines argentées : il est temps d'arroser. C'est l'indicateur le plus fiable."
+    },
+    {
+      "cle": "phaseolus",
+      "rang": "GENRE",
+      "intervalleJours": 4,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Haricot : arrosage régulier dès la floraison, au pied et sans mouiller le feuillage."
+    },
+    {
+      "cle": "philodendron",
+      "rang": "GENRE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Laissez sécher le premier tiers du pot avant de réarroser.",
+      "pieges": "Supporte mal l'eau stagnante : un pot percé est indispensable."
+    },
+    {
+      "cle": "phlebodium",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Substrat frais, jamais détrempé. Rhizomes à laisser en surface."
+    },
+    {
+      "cle": "phoenix",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Palmier robuste : laissez sécher franchement entre deux arrosages."
+    },
+    {
+      "cle": "photinia",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Sobre une fois enraciné ; arrosez régulièrement la première année seulement."
+    },
+    {
+      "cle": "picea",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Sol frais apprécié, surtout en pot où la motte sèche vite en été."
+    },
+    {
+      "cle": "pilea",
+      "rang": "GENRE",
+      "intervalleJours": 9,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Laissez sécher le premier tiers. Tournez le pot régulièrement pour un port équilibré.",
+      "pieges": "Feuilles qui s'incurvent fortement : souvent trop de lumière directe ou un arrosage irrégulier."
+    },
+    {
+      "cle": "pinus",
+      "rang": "GENRE",
+      "intervalleJours": 14,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Sobre en pleine terre ; en pot, laissez sécher la moitié du substrat."
+    },
+    {
+      "cle": "pisum",
+      "rang": "GENRE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Pois : sol frais à la floraison et au remplissage des gousses."
+    },
+    {
+      "cle": "platycerium",
+      "rang": "GENRE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Épiphyte : trempez la motte ou la plaque vingt minutes, puis laissez ressuyer."
+    },
+    {
+      "cle": "plumbago",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Arrosage soutenu en été et en floraison, franchement réduit dès l'automne."
+    },
+    {
+      "cle": "polystichum",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Fougère de jardin robuste : sol frais et drainé, paillage apprécié."
+    },
+    {
+      "cle": "portulacaria",
+      "rang": "GENRE",
+      "intervalleJours": 18,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Séchage complet, arrosage franc et espacé ; substrat très drainant."
+    },
+    {
+      "cle": "primula",
+      "rang": "GENRE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Sol frais en permanence ; la primevère flétrit dès que la surface sèche."
+    },
+    {
+      "cle": "prunus",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Cerisiers, pruniers et lauriers-cerises : arrosage régulier les premières années."
+    },
+    {
+      "cle": "pteris",
+      "rang": "GENRE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Fougère de serre : substrat frais en permanence et atmosphère non desséchante."
+    },
+    {
+      "cle": "punica",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Grenadier : sobre une fois installé, arrosage suivi pendant la fructification."
+    },
+    {
+      "cle": "pyracantha",
+      "rang": "GENRE",
+      "intervalleJours": 14,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Très résistant à la sécheresse une fois installé, même en plein soleil."
+    },
+    {
+      "cle": "pyrus",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Poirier : sol frais pendant la fructification, sobre le reste de l'année."
+    },
+    {
+      "cle": "quercus",
+      "rang": "GENRE",
+      "intervalleJours": 14,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Chêne : très sobre une fois établi, arrosage utile seulement les trois premières années."
+    },
+    {
+      "cle": "rhipsalis",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Cactus épiphyte : substrat aéré maintenu légèrement frais, jamais détrempé."
+    },
+    {
+      "cle": "rhododendron",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Racines superficielles : arrosages fréquents, eau non calcaire, paillage indispensable."
+    },
+    {
+      "cle": "ribes",
+      "rang": "GENRE",
+      "intervalleJours": 7,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Groseilliers et cassissiers : sol frais en été, surtout pendant le grossissement des fruits."
+    },
+    {
+      "cle": "rosa",
+      "rang": "GENRE",
+      "intervalleJours": 7,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "En pleine terre, arrosez copieusement au pied une fois par semaine plutôt qu'un peu chaque jour.",
+      "pieges": "Ne mouillez pas le feuillage : c'est la porte d'entrée du marsonia et de l'oïdium."
+    },
+    {
+      "cle": "rosmarinus",
+      "rang": "GENRE",
+      "intervalleJours": 14,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Romarin : sobre, drainé, plein soleil ; l'humidité hivernale lui est fatale."
+    },
+    {
+      "cle": "rubus",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Framboisiers et mûriers : sol frais pendant la fructification."
+    },
+    {
+      "cle": "rudbeckia",
+      "rang": "GENRE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Arrosage modéré ; apprécie un sol restant frais pendant les fortes chaleurs."
+    },
+    {
+      "cle": "saintpaulia",
+      "rang": "GENRE",
+      "intervalleJours": 7,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Arrosez par le bas, en laissant le pot boire dans une soucoupe vingt minutes.",
+      "pieges": "Une goutte d'eau froide sur le feuillage laisse une tache définitive."
+    },
+    {
+      "cle": "salix",
+      "rang": "GENRE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Saule : recherche les sols humides, ne le laissez pas sécher."
+    },
+    {
+      "cle": "salvia",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Sauges ornementales : sobres et méditerranéennes, elles redoutent les sols lourds."
+    },
+    {
+      "cle": "sansevieria",
+      "rang": "GENRE",
+      "intervalleJours": 21,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Attendez que le substrat soit sec de part en part. Toutes les trois semaines suffit, une fois par mois en hiver.",
+      "pieges": "Base molle et brunissante : la pourriture est déjà installée, espacez radicalement."
+    },
+    {
+      "cle": "santolina",
+      "rang": "GENRE",
+      "intervalleJours": 14,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Méditerranéenne : sol sec, drainé et pauvre, arrosage exceptionnel."
+    },
+    {
+      "cle": "sarracenia",
+      "rang": "GENRE",
+      "intervalleJours": 2,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Soucoupe d'eau de pluie constante en saison de croissance, réduite en hiver."
+    },
+    {
+      "cle": "schefflera",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Laissez sécher le tiers supérieur du pot entre deux arrosages."
+    },
+    {
+      "cle": "schlumbergera",
+      "rang": "GENRE",
+      "intervalleJours": 9,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Cactus de forêt, non désertique : gardez le substrat légèrement frais, surtout en floraison.",
+      "pieges": "Contrairement aux cactées désertiques, il souffre d'un dessèchement prolongé."
+    },
+    {
+      "cle": "scindapsus",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Même conduite que le pothos : laissez sécher franchement entre deux apports."
+    },
+    {
+      "cle": "sedum",
+      "rang": "GENRE",
+      "intervalleJours": 18,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Très sobre : laissez sécher intégralement, y compris en pleine saison de croissance."
+    },
+    {
+      "cle": "selaginella",
+      "rang": "GENRE",
+      "intervalleJours": 3,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Exige une humidité permanente ; elle ne prospère vraiment qu'en terrarium."
+    },
+    {
+      "cle": "senecio",
+      "rang": "GENRE",
+      "intervalleJours": 16,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Le collier de perles redoute l'excès d'eau plus que tout autre facteur."
+    },
+    {
+      "cle": "soleirolia",
+      "rang": "GENRE",
+      "intervalleJours": 4,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Helxine : ne doit jamais sécher, sous peine de brunir d'un bloc."
+    },
+    {
+      "cle": "spathiphyllum",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "N'aime pas sécher. Arrosez dès que la surface est sèche au toucher.",
+      "pieges": "Il s'affaisse spectaculairement quand il a soif et se redresse en une heure après arrosage — mais répéter l'épisode l'épuise."
+    },
+    {
+      "cle": "spinacia",
+      "rang": "GENRE",
+      "intervalleJours": 3,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Épinard : sol frais en permanence, sinon la montaison à graines est rapide."
+    },
+    {
+      "cle": "spiraea",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Arrosage modéré ; la spirée tolère bien la sécheresse une fois installée."
+    },
+    {
+      "cle": "stapelia",
+      "rang": "GENRE",
+      "intervalleJours": 21,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Très sensible à la pourriture : le séchage complet du substrat est impératif."
+    },
+    {
+      "cle": "stipa",
+      "rang": "GENRE",
+      "intervalleJours": 14,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Très résistante à la sécheresse, elle déteste les sols humides en hiver."
+    },
+    {
+      "cle": "strelitzia",
+      "rang": "GENRE",
+      "intervalleJours": 9,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Substrat frais en croissance, nettement plus sec en hiver ; grande consommatrice en été."
+    },
+    {
+      "cle": "streptocarpus",
+      "rang": "GENRE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Laissez sécher la surface puis arrosez au pied, sans mouiller le feuillage duveteux."
+    },
+    {
+      "cle": "stromanthe",
+      "rang": "GENRE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Frais et humide, eau non calcaire."
+    },
+    {
+      "cle": "syngonium",
+      "rang": "GENRE",
+      "intervalleJours": 7,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Maintenez le substrat légèrement frais sans jamais le détremper."
+    },
+    {
+      "cle": "syringa",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Le lilas ne demande presque rien en pleine terre, sauf l'année de sa plantation."
+    },
+    {
+      "cle": "tagetes",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Œillet d'Inde : arrosage régulier au pied, sans mouiller le feuillage."
+    },
+    {
+      "cle": "taxus",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "If : sobre une fois installé, mais il craint sérieusement l'eau stagnante.",
+      "pieges": "Toutes les parties sauf l'arille rouge sont mortellement toxiques."
+    },
+    {
+      "cle": "thuja",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Arrosez généreusement les deux premières années, puis lors des étés très secs.",
+      "pieges": "Un brunissement interne est souvent irréversible."
+    },
+    {
+      "cle": "thymus",
+      "rang": "GENRE",
+      "intervalleJours": 14,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Le thym redoute l'excès d'eau : sol pauvre, drainé et plein soleil.",
+      "pieges": "Un pied qui se dégarnit du centre a presque toujours eu trop d'eau."
+    },
+    {
+      "cle": "tilia",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Arrosez les jeunes sujets lors des étés secs ; l'arbre adulte se débrouille seul."
+    },
+    {
+      "cle": "tillandsia",
+      "rang": "GENRE",
+      "intervalleJours": 7,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Filles de l'air : trempez la plante vingt minutes puis égouttez tête en bas.",
+      "pieges": "L'eau qui stagne au cœur de la rosette la fait pourrir."
+    },
+    {
+      "cle": "trachycarpus",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Palmier rustique. En pot, laissez sécher la moitié du substrat."
+    },
+    {
+      "cle": "tradescantia",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Croissance rapide et forte consommation : gardez le substrat légèrement humide."
+    },
+    {
+      "cle": "tulipa",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Arrosez à la plantation puis laissez faire la pluie. Sec après la floraison.",
+      "pieges": "Un bulbe qui reste humide en été pourrit."
+    },
+    {
+      "cle": "verbena",
+      "rang": "GENRE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Arrosage régulier en jardinière, où la motte sèche très vite en plein soleil."
+    },
+    {
+      "cle": "viburnum",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Sol frais apprécié, surtout les deux premières années suivant la plantation."
+    },
+    {
+      "cle": "viola",
+      "rang": "GENRE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Pensées et violettes : sol frais et arrosage régulier, surtout en jardinière."
+    },
+    {
+      "cle": "vitis",
+      "rang": "GENRE",
+      "intervalleJours": 14,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "La vigne installée est très sobre et plonge ses racines en profondeur.",
+      "pieges": "Trop d'eau dilue le goût des raisins."
+    },
+    {
+      "cle": "vriesea",
+      "rang": "GENRE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Eau douce dans le réservoir central, substrat laissé sécher entre deux apports."
+    },
+    {
+      "cle": "washingtonia",
+      "rang": "GENRE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Séchage marqué entre deux apports, et très grande sobriété en hiver."
+    },
+    {
+      "cle": "weigela",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Arrosage modéré ; un paillage au pied limite nettement les besoins en été."
+    },
+    {
+      "cle": "wisteria",
+      "rang": "GENRE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "La glycine devient très sobre une fois installée et supporte bien les étés secs."
+    },
+    {
+      "cle": "yucca",
+      "rang": "GENRE",
+      "intervalleJours": 18,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Arrosage franc puis séchage complet du substrat ; très sobre en hiver."
+    },
+    {
+      "cle": "zamioculcas",
+      "rang": "GENRE",
+      "intervalleJours": 21,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Laissez le substrat sécher intégralement. Trois semaines entre deux arrosages est normal, davantage en hiver.",
+      "pieges": "Ses rhizomes stockent l'eau : le surarrosage est de très loin la première cause de mort."
+    },
+    {
+      "cle": "zantedeschia",
+      "rang": "GENRE",
+      "intervalleJours": 4,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "L'arum aime les sols très frais, voire détrempés en croissance."
+    },
+    {
+      "cle": "zinnia",
+      "rang": "GENRE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Arrosez au pied sans mouiller le feuillage, sensible à l'oïdium en fin d'été."
+    },
+    {
+      "cle": "aizoaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 24,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Plante caillou : arrosage exceptionnel, séchage total."
+    },
+    {
+      "cle": "amaryllidaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 11,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Bulbeuse : frais en végétation, sec au repos."
+    },
+    {
+      "cle": "apiaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Ombellifère : sol frais et régulier, sans à-coups."
+    },
+    {
+      "cle": "apocynaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 13,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Beaucoup d'espèces charnues : séchage franc, drainage impératif."
+    },
+    {
+      "cle": "araceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Aracée : laissez sécher le tiers supérieur du substrat, qui doit rester aéré."
+    },
+    {
+      "cle": "arecaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Palmier : substrat frais en été, nettement plus sec en hiver."
+    },
+    {
+      "cle": "asparagaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 14,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Souvent charnues ou fibreuses : séchage marqué entre deux arrosages."
+    },
+    {
+      "cle": "asteraceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Astéracée : arrosage régulier au pied en floraison, sans mouiller le feuillage."
+    },
+    {
+      "cle": "brassicaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 4,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Crucifère : sol frais, arrosages fréquents."
+    },
+    {
+      "cle": "bromeliaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Broméliacée : remplissez le réservoir central d'eau douce et laissez le substrat sécher."
+    },
+    {
+      "cle": "cactaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 21,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Cactée : arrosage copieux en croissance, séchage intégral entre deux apports, repos hivernal sec."
+    },
+    {
+      "cle": "crassulaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 17,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Plante grasse : trempage puis séchage complet, sans eau au cœur des rosettes."
+    },
+    {
+      "cle": "cucurbitaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 3,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Cucurbitacée : très gourmande en eau, arrosage au pied."
+    },
+    {
+      "cle": "cupressaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Conifère : sobre, craint l'eau stagnante."
+    },
+    {
+      "cle": "droseraceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 2,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Carnivore : soucoupe d'eau de pluie permanente, jamais d'eau du robinet."
+    },
+    {
+      "cle": "ericaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 6,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Terre de bruyère : sol frais, eau non calcaire, paillage."
+    },
+    {
+      "cle": "euphorbiaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 13,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Souvent succulente : séchage complet. Latex irritant."
+    },
+    {
+      "cle": "gesneriaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 7,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Arrosez par le bas, sans mouiller le feuillage duveteux."
+    },
+    {
+      "cle": "hydrangeaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Très exigeante en eau, surtout en pot et au soleil."
+    },
+    {
+      "cle": "iridaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 11,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Bulbeuse ou rhizomateuse : drainage impératif."
+    },
+    {
+      "cle": "lamiaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 11,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Labiée souvent méditerranéenne : sol drainé, arrosage espacé."
+    },
+    {
+      "cle": "liliaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Bulbeuse : frais en croissance, sec après floraison."
+    },
+    {
+      "cle": "marantaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Marantacée : substrat toujours frais, eau douce, air humide."
+    },
+    {
+      "cle": "moraceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Ficus et apparentés : laissez sécher le tiers supérieur."
+    },
+    {
+      "cle": "oleaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 11,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Souvent méditerranéenne : sobre et drainée."
+    },
+    {
+      "cle": "orchidaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 9,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Orchidée : trempez puis égouttez soigneusement. Jamais d'eau stagnante dans le cache-pot."
+    },
+    {
+      "cle": "pinaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Conifère : sobre une fois enraciné, arrosage les deux premières années."
+    },
+    {
+      "cle": "piperaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Feuillage semi-succulent : laissez sécher largement."
+    },
+    {
+      "cle": "poaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Graminée : arrosage modéré une fois enracinée."
+    },
+    {
+      "cle": "polypodiaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Fougère : substrat maintenu humide et atmosphère non desséchante."
+    },
+    {
+      "cle": "rosaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 9,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Rosacée : arrosage copieux et espacé au pied, feuillage tenu au sec."
+    },
+    {
+      "cle": "rutaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Agrumes : eau non calcaire, séchage du tiers supérieur."
+    },
+    {
+      "cle": "sarraceniaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 2,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Carnivore : pied dans l'eau de pluie en saison de croissance."
+    },
+    {
+      "cle": "saxifragaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 7,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Sol frais et drainé, mi-ombre."
+    },
+    {
+      "cle": "solanaceae",
+      "rang": "FAMILLE",
+      "intervalleJours": 4,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Solanacée potagère : arrosage régulier et abondant au pied."
+    },
+    {
+      "cle": "annuelle",
+      "rang": "TYPE",
+      "intervalleJours": 4,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Annuelle de balcon : forte consommation, souvent quotidienne en été."
+    },
+    {
+      "cle": "arbre-jardin",
+      "rang": "TYPE",
+      "intervalleJours": 12,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Arbre : arrosage copieux les deux premières années, sobre ensuite."
+    },
+    {
+      "cle": "arbuste-jardin",
+      "rang": "TYPE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Arbuste : arrosage suivi à la plantation, espacé une fois installé."
+    },
+    {
+      "cle": "aromatique",
+      "rang": "TYPE",
+      "intervalleJours": 8,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Aromatique : les méditerranéennes veulent sec, les feuillues veulent frais."
+    },
+    {
+      "cle": "bulbe",
+      "rang": "TYPE",
+      "intervalleJours": 11,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Bulbeuse : frais pendant la végétation, sec pendant le repos."
+    },
+    {
+      "cle": "cactee",
+      "rang": "TYPE",
+      "intervalleJours": 21,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Cactée : arrosage copieux en croissance, séchage intégral, repos hivernal sec."
+    },
+    {
+      "cle": "carnivore",
+      "rang": "TYPE",
+      "intervalleJours": 2,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Carnivore : eau de pluie uniquement, substrat gorgé d'eau."
+    },
+    {
+      "cle": "epiphyte",
+      "rang": "TYPE",
+      "intervalleJours": 9,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Épiphyte : trempage puis égouttage, substrat très aéré."
+    },
+    {
+      "cle": "fougere",
+      "rang": "TYPE",
+      "intervalleJours": 5,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Fougère : substrat maintenu humide, atmosphère non desséchante."
+    },
+    {
+      "cle": "grimpante",
+      "rang": "TYPE",
+      "intervalleJours": 7,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Grimpante : pied frais et paillé, arrosage régulier en croissance."
+    },
+    {
+      "cle": "legume-feuille",
+      "rang": "TYPE",
+      "intervalleJours": 3,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Légume-feuille : arrosages fréquents, racines superficielles."
+    },
+    {
+      "cle": "legume-fruit",
+      "rang": "TYPE",
+      "intervalleJours": 3,
+      "toleranceSecheresse": "FAIBLE",
+      "conseilFr": "Légume-fruit : arrosage abondant et régulier au pied, feuillage tenu au sec."
+    },
+    {
+      "cle": "orchidee",
+      "rang": "TYPE",
+      "intervalleJours": 9,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Orchidée : trempage puis égouttage complet, jamais d'eau stagnante."
+    },
+    {
+      "cle": "palmier",
+      "rang": "TYPE",
+      "intervalleJours": 10,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Palmier : frais en été, nettement plus sec en hiver."
+    },
+    {
+      "cle": "succulente",
+      "rang": "TYPE",
+      "intervalleJours": 17,
+      "toleranceSecheresse": "ELEVEE",
+      "conseilFr": "Plante charnue stockant l'eau : arrosez franchement, puis laissez sécher intégralement."
+    },
+    {
+      "cle": "tropicale-feuillage",
+      "rang": "TYPE",
+      "intervalleJours": 7,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Feuillage tropical : substrat légèrement frais, sans excès ni dessèchement complet."
+    },
+    {
+      "cle": "vivace-jardin",
+      "rang": "TYPE",
+      "intervalleJours": 9,
+      "toleranceSecheresse": "MOYENNE",
+      "conseilFr": "Vivace : arrosage copieux et espacé, paillage apprécié."
+    }
+  ]
+}
